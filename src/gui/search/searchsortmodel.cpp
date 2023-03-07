@@ -29,7 +29,6 @@
 #include "searchsortmodel.h"
 
 #include "base/global.h"
-#include "base/utils/string.h"
 
 SearchSortModel::SearchSortModel(QObject *parent)
     : base(parent)
@@ -53,15 +52,10 @@ void SearchSortModel::enableNameFilter(const bool enabled)
 void SearchSortModel::setNameFilter(const QString &searchTerm)
 {
     m_searchTerm = searchTerm;
-    if ((searchTerm.length() > 2)
-        && searchTerm.startsWith(QLatin1Char('"')) && searchTerm.endsWith(QLatin1Char('"')))
-        {
+    if ((searchTerm.length() > 2) && searchTerm.startsWith(u'"') && searchTerm.endsWith(u'"'))
         m_searchTermWords = QStringList(m_searchTerm.mid(1, m_searchTerm.length() - 2));
-    }
     else
-    {
-        m_searchTermWords = searchTerm.split(QLatin1Char(' '), QString::SkipEmptyParts);
-    }
+        m_searchTermWords = searchTerm.split(u' ', Qt::SkipEmptyParts);
 }
 
 void SearchSortModel::setSizeFilter(const qint64 minSize, const qint64 maxSize)
@@ -118,11 +112,10 @@ bool SearchSortModel::lessThan(const QModelIndex &left, const QModelIndex &right
     {
     case NAME:
     case ENGINE_URL:
-    {
+        {
             const QString strL = left.data().toString();
             const QString strR = right.data().toString();
-            const int result = Utils::String::naturalCompare(strL, strR, Qt::CaseInsensitive);
-            return (result < 0);
+            return m_naturalLessThan(strL, strR);
         }
         break;
     default:

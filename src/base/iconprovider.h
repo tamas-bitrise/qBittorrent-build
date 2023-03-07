@@ -31,18 +31,20 @@
 
 #include <QObject>
 
+#include "base/pathfwd.h"
+
 class QString;
 
 class IconProvider : public QObject
 {
-    Q_DISABLE_COPY(IconProvider)
+    Q_DISABLE_COPY_MOVE(IconProvider)
 
 public:
     static void initInstance();
     static void freeInstance();
     static IconProvider *instance();
 
-    virtual QString getIconPath(const QString &iconId) const;
+    virtual Path getIconPath(const QString &iconId) const;
 
 protected:
     explicit IconProvider(QObject *parent = nullptr);

@@ -46,7 +46,7 @@ namespace Ui
 class TrackerEntriesDialog : public QDialog
 {
     Q_OBJECT
-    Q_DISABLE_COPY(TrackerEntriesDialog)
+    Q_DISABLE_COPY_MOVE(TrackerEntriesDialog)
 
 public:
     explicit TrackerEntriesDialog(QWidget *parent);
@@ -59,6 +59,6 @@ private:
     void saveSettings();
     void loadSettings();
 
-    Ui::TrackerEntriesDialog *m_ui;
+    Ui::TrackerEntriesDialog *m_ui = nullptr;
     SettingValue<QSize> m_storeDialogSize;
 };

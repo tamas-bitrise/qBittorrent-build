@@ -31,6 +31,8 @@
 #pragma once
 
 #include <QList>
+
+#include "base/global.h"
 #include "rss_item.h"
 
 namespace RSS
@@ -40,11 +42,11 @@ namespace RSS
     class Folder final : public Item
     {
         Q_OBJECT
-        Q_DISABLE_COPY(Folder)
+        Q_DISABLE_COPY_MOVE(Folder)
 
         friend class Session;
 
-        explicit Folder(const QString &path = "");
+        explicit Folder(const QString &path = u""_qs);
         ~Folder() override;
 
     public:

@@ -30,10 +30,12 @@
 
 #include <optional>
 
-#include <QSet>
+#include <QMetaType>
 #include <QString>
 #include <QVector>
 
+#include "base/path.h"
+#include "base/tagset.h"
 #include "torrent.h"
 #include "torrentcontentlayout.h"
 
@@ -45,13 +47,16 @@ namespace BitTorrent
     {
         QString name;
         QString category;
-        QSet<QString> tags;
-        QString savePath;
-        bool disableTempPath = false; // e.g. for imported torrents
+        TagSet tags;
+        Path savePath;
+        std::optional<bool> useDownloadPath;
+        Path downloadPath;
         bool sequential = false;
         bool firstLastPiecePriority = false;
         bool addForced = false;
         std::optional<bool> addPaused;
+        std::optional<Torrent::StopCondition> stopCondition;
+        PathList filePaths; // used if TorrentInfo is set
         QVector<DownloadPriority> filePriorities; // used if TorrentInfo is set
         bool skipChecking = false;
         std::optional<BitTorrent::TorrentContentLayout> contentLayout;
@@ -62,3 +67,5 @@ namespace BitTorrent
         qreal ratioLimit = Torrent::USE_GLOBAL_RATIO;
     };
 }
+
+Q_DECLARE_METATYPE(BitTorrent::AddTorrentParams)

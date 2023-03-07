@@ -40,13 +40,13 @@ namespace Ui
 class AboutDialog final : public QDialog
 {
     Q_OBJECT
-    Q_DISABLE_COPY(AboutDialog)
+    Q_DISABLE_COPY_MOVE(AboutDialog)
 
 public:
     explicit AboutDialog(QWidget *parent);
     ~AboutDialog() override;
 
 private:
-    Ui::AboutDialog *m_ui;
+    Ui::AboutDialog *m_ui = nullptr;
     SettingValue<QSize> m_storeDialogSize;
 };

@@ -32,6 +32,7 @@
 #include <QAbstractListModel>
 #include <QColor>
 #include <QHash>
+#include <QIcon>
 #include <QList>
 
 #include "base/bittorrent/torrent.h"
@@ -44,7 +45,7 @@ namespace BitTorrent
 class TransferListModel final : public QAbstractListModel
 {
     Q_OBJECT
-    Q_DISABLE_COPY(TransferListModel)
+    Q_DISABLE_COPY_MOVE(TransferListModel)
 
 public:
     enum Column
@@ -80,6 +81,9 @@ public:
         TR_SEEN_COMPLETE_DATE,
         TR_LAST_ACTIVITY,
         TR_AVAILABILITY,
+        TR_DOWNLOAD_PATH,
+        TR_INFOHASH_V1,
+        TR_INFOHASH_V2,
 
         NB_COLUMNS
     };
@@ -102,7 +106,7 @@ public:
     BitTorrent::Torrent *torrentHandle(const QModelIndex &index) const;
 
 private slots:
-    void addTorrent(BitTorrent::Torrent *const torrent);
+    void addTorrents(const QVector<BitTorrent::Torrent *> &torrents);
     void handleTorrentAboutToBeRemoved(BitTorrent::Torrent *const torrent);
     void handleTorrentStatusUpdated(BitTorrent::Torrent *const torrent);
     void handleTorrentsUpdated(const QVector<BitTorrent::Torrent *> &torrents);
@@ -111,6 +115,7 @@ private:
     void configure();
     QString displayValue(const BitTorrent::Torrent *torrent, int column) const;
     QVariant internalValue(const BitTorrent::Torrent *torrent, int column, bool alt) const;
+    QIcon getIconByState(const BitTorrent::TorrentState state) const;
 
     QList<BitTorrent::Torrent *> m_torrentList;  // maps row number to torrent handle
     QHash<BitTorrent::Torrent *, int> m_torrentMap;  // maps torrent handle to row number
@@ -126,4 +131,15 @@ private:
     };
 
     HideZeroValuesMode m_hideZeroValuesMode = HideZeroValuesMode::Never;
+
+    // cached icons
+    QIcon m_checkingIcon;
+    QIcon m_completedIcon;
+    QIcon m_downloadingIcon;
+    QIcon m_errorIcon;
+    QIcon m_pausedIcon;
+    QIcon m_queuedIcon;
+    QIcon m_stalledDLIcon;
+    QIcon m_stalledUPIcon;
+    QIcon m_uploadingIcon;
 };

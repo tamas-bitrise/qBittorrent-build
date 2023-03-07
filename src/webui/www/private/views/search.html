@@ -3,7 +3,7 @@
         width: 300px;
         line-height: 2em;
         padding: 1px 5px 1px 2em;
-        background-image: url("icons/edit-find.svg");
+        background-image: url("images/edit-find.svg");
         background-repeat: no-repeat;
         background-size: 1.5em;
         background-position: left;
@@ -41,7 +41,10 @@
         margin-right: 20px;
     }
 
-    #searchMinSeedsFilter, #searchMaxSeedsFilter, #searchMinSizeFilter, #searchMaxSizeFilter {
+    #searchMinSeedsFilter,
+    #searchMaxSeedsFilter,
+    #searchMinSizeFilter,
+    #searchMaxSizeFilter {
         width: 4em;
     }
 
@@ -77,7 +80,7 @@
 <div id="searchResults">
     <div style="overflow: hidden; height: 70px;">
         <div style="margin: 20px 0; height: 30px;">
-            <input type="text" id="searchPattern" class="searchInputField" placeholder="QBT_TR(Search)QBT_TR[CONTEXT=SearchEngineWidget]" autocorrect="off" autocapitalize="none" />
+            <input type="text" id="searchPattern" class="searchInputField" placeholder="QBT_TR(Search)QBT_TR[CONTEXT=SearchEngineWidget]" autocorrect="off" autocomplete="off" autocapitalize="none" />
             <select id="categorySelect" class="searchInputField" onchange="qBittorrent.Search.categorySelected()"></select>
             <select id="pluginsSelect" class="searchInputField" onchange="qBittorrent.Search.pluginSelected()"></select>
             <button id="startSearchButton" class="searchInputField" onclick="qBittorrent.Search.startStopSearch()">QBT_TR(Search)QBT_TR[CONTEXT=SearchEngineWidget]</button>
@@ -89,7 +92,9 @@
             <tbody>
                 <tr>
                     <td>
-                        There aren't any search plugins installed.<br/>Click the &quot;Search plugins...&quot; button at the bottom right of the window to install some.
+                        QBT_TR(There aren't any search plugins installed.)QBT_TR[CONTEXT=SearchEngineWidget]
+                        <br />
+                        QBT_TR(Click the "Search plugins..." button at the bottom right of the window to install some.)QBT_TR[CONTEXT=SearchEngineWidget]
                     </td>
                 </tr>
             </tbody>
@@ -100,7 +105,7 @@
     <div id="searchResultsFilters">
         <input type="text" id="searchInNameFilter" placeholder="QBT_TR(Filter)QBT_TR[CONTEXT=SearchEngineWidget]" autocorrect="off" autocapitalize="none" />
 
-        <span>QBT_TR(Results (showing)QBT_TR[CONTEXT=SearchEngineWidget] <span id="numSearchResultsVisible" class="numSearchResults">0</span> QBT_TR(out of)QBT_TR[CONTEXT=SearchEngineWidget] <span id="numSearchResultsTotal" class="numSearchResults">0</span>):</span>
+        <span>QBT_TR(Results)QBT_TR[CONTEXT=SearchEngineWidget] (QBT_TR(showing)QBT_TR[CONTEXT=SearchEngineWidget] <span id="numSearchResultsVisible" class="numSearchResults">0</span> QBT_TR(out of)QBT_TR[CONTEXT=SearchEngineWidget] <span id="numSearchResultsTotal" class="numSearchResults">0</span>):</span>
 
         <div style="display: inline-block; float: right;">
             <label for="searchInTorrentName" style="margin-left: 15px;">QBT_TR(Search in:)QBT_TR[CONTEXT=SearchEngineWidget]</label>
@@ -109,12 +114,12 @@
                 <option value="everywhere">QBT_TR(Everywhere)QBT_TR[CONTEXT=SearchEngineWidget]</option>
             </select>
 
-            <img id="searchResultsGranularFiltersWarning" src="icons/dialog-warning.svg" title="QBT_TR(Increase window width to display additional filters)QBT_TR[CONTEXT=SearchEngineWidget]" alt="QBT_TR(Warning)QBT_TR[CONTEXT=SearchEngineWidget]" width="24" height="24">
+            <img id="searchResultsGranularFiltersWarning" src="images/dialog-warning.svg" title="QBT_TR(Increase window width to display additional filters)QBT_TR[CONTEXT=SearchEngineWidget]" alt="QBT_TR(Warning)QBT_TR[CONTEXT=SearchEngineWidget]" width="24" height="24">
 
             <div id="searchResultsGranularFilters">
                 <span style="margin-left: 15px;">QBT_TR(Seeds:)QBT_TR[CONTEXT=SearchEngineWidget]</span>
                 <input type="number" min="0" max="1000" id="searchMinSeedsFilter" value="0" onchange="qBittorrent.Search.searchSeedsFilterChanged()">
-                <span>to</span>
+                <span>QBT_TR(to)QBT_TR[CONTEXT=SearchEngineWidget]</span>
                 <input type="number" min="0" max="1000" id="searchMaxSeedsFilter" value="0" onchange="qBittorrent.Search.searchSeedsFilterChanged()">
 
                 <span style="margin-left: 15px;">QBT_TR(Size:)QBT_TR[CONTEXT=SearchEngineWidget]</span>
@@ -128,7 +133,7 @@
                     <option value="5">QBT_TR(PiB)QBT_TR[CONTEXT=misc]</option>
                     <option value="6">QBT_TR(EiB)QBT_TR[CONTEXT=misc]</option>
                 </select>
-                <span>to</span>
+                <span>QBT_TR(to)QBT_TR[CONTEXT=SearchEngineWidget]</span>
                 <input type="number" min="0" max="1000" step=".01" value="0.00" id="searchMaxSizeFilter" onchange="qBittorrent.Search.searchSizeFilterChanged()">
                 <select id="searchMaxSizePrefix" onchange="qBittorrent.Search.searchSizeFilterPrefixChanged()">
                     <option value="0">QBT_TR(B)QBT_TR[CONTEXT=misc]</option>
@@ -167,14 +172,14 @@
 </div>
 
 <ul id="searchResultsTableMenu" class="contextMenu">
-    <li><a href="#Download"><img src="icons/download.svg" alt="QBT_TR(Download)QBT_TR[CONTEXT=SearchJobWidget]"/> QBT_TR(Download)QBT_TR[CONTEXT=SearchJobWidget]</a></li>
-    <li class="separator"><a href="#OpenDescriptionUrl"><img src="icons/application-x-mswinurl.svg" alt="QBT_TR(Open description page)QBT_TR[CONTEXT=SearchJobWidget]"/> QBT_TR(Open description page)QBT_TR[CONTEXT=SearchJobWidget]</a></li>
+    <li><a href="#Download"><img src="images/downloading.svg" alt="QBT_TR(Download)QBT_TR[CONTEXT=SearchJobWidget]" /> QBT_TR(Download)QBT_TR[CONTEXT=SearchJobWidget]</a></li>
+    <li class="separator"><a href="#OpenDescriptionUrl"><img src="images/application-url.svg" alt="QBT_TR(Open description page)QBT_TR[CONTEXT=SearchJobWidget]" /> QBT_TR(Open description page)QBT_TR[CONTEXT=SearchJobWidget]</a></li>
     <li>
-        <a href="#" class="arrow-right"><img src="icons/edit-copy.svg" alt="QBT_TR(Copy)QBT_TR[CONTEXT=SearchJobWidget]"/> QBT_TR(Copy)QBT_TR[CONTEXT=SearchJobWidget]</a>
+        <a href="#" class="arrow-right"><img src="images/edit-copy.svg" alt="QBT_TR(Copy)QBT_TR[CONTEXT=SearchJobWidget]" /> QBT_TR(Copy)QBT_TR[CONTEXT=SearchJobWidget]</a>
         <ul>
-            <li><a href="#" id="copySearchTorrentName" class="copySearchDataToClipboard"><img src="icons/edit-copy.svg" alt="QBT_TR(Name)QBT_TR[CONTEXT=SearchJobWidget]"/>  QBT_TR(Name)QBT_TR[CONTEXT=SearchJobWidget]</a></li>
-            <li><a href="#" id="copySearchTorrentDownloadLink" class="copySearchDataToClipboard"><img src="icons/edit-copy.svg" alt="QBT_TR(Download link)QBT_TR[CONTEXT=SearchJobWidget]"/>  QBT_TR(Download link)QBT_TR[CONTEXT=SearchJobWidget]</a></li>
-            <li><a href="#" id="copySearchTorrentDescriptionUrl" class="copySearchDataToClipboard"><img src="icons/edit-copy.svg" alt="QBT_TR(Description page URL)QBT_TR[CONTEXT=SearchJobWidget]"/>  QBT_TR(Description page URL)QBT_TR[CONTEXT=SearchJobWidget]</a></li>
+            <li><a href="#" id="copySearchTorrentName" class="copySearchDataToClipboard"><img src="images/name.svg" alt="QBT_TR(Name)QBT_TR[CONTEXT=SearchJobWidget]" /> QBT_TR(Name)QBT_TR[CONTEXT=SearchJobWidget]</a></li>
+            <li><a href="#" id="copySearchTorrentDownloadLink" class="copySearchDataToClipboard"><img src="images/insert-link.svg" alt="QBT_TR(Download link)QBT_TR[CONTEXT=SearchJobWidget]" /> QBT_TR(Download link)QBT_TR[CONTEXT=SearchJobWidget]</a></li>
+            <li><a href="#" id="copySearchTorrentDescriptionUrl" class="copySearchDataToClipboard"><img src="images/application-url.svg" alt="QBT_TR(Description page URL)QBT_TR[CONTEXT=SearchJobWidget]" /> QBT_TR(Description page URL)QBT_TR[CONTEXT=SearchJobWidget]</a></li>
         </ul>
     </li>
 </ul>
@@ -338,7 +343,8 @@
                 let category = $('categorySelect').getProperty('value');
                 const plugins = $('pluginsSelect').getProperty('value');
 
-                if (!pattern || !category || !plugins) return;
+                if (!pattern || !category || !plugins)
+                    return;
 
                 resetFilters();
 
@@ -383,11 +389,12 @@
         const downloadSearchTorrent = function() {
             const urls = [];
             searchResultsTable.selectedRowsIds().each(function(rowId) {
-                urls.push(encodeURIComponent(searchResultsTable.rows.get(rowId).full_data.fileUrl));
+                urls.push(searchResultsTable.rows.get(rowId).full_data.fileUrl);
             });
 
             // only proceed if at least 1 row was selected
-            if (!urls.length) return;
+            if (!urls.length)
+                return;
 
             showDownloadPage(urls);
         };
@@ -487,12 +494,13 @@
             if ((selectedPlugin === "all") || (selectedPlugin === "enabled")) {
                 const uniqueCategories = {};
                 for (const plugin of searchPlugins) {
-                    if ((selectedPlugin === "enabled") && !plugin.enabled) continue
+                    if ((selectedPlugin === "enabled") && !plugin.enabled)
+                        continue;
                     for (const category of plugin.supportedCategories) {
                         if (uniqueCategories[category.id] === undefined) {
                             uniqueCategories[category.id] = category;
                         }
-                     }
+                    }
                 }
                 // we must sort the ids to maintain consistent order.
                 const categories = Object.keys(uniqueCategories).sort().map(id => uniqueCategories[id]);
@@ -500,7 +508,7 @@
             }
             else {
                 const plugin = getPlugin(selectedPlugin);
-                const plugins = (plugin === null) ? [] : plugin.supportedCategories
+                const plugins = (plugin === null) ? [] : plugin.supportedCategories;
                 populateCategorySelect(plugins);
             }
 
@@ -539,8 +547,10 @@
                             const allPlugins = searchPlugins.sort(function(pluginA, pluginB) {
                                 const a = pluginA.fullName.toLowerCase();
                                 const b = pluginB.fullName.toLowerCase();
-                                if (a < b) return -1;
-                                if (a > b) return 1;
+                                if (a < b)
+                                    return -1;
+                                if (a > b)
+                                    return 1;
                                 return 0;
                             });
 
@@ -639,7 +649,7 @@
             new Request.JSON({
                 url: url,
                 noCache: true,
-                method: 'post',
+                method: 'get',
                 data: {
                     id: activeSearchId,
                     limit: maxResults,
@@ -737,4 +747,6 @@
 
         return exports();
     })();
+
+    Object.freeze(window.qBittorrent.Search);
 </script>

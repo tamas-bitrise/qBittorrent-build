@@ -28,6 +28,9 @@
 
 #pragma once
 
+#include <QtGlobal>
+
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 #include <functional>
 
 #include <libtorrent/units.hpp>
@@ -39,9 +42,10 @@ namespace libtorrent
     namespace aux
     {
         template <typename T, typename Tag>
-        uint qHash(const strong_typedef<T, Tag> &key, const uint seed)
+        uint qHash(const strong_typedef<T, Tag> &key, const uint seed = 0)
         {
             return ::qHash((std::hash<strong_typedef<T, Tag>> {})(key), seed);
         }
     }
 }
+#endif

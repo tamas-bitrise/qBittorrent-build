@@ -29,12 +29,13 @@
 #include "serialize_torrent.h"
 
 #include <QDateTime>
-#include <QSet>
 #include <QVector>
 
 #include "base/bittorrent/infohash.h"
 #include "base/bittorrent/torrent.h"
 #include "base/bittorrent/trackerentry.h"
+#include "base/path.h"
+#include "base/tagset.h"
 #include "base/utils/fs.h"
 
 namespace
@@ -44,41 +45,43 @@ namespace
         switch (state)
         {
         case BitTorrent::TorrentState::Error:
-            return QLatin1String("error");
+            return u"error"_qs;
         case BitTorrent::TorrentState::MissingFiles:
-            return QLatin1String("missingFiles");
+            return u"missingFiles"_qs;
         case BitTorrent::TorrentState::Uploading:
-            return QLatin1String("uploading");
+            return u"uploading"_qs;
         case BitTorrent::TorrentState::PausedUploading:
-            return QLatin1String("pausedUP");
+            return u"pausedUP"_qs;
         case BitTorrent::TorrentState::QueuedUploading:
-            return QLatin1String("queuedUP");
+            return u"queuedUP"_qs;
         case BitTorrent::TorrentState::StalledUploading:
-            return QLatin1String("stalledUP");
+            return u"stalledUP"_qs;
         case BitTorrent::TorrentState::CheckingUploading:
-            return QLatin1String("checkingUP");
+            return u"checkingUP"_qs;
         case BitTorrent::TorrentState::ForcedUploading:
-            return QLatin1String("forcedUP");
+            return u"forcedUP"_qs;
         case BitTorrent::TorrentState::Downloading:
-            return QLatin1String("downloading");
+            return u"downloading"_qs;
         case BitTorrent::TorrentState::DownloadingMetadata:
-            return QLatin1String("metaDL");
+            return u"metaDL"_qs;
+        case BitTorrent::TorrentState::ForcedDownloadingMetadata:
+            return u"forcedMetaDL"_qs;
         case BitTorrent::TorrentState::PausedDownloading:
-            return QLatin1String("pausedDL");
+            return u"pausedDL"_qs;
         case BitTorrent::TorrentState::QueuedDownloading:
-            return QLatin1String("queuedDL");
+            return u"queuedDL"_qs;
         case BitTorrent::TorrentState::StalledDownloading:
-            return QLatin1String("stalledDL");
+            return u"stalledDL"_qs;
         case BitTorrent::TorrentState::CheckingDownloading:
-            return QLatin1String("checkingDL");
+            return u"checkingDL"_qs;
         case BitTorrent::TorrentState::ForcedDownloading:
-            return QLatin1String("forcedDL");
+            return u"forcedDL"_qs;
         case BitTorrent::TorrentState::CheckingResumeData:
-            return QLatin1String("checkingResumeData");
+            return u"checkingResumeData"_qs;
         case BitTorrent::TorrentState::Moving:
-            return QLatin1String("moving");
+            return u"moving"_qs;
         default:
-            return QLatin1String("unknown");
+            return u"unknown"_qs;
         }
     }
 }
@@ -95,16 +98,18 @@ QVariantMap serialize(const BitTorrent::Torrent &torrent)
         return (ratio > BitTorrent::Torrent::MAX_RATIO) ? -1 : ratio;
     };
 
-    const auto adjustLastActivity = [&torrent](const qlonglong value) -> qlonglong
+    const auto getLastActivityTime = [&torrent]() -> qlonglong
     {
-        return (torrent.isPaused() || torrent.isChecking())
-            ? 0
-            : (QDateTime::currentDateTime().toSecsSinceEpoch() - value);
+        const qlonglong timeSinceActivity = torrent.timeSinceActivity();
+        return (timeSinceActivity < 0)
+            ? torrent.addedTime().toSecsSinceEpoch()
+            : (QDateTime::currentDateTime().toSecsSinceEpoch() - timeSinceActivity);
     };
 
     return {
-        // TODO: Add fields for real SHA1 and SHA256 hashes
-        {KEY_TORRENT_ID, QString(torrent.id().toString())},
+        {KEY_TORRENT_ID, torrent.id().toString()},
+        {KEY_TORRENT_INFOHASHV1, torrent.infoHash().v1().toString()},
+        {KEY_TORRENT_INFOHASHV2, torrent.infoHash().v2().toString()},
         {KEY_TORRENT_NAME, torrent.name()},
         {KEY_TORRENT_MAGNET_URI, torrent.createMagnetURI()},
         {KEY_TORRENT_SIZE, torrent.wantedSize()},
@@ -123,11 +128,12 @@ QVariantMap serialize(const BitTorrent::Torrent &torrent)
         {KEY_TORRENT_FIRST_LAST_PIECE_PRIO, torrent.hasFirstLastPiecePriority()},
 
         {KEY_TORRENT_CATEGORY, torrent.category()},
-        {KEY_TORRENT_TAGS, torrent.tags().values().join(", ")},
+        {KEY_TORRENT_TAGS, torrent.tags().join(u", "_qs)},
         {KEY_TORRENT_SUPER_SEEDING, torrent.superSeeding()},
         {KEY_TORRENT_FORCE_START, torrent.isForced()},
-        {KEY_TORRENT_SAVE_PATH, Utils::Fs::toNativePath(torrent.savePath())},
-        {KEY_TORRENT_CONTENT_PATH, Utils::Fs::toNativePath(torrent.contentPath())},
+        {KEY_TORRENT_SAVE_PATH, torrent.savePath().toString()},
+        {KEY_TORRENT_DOWNLOAD_PATH, torrent.downloadPath().toString()},
+        {KEY_TORRENT_CONTENT_PATH, torrent.contentPath().toString()},
         {KEY_TORRENT_ADDED_ON, torrent.addedTime().toSecsSinceEpoch()},
         {KEY_TORRENT_COMPLETION_ON, torrent.completedTime().toSecsSinceEpoch()},
         {KEY_TORRENT_TRACKER, torrent.currentTracker()},
@@ -148,8 +154,8 @@ QVariantMap serialize(const BitTorrent::Torrent &torrent)
         {KEY_TORRENT_LAST_SEEN_COMPLETE_TIME, torrent.lastSeenComplete().toSecsSinceEpoch()},
         {KEY_TORRENT_AUTO_TORRENT_MANAGEMENT, torrent.isAutoTMMEnabled()},
         {KEY_TORRENT_TIME_ACTIVE, torrent.activeTime()},
-        {KEY_TORRENT_SEEDING_TIME, torrent.seedingTime()},
-        {KEY_TORRENT_LAST_ACTIVITY_TIME, adjustLastActivity(torrent.timeSinceActivity())},
+        {KEY_TORRENT_SEEDING_TIME, torrent.finishedTime()},
+        {KEY_TORRENT_LAST_ACTIVITY_TIME, getLastActivityTime()},
         {KEY_TORRENT_AVAILABILITY, torrent.distributedCopies()},
 
         {KEY_TORRENT_TOTAL_SIZE, torrent.totalSize()}

@@ -40,7 +40,7 @@ namespace Ui
 class SpeedLimitDialog final : public QDialog
 {
     Q_OBJECT
-    Q_DISABLE_COPY(SpeedLimitDialog)
+    Q_DISABLE_COPY_MOVE(SpeedLimitDialog)
 
 public:
     explicit SpeedLimitDialog(QWidget *parent);
@@ -50,7 +50,7 @@ public slots:
     void accept() override;
 
 private:
-    Ui::SpeedLimitDialog *m_ui;
+    Ui::SpeedLimitDialog *m_ui = nullptr;
     SettingValue<QSize> m_storeDialogSize;
     struct
     {

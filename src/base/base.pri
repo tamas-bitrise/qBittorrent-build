@@ -1,29 +1,37 @@
 HEADERS += \
+    $$PWD/3rdparty/expected.hpp \
     $$PWD/algorithm.h \
+    $$PWD/applicationcomponent.h \
     $$PWD/asyncfilestorage.h \
     $$PWD/bittorrent/abstractfilestorage.h \
     $$PWD/bittorrent/addtorrentparams.h \
     $$PWD/bittorrent/bandwidthscheduler.h \
+    $$PWD/bittorrent/bencoderesumedatastorage.h \
     $$PWD/bittorrent/cachestatus.h \
+    $$PWD/bittorrent/categoryoptions.h \
     $$PWD/bittorrent/common.h \
     $$PWD/bittorrent/customstorage.h \
     $$PWD/bittorrent/downloadpriority.h \
+    $$PWD/bittorrent/dbresumedatastorage.h \
+    $$PWD/bittorrent/extensiondata.h \
     $$PWD/bittorrent/filesearcher.h \
     $$PWD/bittorrent/filterparserthread.h \
     $$PWD/bittorrent/infohash.h \
+    $$PWD/bittorrent/loadtorrentparams.h \
+    $$PWD/bittorrent/ltqbitarray.h \
     $$PWD/bittorrent/ltqhash.h \
-    $$PWD/bittorrent/ltunderlyingtype.h \
+    $$PWD/bittorrent/lttypecast.h \
     $$PWD/bittorrent/magneturi.h \
     $$PWD/bittorrent/nativesessionextension.h \
     $$PWD/bittorrent/nativetorrentextension.h \
     $$PWD/bittorrent/peeraddress.h \
     $$PWD/bittorrent/peerinfo.h \
     $$PWD/bittorrent/portforwarderimpl.h \
-    $$PWD/bittorrent/resumedatasavingmanager.h \
+    $$PWD/bittorrent/resumedatastorage.h \
     $$PWD/bittorrent/session.h \
+    $$PWD/bittorrent/sessionimpl.h \
     $$PWD/bittorrent/sessionstatus.h \
     $$PWD/bittorrent/speedmonitor.h \
-    $$PWD/bittorrent/statistics.h \
     $$PWD/bittorrent/torrent.h \
     $$PWD/bittorrent/torrentcontentlayout.h \
     $$PWD/bittorrent/torrentcreatorthread.h \
@@ -33,7 +41,6 @@ HEADERS += \
     $$PWD/bittorrent/trackerentry.h \
     $$PWD/digest32.h \
     $$PWD/exceptions.h \
-    $$PWD/filesystemwatcher.h \
     $$PWD/global.h \
     $$PWD/http/connection.h \
     $$PWD/http/httperror.h \
@@ -45,6 +52,8 @@ HEADERS += \
     $$PWD/http/types.h \
     $$PWD/iconprovider.h \
     $$PWD/indexrange.h \
+    $$PWD/interfaces/iapplication.h \
+    $$PWD/interfaces/istringable.h \
     $$PWD/logger.h \
     $$PWD/net/dnsupdater.h \
     $$PWD/net/downloadhandlerimpl.h \
@@ -55,9 +64,13 @@ HEADERS += \
     $$PWD/net/proxyconfigurationmanager.h \
     $$PWD/net/reverseresolution.h \
     $$PWD/net/smtp.h \
+    $$PWD/orderedset.h \
+    $$PWD/path.h \
+    $$PWD/pathfwd.h \
     $$PWD/preferences.h \
     $$PWD/profile.h \
     $$PWD/profile_p.h \
+    $$PWD/rss/feed_serializer.h \
     $$PWD/rss/rss_article.h \
     $$PWD/rss/rss_autodownloader.h \
     $$PWD/rss/rss_autodownloadrule.h \
@@ -66,17 +79,19 @@ HEADERS += \
     $$PWD/rss/rss_item.h \
     $$PWD/rss/rss_parser.h \
     $$PWD/rss/rss_session.h \
-    $$PWD/scanfoldersmodel.h \
     $$PWD/search/searchdownloadhandler.h \
     $$PWD/search/searchhandler.h \
     $$PWD/search/searchpluginmanager.h \
     $$PWD/settingsstorage.h \
     $$PWD/settingvalue.h \
+    $$PWD/tagset.h \
     $$PWD/torrentfileguard.h \
+    $$PWD/torrentfileswatcher.h \
     $$PWD/torrentfilter.h \
     $$PWD/types.h \
     $$PWD/unicodestrings.h \
     $$PWD/utils/bytearray.h \
+    $$PWD/utils/compare.h \
     $$PWD/utils/foreignapps.h \
     $$PWD/utils/fs.h \
     $$PWD/utils/gzip.h \
@@ -86,28 +101,33 @@ HEADERS += \
     $$PWD/utils/password.h \
     $$PWD/utils/random.h \
     $$PWD/utils/string.h \
+    $$PWD/utils/thread.h \
     $$PWD/utils/version.h \
     $$PWD/version.h
 
 SOURCES += \
+    $$PWD/applicationcomponent.cpp \
     $$PWD/asyncfilestorage.cpp \
     $$PWD/bittorrent/abstractfilestorage.cpp \
     $$PWD/bittorrent/bandwidthscheduler.cpp \
+    $$PWD/bittorrent/bencoderesumedatastorage.cpp \
+    $$PWD/bittorrent/categoryoptions.cpp \
     $$PWD/bittorrent/customstorage.cpp \
+    $$PWD/bittorrent/dbresumedatastorage.cpp \
     $$PWD/bittorrent/downloadpriority.cpp \
     $$PWD/bittorrent/filesearcher.cpp \
     $$PWD/bittorrent/filterparserthread.cpp \
     $$PWD/bittorrent/infohash.cpp \
+    $$PWD/bittorrent/ltqbitarray.cpp \
     $$PWD/bittorrent/magneturi.cpp \
     $$PWD/bittorrent/nativesessionextension.cpp \
     $$PWD/bittorrent/nativetorrentextension.cpp \
     $$PWD/bittorrent/peeraddress.cpp \
     $$PWD/bittorrent/peerinfo.cpp \
     $$PWD/bittorrent/portforwarderimpl.cpp \
-    $$PWD/bittorrent/resumedatasavingmanager.cpp \
-    $$PWD/bittorrent/session.cpp \
+    $$PWD/bittorrent/resumedatastorage.cpp \
+    $$PWD/bittorrent/sessionimpl.cpp \
     $$PWD/bittorrent/speedmonitor.cpp \
-    $$PWD/bittorrent/statistics.cpp \
     $$PWD/bittorrent/torrent.cpp \
     $$PWD/bittorrent/torrentcreatorthread.cpp \
     $$PWD/bittorrent/torrentimpl.cpp \
@@ -115,7 +135,6 @@ SOURCES += \
     $$PWD/bittorrent/tracker.cpp \
     $$PWD/bittorrent/trackerentry.cpp \
     $$PWD/exceptions.cpp \
-    $$PWD/filesystemwatcher.cpp \
     $$PWD/http/connection.cpp \
     $$PWD/http/httperror.cpp \
     $$PWD/http/requestparser.cpp \
@@ -133,9 +152,11 @@ SOURCES += \
     $$PWD/net/proxyconfigurationmanager.cpp \
     $$PWD/net/reverseresolution.cpp \
     $$PWD/net/smtp.cpp \
+    $$PWD/path.cpp \
     $$PWD/preferences.cpp \
     $$PWD/profile.cpp \
     $$PWD/profile_p.cpp \
+    $$PWD/rss/feed_serializer.cpp \
     $$PWD/rss/rss_article.cpp \
     $$PWD/rss/rss_autodownloader.cpp \
     $$PWD/rss/rss_autodownloadrule.cpp \
@@ -144,14 +165,16 @@ SOURCES += \
     $$PWD/rss/rss_item.cpp \
     $$PWD/rss/rss_parser.cpp \
     $$PWD/rss/rss_session.cpp \
-    $$PWD/scanfoldersmodel.cpp \
     $$PWD/search/searchdownloadhandler.cpp \
     $$PWD/search/searchhandler.cpp \
     $$PWD/search/searchpluginmanager.cpp \
     $$PWD/settingsstorage.cpp \
+    $$PWD/tagset.cpp \
     $$PWD/torrentfileguard.cpp \
+    $$PWD/torrentfileswatcher.cpp \
     $$PWD/torrentfilter.cpp \
     $$PWD/utils/bytearray.cpp \
+    $$PWD/utils/compare.cpp \
     $$PWD/utils/foreignapps.cpp \
     $$PWD/utils/fs.cpp \
     $$PWD/utils/gzip.cpp \
@@ -160,4 +183,5 @@ SOURCES += \
     $$PWD/utils/net.cpp \
     $$PWD/utils/password.cpp \
     $$PWD/utils/random.cpp \
-    $$PWD/utils/string.cpp
+    $$PWD/utils/string.cpp \
+    $$PWD/utils/thread.cpp

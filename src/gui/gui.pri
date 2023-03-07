@@ -9,14 +9,18 @@ HEADERS += \
     $$PWD/categoryfiltermodel.h \
     $$PWD/categoryfilterproxymodel.h \
     $$PWD/categoryfilterwidget.h \
+    $$PWD/color.h \
     $$PWD/cookiesdialog.h \
     $$PWD/cookiesmodel.h \
     $$PWD/deletionconfirmationdialog.h \
+    $$PWD/desktopintegration.h \
     $$PWD/downloadfromurldialog.h \
     $$PWD/executionlogwidget.h \
     $$PWD/fspathedit.h \
     $$PWD/fspathedit_p.h \
+    $$PWD/guiapplicationcomponent.h \
     $$PWD/hidabletabwidget.h \
+    $$PWD/interfaces/iguiapplication.h \
     $$PWD/ipsubnetwhitelistoptionsdialog.h \
     $$PWD/lineedit.h \
     $$PWD/log/logfiltermodel.h \
@@ -47,7 +51,6 @@ HEADERS += \
     $$PWD/rss/feedlistwidget.h \
     $$PWD/rss/htmlbrowser.h \
     $$PWD/rss/rsswidget.h \
-    $$PWD/scanfoldersdelegate.h \
     $$PWD/search/pluginselectdialog.h \
     $$PWD/search/pluginsourcedialog.h \
     $$PWD/search/searchjobwidget.h \
@@ -78,7 +81,9 @@ HEADERS += \
     $$PWD/tristateaction.h \
     $$PWD/tristatewidget.h \
     $$PWD/uithememanager.h \
-    $$PWD/utils.h
+    $$PWD/utils.h \
+    $$PWD/watchedfolderoptionsdialog.h \
+    $$PWD/watchedfoldersmodel.h
 
 SOURCES += \
     $$PWD/aboutdialog.cpp \
@@ -92,10 +97,12 @@ SOURCES += \
     $$PWD/cookiesdialog.cpp \
     $$PWD/cookiesmodel.cpp \
     $$PWD/deletionconfirmationdialog.cpp \
+    $$PWD/desktopintegration.cpp \
     $$PWD/downloadfromurldialog.cpp \
     $$PWD/executionlogwidget.cpp \
     $$PWD/fspathedit.cpp \
     $$PWD/fspathedit_p.cpp \
+    $$PWD/guiapplicationcomponent.cpp \
     $$PWD/hidabletabwidget.cpp \
     $$PWD/ipsubnetwhitelistoptionsdialog.cpp \
     $$PWD/lineedit.cpp \
@@ -127,7 +134,6 @@ SOURCES += \
     $$PWD/rss/feedlistwidget.cpp \
     $$PWD/rss/htmlbrowser.cpp \
     $$PWD/rss/rsswidget.cpp \
-    $$PWD/scanfoldersdelegate.cpp \
     $$PWD/search/pluginselectdialog.cpp \
     $$PWD/search/pluginsourcedialog.cpp \
     $$PWD/search/searchjobwidget.cpp \
@@ -158,27 +164,9 @@ SOURCES += \
     $$PWD/tristateaction.cpp \
     $$PWD/tristatewidget.cpp \
     $$PWD/uithememanager.cpp \
-    $$PWD/utils.cpp
-
-win32|macx {
-    HEADERS += $$PWD/programupdater.h
-    SOURCES += $$PWD/programupdater.cpp
-}
-
-unix:!macx:dbus {
-    HEADERS += \
-        $$PWD/powermanagement/powermanagement_x11.h \
-        $$PWD/qtnotify/notifications.h
-
-    SOURCES += \
-        $$PWD/powermanagement/powermanagement_x11.cpp \
-        $$PWD/qtnotify/notifications.cpp
-}
-
-macx {
-    HEADERS += $$PWD/macutilities.h
-    OBJECTIVE_SOURCES += $$PWD/macutilities.mm
-}
+    $$PWD/utils.cpp \
+    $$PWD/watchedfolderoptionsdialog.cpp \
+    $$PWD/watchedfoldersmodel.cpp
 
 FORMS += \
     $$PWD/aboutdialog.ui \
@@ -208,6 +196,35 @@ FORMS += \
     $$PWD/torrentcategorydialog.ui \
     $$PWD/torrentcreatordialog.ui \
     $$PWD/torrentoptionsdialog.ui \
-    $$PWD/trackerentriesdialog.ui
+    $$PWD/trackerentriesdialog.ui \
+    $$PWD/watchedfolderoptionsdialog.ui
 
 RESOURCES += $$PWD/about.qrc
+
+stacktrace {
+    HEADERS += $$PWD/stacktracedialog.h
+    SOURCES += $$PWD/stacktracedialog.cpp
+    FORMS += $$PWD/stacktracedialog.ui
+}
+
+win32|macx {
+    HEADERS += $$PWD/programupdater.h
+    SOURCES += $$PWD/programupdater.cpp
+}
+
+unix:!macx:dbus {
+    HEADERS += \
+        $$PWD/notifications/dbusnotifier.h \
+        $$PWD/notifications/dbusnotificationsinterface.h \
+        $$PWD/powermanagement/powermanagement_x11.h
+
+    SOURCES += \
+        $$PWD/notifications/dbusnotifier.cpp \
+        $$PWD/notifications/dbusnotificationsinterface.cpp \
+        $$PWD/powermanagement/powermanagement_x11.cpp
+}
+
+macx {
+    HEADERS += $$PWD/macutilities.h
+    OBJECTIVE_SOURCES += $$PWD/macutilities.mm
+}

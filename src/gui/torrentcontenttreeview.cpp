@@ -34,8 +34,8 @@
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QModelIndexList>
-#include <QTableView>
 #include <QThread>
+#include <QWheelEvent>
 
 #include "base/bittorrent/abstractfilestorage.h"
 #include "base/bittorrent/common.h"
@@ -44,6 +44,7 @@
 #include "base/bittorrent/torrentinfo.h"
 #include "base/exceptions.h"
 #include "base/global.h"
+#include "base/path.h"
 #include "base/utils/fs.h"
 #include "autoexpandabledialog.h"
 #include "raisedmessagebox.h"
@@ -52,12 +53,12 @@
 
 namespace
 {
-    QString getFullPath(const QModelIndex &idx)
+    Path getFullPath(const QModelIndex &idx)
     {
-        QStringList paths;
+        Path path;
         for (QModelIndex i = idx; i.isValid(); i = i.parent())
-            paths.prepend(i.data().toString());
-        return paths.join(QLatin1Char {'/'});
+            path = Path(i.data().toString()) / path;
+        return path;
     }
 }
 
@@ -65,14 +66,7 @@ TorrentContentTreeView::TorrentContentTreeView(QWidget *parent)
     : QTreeView(parent)
 {
     setExpandsOnDoubleClick(false);
-
-    // This hack fixes reordering of first column with Qt5.
-    // https://github.com/qtproject/qtbase/commit/e0fc088c0c8bc61dbcaf5928b24986cd61a22777
-    QTableView unused;
-    unused.setVerticalHeader(header());
-    header()->setParent(this);
-    header()->setStretchLastSection(false);
-    unused.setVerticalHeader(new QHeaderView(Qt::Horizontal));
+    header()->setFirstSectionMovable(true);
 }
 
 void TorrentContentTreeView::keyPressEvent(QKeyEvent *event)
@@ -85,25 +79,19 @@ void TorrentContentTreeView::keyPressEvent(QKeyEvent *event)
 
     event->accept();
 
-    QModelIndex current = currentNameCell();
-
-    QVariant value = current.data(Qt::CheckStateRole);
+    const QVariant value = currentNameCell().data(Qt::CheckStateRole);
     if (!value.isValid())
     {
         Q_ASSERT(false);
         return;
     }
 
-    Qt::CheckState state = (static_cast<Qt::CheckState>(value.toInt()) == Qt::Checked
-                            ? Qt::Unchecked : Qt::Checked);
-
+    const Qt::CheckState state = (static_cast<Qt::CheckState>(value.toInt()) == Qt::Checked)
+                                 ? Qt::Unchecked : Qt::Checked;
     const QModelIndexList selection = selectionModel()->selectedRows(TorrentContentModelItem::COL_NAME);
 
     for (const QModelIndex &index : selection)
-    {
-        Q_ASSERT(index.column() == TorrentContentModelItem::COL_NAME);
         model()->setData(index, state, Qt::CheckStateRole);
-    }
 }
 
 void TorrentContentTreeView::renameSelectedFile(BitTorrent::AbstractFileStorage &fileStorage)
@@ -129,9 +117,9 @@ void TorrentContentTreeView::renameSelectedFile(BitTorrent::AbstractFileStorage 
     if (newName == oldName)
         return;  // Name did not change
 
-    const QString parentPath = getFullPath(modelIndex.parent());
-    const QString oldPath {parentPath.isEmpty() ? oldName : parentPath + QLatin1Char {'/'} + oldName};
-    const QString newPath {parentPath.isEmpty() ? newName : parentPath + QLatin1Char {'/'} + newName};
+    const Path parentPath = getFullPath(modelIndex.parent());
+    const Path oldPath = parentPath / Path(oldName);
+    const Path newPath = parentPath / Path(newName);
 
     try
     {
@@ -148,14 +136,30 @@ void TorrentContentTreeView::renameSelectedFile(BitTorrent::AbstractFileStorage 
     }
 }
 
-QModelIndex TorrentContentTreeView::currentNameCell()
+QModelIndex TorrentContentTreeView::currentNameCell() const
 {
-    QModelIndex current = currentIndex();
+    const QModelIndex current = currentIndex();
     if (!current.isValid())
     {
         Q_ASSERT(false);
         return {};
     }
 
-    return model()->index(current.row(), TorrentContentModelItem::COL_NAME, current.parent());
+    return current.siblingAtColumn(TorrentContentModelItem::COL_NAME);
+}
+
+void TorrentContentTreeView::wheelEvent(QWheelEvent *event)
+{
+    if (event->modifiers() & Qt::ShiftModifier)
+    {
+        // Shift + scroll = horizontal scroll
+        event->accept();
+        QWheelEvent scrollHEvent {event->position(), event->globalPosition()
+            , event->pixelDelta(), event->angleDelta().transposed(), event->buttons()
+            , event->modifiers(), event->phase(), event->inverted(), event->source()};
+        QTreeView::wheelEvent(&scrollHEvent);
+        return;
+    }
+
+    QTreeView::wheelEvent(event);  // event delegated to base class
 }

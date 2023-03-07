@@ -28,7 +28,9 @@
 
 #pragma once
 
-#include <QVariantMap>
+#include <QVariant>
+
+#include "base/global.h"
 
 namespace BitTorrent
 {
@@ -36,51 +38,55 @@ namespace BitTorrent
 }
 
 // Torrent keys
-const char KEY_TORRENT_ID[] = "hash";
-const char KEY_TORRENT_NAME[] = "name";
-const char KEY_TORRENT_MAGNET_URI[] = "magnet_uri";
-const char KEY_TORRENT_SIZE[] = "size";
-const char KEY_TORRENT_PROGRESS[] = "progress";
-const char KEY_TORRENT_DLSPEED[] = "dlspeed";
-const char KEY_TORRENT_UPSPEED[] = "upspeed";
-const char KEY_TORRENT_QUEUE_POSITION[] = "priority";
-const char KEY_TORRENT_SEEDS[] = "num_seeds";
-const char KEY_TORRENT_NUM_COMPLETE[] = "num_complete";
-const char KEY_TORRENT_LEECHS[] = "num_leechs";
-const char KEY_TORRENT_NUM_INCOMPLETE[] = "num_incomplete";
-const char KEY_TORRENT_RATIO[] = "ratio";
-const char KEY_TORRENT_ETA[] = "eta";
-const char KEY_TORRENT_STATE[] = "state";
-const char KEY_TORRENT_SEQUENTIAL_DOWNLOAD[] = "seq_dl";
-const char KEY_TORRENT_FIRST_LAST_PIECE_PRIO[] = "f_l_piece_prio";
-const char KEY_TORRENT_CATEGORY[] = "category";
-const char KEY_TORRENT_TAGS[] = "tags";
-const char KEY_TORRENT_SUPER_SEEDING[] = "super_seeding";
-const char KEY_TORRENT_FORCE_START[] = "force_start";
-const char KEY_TORRENT_SAVE_PATH[] = "save_path";
-const char KEY_TORRENT_CONTENT_PATH[] = "content_path";
-const char KEY_TORRENT_ADDED_ON[] = "added_on";
-const char KEY_TORRENT_COMPLETION_ON[] = "completion_on";
-const char KEY_TORRENT_TRACKER[] = "tracker";
-const char KEY_TORRENT_TRACKERS_COUNT[] = "trackers_count";
-const char KEY_TORRENT_DL_LIMIT[] = "dl_limit";
-const char KEY_TORRENT_UP_LIMIT[] = "up_limit";
-const char KEY_TORRENT_AMOUNT_DOWNLOADED[] = "downloaded";
-const char KEY_TORRENT_AMOUNT_UPLOADED[] = "uploaded";
-const char KEY_TORRENT_AMOUNT_DOWNLOADED_SESSION[] = "downloaded_session";
-const char KEY_TORRENT_AMOUNT_UPLOADED_SESSION[] = "uploaded_session";
-const char KEY_TORRENT_AMOUNT_LEFT[] = "amount_left";
-const char KEY_TORRENT_AMOUNT_COMPLETED[] = "completed";
-const char KEY_TORRENT_MAX_RATIO[] = "max_ratio";
-const char KEY_TORRENT_MAX_SEEDING_TIME[] = "max_seeding_time";
-const char KEY_TORRENT_RATIO_LIMIT[] = "ratio_limit";
-const char KEY_TORRENT_SEEDING_TIME_LIMIT[] = "seeding_time_limit";
-const char KEY_TORRENT_LAST_SEEN_COMPLETE_TIME[] = "seen_complete";
-const char KEY_TORRENT_LAST_ACTIVITY_TIME[] = "last_activity";
-const char KEY_TORRENT_TOTAL_SIZE[] = "total_size";
-const char KEY_TORRENT_AUTO_TORRENT_MANAGEMENT[] = "auto_tmm";
-const char KEY_TORRENT_TIME_ACTIVE[] = "time_active";
-const char KEY_TORRENT_SEEDING_TIME[] = "seeding_time";
-const char KEY_TORRENT_AVAILABILITY[] = "availability";
+// TODO: Rename it to `id`.
+inline const QString KEY_TORRENT_ID = u"hash"_qs;
+inline const QString KEY_TORRENT_INFOHASHV1 = u"infohash_v1"_qs;
+inline const QString KEY_TORRENT_INFOHASHV2 = u"infohash_v2"_qs;
+inline const QString KEY_TORRENT_NAME = u"name"_qs;
+inline const QString KEY_TORRENT_MAGNET_URI = u"magnet_uri"_qs;
+inline const QString KEY_TORRENT_SIZE = u"size"_qs;
+inline const QString KEY_TORRENT_PROGRESS = u"progress"_qs;
+inline const QString KEY_TORRENT_DLSPEED = u"dlspeed"_qs;
+inline const QString KEY_TORRENT_UPSPEED = u"upspeed"_qs;
+inline const QString KEY_TORRENT_QUEUE_POSITION = u"priority"_qs;
+inline const QString KEY_TORRENT_SEEDS = u"num_seeds"_qs;
+inline const QString KEY_TORRENT_NUM_COMPLETE = u"num_complete"_qs;
+inline const QString KEY_TORRENT_LEECHS = u"num_leechs"_qs;
+inline const QString KEY_TORRENT_NUM_INCOMPLETE = u"num_incomplete"_qs;
+inline const QString KEY_TORRENT_RATIO = u"ratio"_qs;
+inline const QString KEY_TORRENT_ETA = u"eta"_qs;
+inline const QString KEY_TORRENT_STATE = u"state"_qs;
+inline const QString KEY_TORRENT_SEQUENTIAL_DOWNLOAD = u"seq_dl"_qs;
+inline const QString KEY_TORRENT_FIRST_LAST_PIECE_PRIO = u"f_l_piece_prio"_qs;
+inline const QString KEY_TORRENT_CATEGORY = u"category"_qs;
+inline const QString KEY_TORRENT_TAGS = u"tags"_qs;
+inline const QString KEY_TORRENT_SUPER_SEEDING = u"super_seeding"_qs;
+inline const QString KEY_TORRENT_FORCE_START = u"force_start"_qs;
+inline const QString KEY_TORRENT_SAVE_PATH = u"save_path"_qs;
+inline const QString KEY_TORRENT_DOWNLOAD_PATH = u"download_path"_qs;
+inline const QString KEY_TORRENT_CONTENT_PATH = u"content_path"_qs;
+inline const QString KEY_TORRENT_ADDED_ON = u"added_on"_qs;
+inline const QString KEY_TORRENT_COMPLETION_ON = u"completion_on"_qs;
+inline const QString KEY_TORRENT_TRACKER = u"tracker"_qs;
+inline const QString KEY_TORRENT_TRACKERS_COUNT = u"trackers_count"_qs;
+inline const QString KEY_TORRENT_DL_LIMIT = u"dl_limit"_qs;
+inline const QString KEY_TORRENT_UP_LIMIT = u"up_limit"_qs;
+inline const QString KEY_TORRENT_AMOUNT_DOWNLOADED = u"downloaded"_qs;
+inline const QString KEY_TORRENT_AMOUNT_UPLOADED = u"uploaded"_qs;
+inline const QString KEY_TORRENT_AMOUNT_DOWNLOADED_SESSION = u"downloaded_session"_qs;
+inline const QString KEY_TORRENT_AMOUNT_UPLOADED_SESSION = u"uploaded_session"_qs;
+inline const QString KEY_TORRENT_AMOUNT_LEFT = u"amount_left"_qs;
+inline const QString KEY_TORRENT_AMOUNT_COMPLETED = u"completed"_qs;
+inline const QString KEY_TORRENT_MAX_RATIO = u"max_ratio"_qs;
+inline const QString KEY_TORRENT_MAX_SEEDING_TIME = u"max_seeding_time"_qs;
+inline const QString KEY_TORRENT_RATIO_LIMIT = u"ratio_limit"_qs;
+inline const QString KEY_TORRENT_SEEDING_TIME_LIMIT = u"seeding_time_limit"_qs;
+inline const QString KEY_TORRENT_LAST_SEEN_COMPLETE_TIME = u"seen_complete"_qs;
+inline const QString KEY_TORRENT_LAST_ACTIVITY_TIME = u"last_activity"_qs;
+inline const QString KEY_TORRENT_TOTAL_SIZE = u"total_size"_qs;
+inline const QString KEY_TORRENT_AUTO_TORRENT_MANAGEMENT = u"auto_tmm"_qs;
+inline const QString KEY_TORRENT_TIME_ACTIVE = u"time_active"_qs;
+inline const QString KEY_TORRENT_SEEDING_TIME = u"seeding_time"_qs;
+inline const QString KEY_TORRENT_AVAILABILITY = u"availability"_qs;
 
 QVariantMap serialize(const BitTorrent::Torrent &torrent);

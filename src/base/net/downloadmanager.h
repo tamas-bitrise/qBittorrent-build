@@ -29,11 +29,14 @@
 
 #pragma once
 
+#include <QtGlobal>
 #include <QHash>
 #include <QNetworkAccessManager>
 #include <QObject>
 #include <QQueue>
 #include <QSet>
+
+#include "base/path.h"
 
 class QNetworkCookie;
 class QNetworkReply;
@@ -50,7 +53,11 @@ namespace Net
         static ServiceID fromURL(const QUrl &url);
     };
 
-    uint qHash(const ServiceID &serviceID, uint seed);
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    std::size_t qHash(const ServiceID &serviceID, std::size_t seed = 0);
+#else
+    uint qHash(const ServiceID &serviceID, uint seed = 0);
+#endif
     bool operator==(const ServiceID &lhs, const ServiceID &rhs);
 
     enum class DownloadStatus
@@ -78,11 +85,18 @@ namespace Net
         bool saveToFile() const;
         DownloadRequest &saveToFile(bool value);
 
+        // if saveToFile is set, the file is saved in destFileName
+        // (deprecated) if destFileName is not provided, the file will be saved
+        // in a temporary file, the name of file is set in DownloadResult::filePath
+        Path destFileName() const;
+        DownloadRequest &destFileName(const Path &value);
+
     private:
         QString m_url;
         QString m_userAgent;
         qint64 m_limit = 0;
         bool m_saveToFile = false;
+        Path m_destFileName;
     };
 
     struct DownloadResult
@@ -91,14 +105,14 @@ namespace Net
         DownloadStatus status;
         QString errorString;
         QByteArray data;
-        QString filePath;
+        Path filePath;
         QString magnet;
     };
 
     class DownloadHandler : public QObject
     {
         Q_OBJECT
-        Q_DISABLE_COPY(DownloadHandler)
+        Q_DISABLE_COPY_MOVE(DownloadHandler)
 
     public:
         using QObject::QObject;
@@ -112,7 +126,7 @@ namespace Net
     class DownloadManager : public QObject
     {
         Q_OBJECT
-        Q_DISABLE_COPY(DownloadManager)
+        Q_DISABLE_COPY_MOVE(DownloadManager)
 
     public:
         static void initInstance();

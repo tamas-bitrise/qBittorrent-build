@@ -31,6 +31,8 @@
 #include <QtGlobal>
 #include <QCoreApplication>
 
+#include "base/pathfwd.h"
+
 class QString;
 
 namespace BitTorrent
@@ -40,14 +42,15 @@ namespace BitTorrent
         Q_DECLARE_TR_FUNCTIONS(AbstractFileStorage)
 
     public:
+        virtual ~AbstractFileStorage() = default;
+
         virtual int filesCount() const = 0;
-        virtual QString filePath(int index) const = 0;
-        virtual QString fileName(int index) const = 0;
+        virtual Path filePath(int index) const = 0;
         virtual qlonglong fileSize(int index) const = 0;
 
-        virtual void renameFile(int index, const QString &name) = 0;
+        virtual void renameFile(int index, const Path &newPath) = 0;
 
-        void renameFile(const QString &oldPath, const QString &newPath);
-        void renameFolder(const QString &oldPath, const QString &newPath);
+        void renameFile(const Path &oldPath, const Path &newPath);
+        void renameFolder(const Path &oldFolderPath, const Path &newFolderPath);
     };
 }

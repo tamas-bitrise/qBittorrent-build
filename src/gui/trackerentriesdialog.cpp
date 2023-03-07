@@ -37,12 +37,12 @@
 #include "ui_trackerentriesdialog.h"
 #include "utils.h"
 
-#define SETTINGS_KEY(name) "TrackerEntriesDialog/" name
+#define SETTINGS_KEY(name) u"TrackerEntriesDialog/" name
 
 TrackerEntriesDialog::TrackerEntriesDialog(QWidget *parent)
     : QDialog(parent)
     , m_ui(new Ui::TrackerEntriesDialog)
-    , m_storeDialogSize(SETTINGS_KEY("Size"))
+    , m_storeDialogSize(SETTINGS_KEY(u"Size"_qs))
 {
     m_ui->setupUi(this);
 
@@ -66,41 +66,21 @@ void TrackerEntriesDialog::setTrackers(const QVector<BitTorrent::TrackerEntry> &
 
     for (const BitTorrent::TrackerEntry &entry : trackers)
     {
-        tiers[entry.tier] += (entry.url + '\n');
+        tiers[entry.tier] += (entry.url + u'\n');
         maxTier = std::max(maxTier, entry.tier);
     }
 
     QString text = tiers.value(0);
 
     for (int i = 1; i <= maxTier; ++i)
-        text += ('\n' + tiers.value(i));
+        text += (u'\n' + tiers.value(i));
 
     m_ui->plainTextEdit->setPlainText(text);
 }
 
 QVector<BitTorrent::TrackerEntry> TrackerEntriesDialog::trackers() const
 {
-    const QString plainText = m_ui->plainTextEdit->toPlainText();
-    const QVector<QStringRef> lines = plainText.splitRef('\n');
-
-    QVector<BitTorrent::TrackerEntry> entries;
-    entries.reserve(lines.size());
-
-    int tier = 0;
-    for (QStringRef line : lines)
-    {
-        line = line.trimmed();
-
-        if (line.isEmpty())
-        {
-            ++tier;
-            continue;
-        }
-
-        entries.append({line.toString(), tier});
-    }
-
-    return entries;
+    return BitTorrent::parseTrackerEntries(m_ui->plainTextEdit->toPlainText());
 }
 
 void TrackerEntriesDialog::saveSettings()
@@ -110,5 +90,6 @@ void TrackerEntriesDialog::saveSettings()
 
 void TrackerEntriesDialog::loadSettings()
 {
-    Utils::Gui::resize(this, m_storeDialogSize);
+    if (const QSize dialogSize = m_storeDialogSize; dialogSize.isValid())
+        resize(dialogSize);
 }

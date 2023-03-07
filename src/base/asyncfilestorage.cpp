@@ -30,21 +30,23 @@
 
 #include <QDebug>
 #include <QMetaObject>
-#include <QSaveFile>
 
-AsyncFileStorage::AsyncFileStorage(const QString &storageFolderPath, QObject *parent)
+#include "base/utils/fs.h"
+#include "base/utils/io.h"
+
+AsyncFileStorage::AsyncFileStorage(const Path &storageFolderPath, QObject *parent)
     : QObject(parent)
     , m_storageDir(storageFolderPath)
-    , m_lockFile(m_storageDir.absoluteFilePath(QStringLiteral("storage.lock")))
+    , m_lockFile((m_storageDir / Path(u"storage.lock"_qs)).data())
 {
-    if (!m_storageDir.mkpath(m_storageDir.absolutePath()))
-        throw AsyncFileStorageError
-        {tr("Could not create directory '%1'.")
-                .arg(m_storageDir.absolutePath())};
+    Q_ASSERT(m_storageDir.isAbsolute());
+
+    if (!Utils::Fs::mkpath(m_storageDir))
+        throw AsyncFileStorageError(tr("Could not create directory '%1'.").arg(m_storageDir.toString()));
 
     // TODO: This folder locking approach does not work for UNIX systems. Implement it.
     if (!m_lockFile.open(QFile::WriteOnly))
-        throw AsyncFileStorageError {m_lockFile.errorString()};
+        throw AsyncFileStorageError(m_lockFile.errorString());
 }
 
 AsyncFileStorage::~AsyncFileStorage()
@@ -53,29 +55,26 @@ AsyncFileStorage::~AsyncFileStorage()
     m_lockFile.remove();
 }
 
-void AsyncFileStorage::store(const QString &fileName, const QByteArray &data)
+void AsyncFileStorage::store(const Path &filePath, const QByteArray &data)
 {
-    QMetaObject::invokeMethod(this, [this, data, fileName]() { store_impl(fileName, data); }
+    QMetaObject::invokeMethod(this, [this, data, filePath]() { store_impl(filePath, data); }
                               , Qt::QueuedConnection);
 }
 
-QDir AsyncFileStorage::storageDir() const
+Path AsyncFileStorage::storageDir() const
 {
     return m_storageDir;
 }
 
-void AsyncFileStorage::store_impl(const QString &fileName, const QByteArray &data)
+void AsyncFileStorage::store_impl(const Path &fileName, const QByteArray &data)
 {
-    const QString filePath = m_storageDir.absoluteFilePath(fileName);
-    QSaveFile file(filePath);
-    qDebug() << "AsyncFileStorage: Saving data to" << filePath;
-    if (file.open(QIODevice::WriteOnly))
+    const Path filePath = m_storageDir / fileName;
+    qDebug() << "AsyncFileStorage: Saving data to" << filePath.toString();
+
+    const nonstd::expected<void, QString> result = Utils::IO::saveToFile(filePath, data);
+    if (!result)
     {
-        file.write(data);
-        if (!file.commit())
-        {
-            qDebug() << "AsyncFileStorage: Failed to save data";
-            emit failed(filePath, file.errorString());
-        }
+        qDebug() << "AsyncFileStorage: Failed to save data";
+        emit failed(filePath, result.error());
     }
 }

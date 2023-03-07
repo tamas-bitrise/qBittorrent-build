@@ -54,7 +54,7 @@ class SearchPluginManager;
 class SearchHandler : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY(SearchHandler)
+    Q_DISABLE_COPY_MOVE(SearchHandler)
 
     friend class SearchPluginManager;
 
@@ -78,14 +78,14 @@ private:
     void readSearchOutput();
     void processFailed();
     void processFinished(int exitcode);
-    bool parseSearchResult(const QString &line, SearchResult &searchResult);
+    bool parseSearchResult(QStringView line, SearchResult &searchResult);
 
     const QString m_pattern;
     const QString m_category;
     const QStringList m_usedPlugins;
-    SearchPluginManager *m_manager;
-    QProcess *m_searchProcess;
-    QTimer *m_searchTimeout;
+    SearchPluginManager *m_manager = nullptr;
+    QProcess *m_searchProcess = nullptr;
+    QTimer *m_searchTimeout = nullptr;
     QByteArray m_searchResultLineTruncated;
     bool m_searchCancelled = false;
     QList<SearchResult> m_results;

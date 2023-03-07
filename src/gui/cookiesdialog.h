@@ -30,6 +30,8 @@
 
 #include <QDialog>
 
+#include "base/settingvalue.h"
+
 class CookiesModel;
 
 namespace Ui
@@ -40,6 +42,7 @@ namespace Ui
 class CookiesDialog final : public QDialog
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(CookiesDialog)
 
 public:
     explicit CookiesDialog(QWidget *parent = nullptr);
@@ -53,6 +56,9 @@ private slots:
     void onButtonDeleteClicked();
 
 private:
-    Ui::CookiesDialog *m_ui;
-    CookiesModel *m_cookiesModel;
+    Ui::CookiesDialog *m_ui = nullptr;
+    CookiesModel *m_cookiesModel = nullptr;
+
+    SettingValue<QSize> m_storeDialogSize;
+    SettingValue<QByteArray> m_storeViewState;
 };

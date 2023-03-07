@@ -29,13 +29,15 @@
 
 #include "bandwidthscheduler.h"
 
+#include <chrono>
 #include <utility>
 
 #include <QDate>
 #include <QTime>
-#include <QTimer>
 
 #include "base/preferences.h"
+
+using namespace std::chrono_literals;
 
 BandwidthScheduler::BandwidthScheduler(QObject *parent)
     : QObject(parent)
@@ -51,7 +53,7 @@ void BandwidthScheduler::start()
 
     // Timeout regularly to accommodate for external system clock changes
     // eg from the user or from a timesync utility
-    m_timer.start(30000);
+    m_timer.start(30s);
 }
 
 bool BandwidthScheduler::isTimeForAlternative() const
@@ -61,7 +63,7 @@ bool BandwidthScheduler::isTimeForAlternative() const
     QTime start = pref->getSchedulerStartTime();
     QTime end = pref->getSchedulerEndTime();
     const QTime now = QTime::currentTime();
-    const int schedulerDays = pref->getSchedulerDays();
+    const Scheduler::Days schedulerDays = pref->getSchedulerDays();
     const int day = QDate::currentDate().dayOfWeek();
     bool alternative = false;
 
@@ -75,20 +77,34 @@ bool BandwidthScheduler::isTimeForAlternative() const
     {
         switch (schedulerDays)
         {
-        case EVERY_DAY:
+        case Scheduler::Days::EveryDay:
             alternative = !alternative;
             break;
-        case WEEK_ENDS:
+        case Scheduler::Days::Monday:
+        case Scheduler::Days::Tuesday:
+        case Scheduler::Days::Wednesday:
+        case Scheduler::Days::Thursday:
+        case Scheduler::Days::Friday:
+        case Scheduler::Days::Saturday:
+        case Scheduler::Days::Sunday:
+            {
+                const int offset = static_cast<int>(Scheduler::Days::Monday) - 1;
+                const int dayOfWeek = static_cast<int>(schedulerDays) - offset;
+                if (day == dayOfWeek)
+                    alternative = !alternative;
+            }
+            break;
+        case Scheduler::Days::Weekday:
+            if ((day >= 1) && (day <= 5))
+                alternative = !alternative;
+            break;
+        case Scheduler::Days::Weekend:
             if ((day == 6) || (day == 7))
                 alternative = !alternative;
             break;
-        case WEEK_DAYS:
-            if ((day != 6) && (day != 7))
-                alternative = !alternative;
-            break;
         default:
-            if (day == (schedulerDays - 2))
-                alternative = !alternative;
+            Q_ASSERT(false);
+            break;
         }
     }
 

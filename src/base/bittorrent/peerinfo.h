@@ -78,6 +78,7 @@ namespace BitTorrent
 
         PeerAddress address() const;
         QString client() const;
+        QString peerIdClient() const;
         qreal progress() const;
         int payloadUpSpeed() const;
         int payloadDownSpeed() const;
@@ -92,7 +93,7 @@ namespace BitTorrent
         int downloadingPieceIndex() const;
 
     private:
-        void calcRelevance(const Torrent *torrent);
+        qreal calcRelevance(const Torrent *torrent) const;
         void determineFlags();
 
         lt::peer_info m_nativeInfo = {};

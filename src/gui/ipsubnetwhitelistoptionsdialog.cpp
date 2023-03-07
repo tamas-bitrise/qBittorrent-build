@@ -38,12 +38,12 @@
 #include "ui_ipsubnetwhitelistoptionsdialog.h"
 #include "utils.h"
 
-#define SETTINGS_KEY(name) "IPSubnetWhitelistOptionsDialog/" name
+#define SETTINGS_KEY(name) u"IPSubnetWhitelistOptionsDialog/" name
 
 IPSubnetWhitelistOptionsDialog::IPSubnetWhitelistOptionsDialog(QWidget *parent)
     : QDialog(parent)
     , m_ui(new Ui::IPSubnetWhitelistOptionsDialog)
-    , m_storeDialogSize(SETTINGS_KEY("Size"))
+    , m_storeDialogSize(SETTINGS_KEY(u"Size"_qs))
 {
     m_ui->setupUi(this);
 
@@ -60,7 +60,8 @@ IPSubnetWhitelistOptionsDialog::IPSubnetWhitelistOptionsDialog(QWidget *parent)
     m_ui->whitelistedIPSubnetList->sortByColumn(0, Qt::AscendingOrder);
     m_ui->buttonWhitelistIPSubnet->setEnabled(false);
 
-    Utils::Gui::resize(this, m_storeDialogSize);
+    if (const QSize dialogSize = m_storeDialogSize; dialogSize.isValid())
+        resize(dialogSize);
 }
 
 IPSubnetWhitelistOptionsDialog::~IPSubnetWhitelistOptionsDialog()
@@ -89,16 +90,15 @@ void IPSubnetWhitelistOptionsDialog::on_buttonBox_accepted()
 
 void IPSubnetWhitelistOptionsDialog::on_buttonWhitelistIPSubnet_clicked()
 {
-    bool ok = false;
-    const Utils::Net::Subnet subnet = Utils::Net::parseSubnet(m_ui->txtIPSubnet->text(), &ok);
-    if (!ok)
+    const std::optional<Utils::Net::Subnet> subnet = Utils::Net::parseSubnet(m_ui->txtIPSubnet->text());
+    if (!subnet)
     {
         QMessageBox::critical(this, tr("Error"), tr("The entered subnet is invalid."));
         return;
     }
 
     m_model->insertRow(m_model->rowCount());
-    m_model->setData(m_model->index(m_model->rowCount() - 1, 0), Utils::Net::subnetToString(subnet));
+    m_model->setData(m_model->index(m_model->rowCount() - 1, 0), Utils::Net::subnetToString(subnet.value()));
     m_ui->txtIPSubnet->clear();
     m_modified = true;
 }
@@ -113,5 +113,5 @@ void IPSubnetWhitelistOptionsDialog::on_buttonDeleteIPSubnet_clicked()
 
 void IPSubnetWhitelistOptionsDialog::on_txtIPSubnet_textChanged(const QString &subnetStr)
 {
-    m_ui->buttonWhitelistIPSubnet->setEnabled(Utils::Net::canParseSubnet(subnetStr));
+    m_ui->buttonWhitelistIPSubnet->setEnabled(Utils::Net::parseSubnet(subnetStr).has_value());
 }

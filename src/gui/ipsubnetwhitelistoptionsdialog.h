@@ -43,7 +43,7 @@ namespace Ui
 class IPSubnetWhitelistOptionsDialog final : public QDialog
 {
     Q_OBJECT
-    Q_DISABLE_COPY(IPSubnetWhitelistOptionsDialog)
+    Q_DISABLE_COPY_MOVE(IPSubnetWhitelistOptionsDialog)
 
 public:
     explicit IPSubnetWhitelistOptionsDialog(QWidget *parent = nullptr);
@@ -56,10 +56,10 @@ private slots:
     void on_txtIPSubnet_textChanged(const QString &subnetStr);
 
 private:
-    Ui::IPSubnetWhitelistOptionsDialog *m_ui;
+    Ui::IPSubnetWhitelistOptionsDialog *m_ui = nullptr;
     SettingValue<QSize> m_storeDialogSize;
 
-    QStringListModel *m_model;
-    QSortFilterProxyModel *m_sortFilter;
+    QStringListModel *m_model = nullptr;
+    QSortFilterProxyModel *m_sortFilter = nullptr;
     bool m_modified = false;
 };

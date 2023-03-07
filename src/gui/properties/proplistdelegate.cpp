@@ -60,6 +60,9 @@ void PropListDelegate::setEditorData(QWidget *editor, const QModelIndex &index) 
     case BitTorrent::DownloadPriority::Maximum:
         combobox->setCurrentIndex(3);
         break;
+    case BitTorrent::DownloadPriority::Mixed:
+        combobox->setCurrentIndex(4);
+        break;
     default:
         combobox->setCurrentIndex(1);
         break;
@@ -68,18 +71,15 @@ void PropListDelegate::setEditorData(QWidget *editor, const QModelIndex &index) 
 
 QWidget *PropListDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &, const QModelIndex &index) const
 {
-    if (index.column() != PRIORITY) return nullptr;
+    if (index.column() != PRIORITY)
+        return nullptr;
 
     if (m_properties)
     {
         const BitTorrent::Torrent *torrent = m_properties->getCurrentTorrent();
-        if (!torrent || !torrent->hasMetadata() || torrent->isSeed())
+        if (!torrent || !torrent->hasMetadata())
             return nullptr;
     }
-
-    const int priority = index.data(TorrentContentModel::UnderlyingDataRole).toInt();
-    if (static_cast<BitTorrent::DownloadPriority>(priority) == BitTorrent::DownloadPriority::Mixed)
-        return nullptr;
 
     auto *editor = new QComboBox(parent);
     editor->setFocusPolicy(Qt::StrongFocus);
@@ -87,16 +87,28 @@ QWidget *PropListDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
     editor->addItem(tr("Normal", "Normal (priority)"));
     editor->addItem(tr("High", "High (priority)"));
     editor->addItem(tr("Maximum", "Maximum (priority)"));
+
+    // add Mixed priority item to the new combobox only for those items with Mixed priority
+    const auto priority = static_cast<BitTorrent::DownloadPriority>(index.data(TorrentContentModel::UnderlyingDataRole).toInt());
+    if (priority == BitTorrent::DownloadPriority::Mixed)
+    {
+        editor->addItem(tr("Mixed", "Mixed (priorities)"));
+    }
+
+    connect(editor, qOverload<int>(&QComboBox::currentIndexChanged), this, [this, editor]()
+    {
+        emit const_cast<PropListDelegate *>(this)->commitData(editor);
+    });
+
     return editor;
 }
 
 void PropListDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
     const auto *combobox = static_cast<QComboBox *>(editor);
-    const int value = combobox->currentIndex();
 
     BitTorrent::DownloadPriority prio = BitTorrent::DownloadPriority::Normal; // NORMAL
-    switch (value)
+    switch (combobox->currentIndex())
     {
     case 0:
         prio = BitTorrent::DownloadPriority::Ignored; // IGNORED
@@ -107,10 +119,19 @@ void PropListDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, 
     case 3:
         prio = BitTorrent::DownloadPriority::Maximum; // MAX
         break;
+    case 4:
+        prio = BitTorrent::DownloadPriority::Mixed; // MIXED
+        break;
     }
 
-    model->setData(index, static_cast<int>(prio));
-    emit filteredFilesChanged();
+    const int newPriority = static_cast<int>(prio);
+    const int previousPriority = index.data(TorrentContentModel::UnderlyingDataRole).toInt();
+
+    if (newPriority != previousPriority)
+    {
+        model->setData(index, newPriority);
+        emit filteredFilesChanged();
+    }
 }
 
 void PropListDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &) const

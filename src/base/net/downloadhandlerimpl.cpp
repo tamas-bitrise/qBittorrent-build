@@ -32,26 +32,27 @@
 #include <QTemporaryFile>
 #include <QUrl>
 
+#include "base/3rdparty/expected.hpp"
 #include "base/utils/fs.h"
-#include "base/utils/gzip.h"
+#include "base/utils/io.h"
 #include "base/utils/misc.h"
+
+#ifdef QT_NO_COMPRESS
+#include "base/utils/gzip.h"
+#endif
 
 const int MAX_REDIRECTIONS = 20;  // the common value for web browsers
 
 namespace
 {
-    bool saveToFile(const QByteArray &replyData, QString &filePath)
+    nonstd::expected<Path, QString> saveToTempFile(const QByteArray &data)
     {
-        QTemporaryFile tmpfile {Utils::Fs::tempPath() + "XXXXXX"};
-        tmpfile.setAutoRemove(false);
+        QTemporaryFile file {Utils::Fs::tempPath().data()};
+        if (!file.open() || (file.write(data) != data.length()) || !file.flush())
+            return nonstd::make_unexpected(file.errorString());
 
-        if (!tmpfile.open())
-            return false;
-
-        filePath = tmpfile.fileName();
-
-        tmpfile.write(replyData);
-        return true;
+        file.setAutoRemove(false);
+        return Path(file.fileName());
     }
 }
 
@@ -123,17 +124,33 @@ void DownloadHandlerImpl::processFinishedDownload()
     }
 
     // Success
+#ifdef QT_NO_COMPRESS
     m_result.data = (m_reply->rawHeader("Content-Encoding") == "gzip")
                     ? Utils::Gzip::decompress(m_reply->readAll())
                     : m_reply->readAll();
+#else
+    m_result.data = m_reply->readAll();
+#endif
 
     if (m_downloadRequest.saveToFile())
     {
-        QString filePath;
-        if (saveToFile(m_result.data, filePath))
-            m_result.filePath = filePath;
+        const Path destinationPath = m_downloadRequest.destFileName();
+        if (destinationPath.isEmpty())
+        {
+            const nonstd::expected<Path, QString> result = saveToTempFile(m_result.data);
+            if (result)
+                m_result.filePath = result.value();
+            else
+                setError(tr("I/O Error: %1").arg(result.error()));
+        }
         else
-            setError(tr("I/O Error"));
+        {
+            const nonstd::expected<void, QString> result = Utils::IO::saveToFile(destinationPath, m_result.data);
+            if (result)
+                m_result.filePath = destinationPath;
+            else
+                setError(tr("I/O Error: %1").arg(result.error()));
+        }
     }
 
     finish();
@@ -173,7 +190,7 @@ void DownloadHandlerImpl::handleRedirection(const QUrl &newUrl)
     qDebug("Redirecting from %s to %s...", qUtf8Printable(m_reply->url().toString()), qUtf8Printable(newUrlString));
 
     // Redirect to magnet workaround
-    if (newUrlString.startsWith("magnet:", Qt::CaseInsensitive))
+    if (newUrlString.startsWith(u"magnet:", Qt::CaseInsensitive))
     {
         qDebug("Magnet redirect detected.");
         m_result.status = Net::DownloadStatus::RedirectedToMagnet;

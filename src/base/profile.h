@@ -33,6 +33,8 @@
 
 #include <QSettings>
 
+#include "base/pathfwd.h"
+
 class QString;
 
 namespace Private
@@ -40,8 +42,6 @@ namespace Private
     class Profile;
     class PathConverter;
 }
-
-using SettingsPtr = std::unique_ptr<QSettings>;
 
 enum class SpecialFolder
 {
@@ -54,23 +54,26 @@ enum class SpecialFolder
 class Profile
 {
 public:
-    static void initInstance(const QString &rootProfilePath, const QString &configurationName,
+    static void initInstance(const Path &rootProfilePath, const QString &configurationName,
         bool convertPathsToProfileRelative);
     static void freeInstance();
     static const Profile *instance();
 
-    QString location(SpecialFolder folder) const;
-    SettingsPtr applicationSettings(const QString &name) const;
+    Path location(SpecialFolder folder) const;
+    std::unique_ptr<QSettings> applicationSettings(const QString &name) const;
+
+    Path rootPath() const;
+    QString configurationName() const;
 
     /// Returns either default name for configuration file (QCoreApplication::applicationName())
     /// or the value, supplied via parameters
     QString profileName() const;
 
-    QString toPortablePath(const QString &absolutePath) const;
-    QString fromPortablePath(const QString &portablePath) const;
+    Path toPortablePath(const Path &absolutePath) const;
+    Path fromPortablePath(const Path &portablePath) const;
 
 private:
-    Profile(const QString &rootProfilePath, const QString &configurationName, bool convertPathsToProfileRelative);
+    Profile(const Path &rootProfilePath, const QString &configurationName, bool convertPathsToProfileRelative);
     ~Profile() = default;  // to generate correct call to ProfilePrivate::~ProfileImpl()
 
     void ensureDirectoryExists(SpecialFolder folder) const;
@@ -80,4 +83,4 @@ private:
     static Profile *m_instance;
 };
 
-QString specialFolderLocation(SpecialFolder folder);
+Path specialFolderLocation(SpecialFolder folder);

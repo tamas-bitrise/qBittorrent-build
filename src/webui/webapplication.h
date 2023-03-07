@@ -1,6 +1,6 @@
 /*
  * Bittorrent Client using Qt and libtorrent.
- * Copyright (C) 2014, 2017  Vladimir Golovnev <glassez@yandex.ru>
+ * Copyright (C) 2014, 2017, 2022  Vladimir Golovnev <glassez@yandex.ru>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,61 +28,71 @@
 
 #pragma once
 
+#include <type_traits>
+#include <utility>
+
 #include <QDateTime>
 #include <QElapsedTimer>
 #include <QHash>
+#include <QHostAddress>
+#include <QMap>
 #include <QObject>
 #include <QRegularExpression>
 #include <QSet>
 #include <QTranslator>
+#include <QVector>
 
-#include "api/isessionmanager.h"
+#include "base/applicationcomponent.h"
+#include "base/global.h"
 #include "base/http/irequesthandler.h"
 #include "base/http/responsebuilder.h"
 #include "base/http/types.h"
+#include "base/path.h"
 #include "base/utils/net.h"
 #include "base/utils/version.h"
+#include "api/isessionmanager.h"
 
-constexpr Utils::Version<int, 3, 2> API_VERSION {2, 8, 1};
+inline const Utils::Version<3, 2> API_VERSION {2, 8, 19};
 
 class APIController;
+class AuthController;
 class WebApplication;
 
-constexpr char C_SID[] = "SID"; // name of session id cookie
-
-class WebSession final : public ISession
+class WebSession final : public QObject, public ApplicationComponent, public ISession
 {
 public:
-    explicit WebSession(const QString &sid);
+    explicit WebSession(const QString &sid, IApplication *app);
 
     QString id() const override;
 
     bool hasExpired(qint64 seconds) const;
     void updateTimestamp();
 
-    QVariant getData(const QString &id) const override;
-    void setData(const QString &id, const QVariant &data) override;
+    template <typename T>
+    void registerAPIController(const QString &scope)
+    {
+        static_assert(std::is_base_of_v<APIController, T>, "Class should be derived from APIController.");
+        m_apiControllers[scope] = new T(app(), this);
+    }
+
+    APIController *getAPIController(const QString &scope) const;
 
 private:
     const QString m_sid;
     QElapsedTimer m_timer;  // timestamp
-    QVariantHash m_data;
+    QMap<QString, APIController *> m_apiControllers;
 };
 
 class WebApplication final
-        : public QObject, public Http::IRequestHandler, public ISessionManager
+        : public QObject, public ApplicationComponent
+        , public Http::IRequestHandler, public ISessionManager
         , private Http::ResponseBuilder
 {
     Q_OBJECT
-    Q_DISABLE_COPY(WebApplication)
-
-#ifndef Q_MOC_RUN
-#define WEBAPI_PUBLIC
-#define WEBAPI_PRIVATE
-#endif
+    Q_DISABLE_COPY_MOVE(WebApplication)
 
 public:
-    explicit WebApplication(QObject *parent = nullptr);
+    explicit WebApplication(IApplication *app, QObject *parent = nullptr);
     ~WebApplication() override;
 
     Http::Response processRequest(const Http::Request &request, const Http::Environment &env) override;
@@ -99,10 +109,9 @@ private:
     void doProcessRequest();
     void configure();
 
-    void registerAPIController(const QString &scope, APIController *controller);
     void declarePublicAPI(const QString &apiPath);
 
-    void sendFile(const QString &path);
+    void sendFile(const Path &path);
     void sendWebUIFile();
 
     void translateDocument(QString &data) const;
@@ -116,6 +125,8 @@ private:
     bool isCrossSiteRequest(const Http::Request &request) const;
     bool validateHostHeader(const QStringList &domains) const;
 
+    QHostAddress resolveClientAddress() const;
+
     // Persistent data
     QHash<QString, WebSession *> m_sessions;
 
@@ -126,12 +137,77 @@ private:
     QHash<QString, QString> m_params;
     const QString m_cacheID;
 
-    const QRegularExpression m_apiPathPattern {QLatin1String("^/api/v2/(?<scope>[A-Za-z_][A-Za-z_0-9]*)/(?<action>[A-Za-z_][A-Za-z_0-9]*)$")};
+    const QRegularExpression m_apiPathPattern {u"^/api/v2/(?<scope>[A-Za-z_][A-Za-z_0-9]*)/(?<action>[A-Za-z_][A-Za-z_0-9]*)$"_qs};
 
-    QHash<QString, APIController *> m_apiControllers;
     QSet<QString> m_publicAPIs;
+    const QHash<std::pair<QString, QString>, QString> m_allowedMethod =
+    {
+        // <<controller name, action name>, HTTP method>
+        {{u"app"_qs, u"setPreferences"_qs}, Http::METHOD_POST},
+        {{u"app"_qs, u"shutdown"_qs}, Http::METHOD_POST},
+        {{u"auth"_qs, u"login"_qs}, Http::METHOD_POST},
+        {{u"auth"_qs, u"logout"_qs}, Http::METHOD_POST},
+        {{u"rss"_qs, u"addFeed"_qs}, Http::METHOD_POST},
+        {{u"rss"_qs, u"addFolder"_qs}, Http::METHOD_POST},
+        {{u"rss"_qs, u"markAsRead"_qs}, Http::METHOD_POST},
+        {{u"rss"_qs, u"moveItem"_qs}, Http::METHOD_POST},
+        {{u"rss"_qs, u"refreshItem"_qs}, Http::METHOD_POST},
+        {{u"rss"_qs, u"removeItem"_qs}, Http::METHOD_POST},
+        {{u"rss"_qs, u"removeRule"_qs}, Http::METHOD_POST},
+        {{u"rss"_qs, u"renameRule"_qs}, Http::METHOD_POST},
+        {{u"rss"_qs, u"setRule"_qs}, Http::METHOD_POST},
+        {{u"search"_qs, u"delete"_qs}, Http::METHOD_POST},
+        {{u"search"_qs, u"enablePlugin"_qs}, Http::METHOD_POST},
+        {{u"search"_qs, u"installPlugin"_qs}, Http::METHOD_POST},
+        {{u"search"_qs, u"start"_qs}, Http::METHOD_POST},
+        {{u"search"_qs, u"stop"_qs}, Http::METHOD_POST},
+        {{u"search"_qs, u"uninstallPlugin"_qs}, Http::METHOD_POST},
+        {{u"search"_qs, u"updatePlugins"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"add"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"addPeers"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"addTags"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"addTrackers"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"bottomPrio"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"createCategory"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"createTags"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"decreasePrio"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"delete"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"deleteTags"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"editCategory"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"editTracker"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"filePrio"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"increasePrio"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"pause"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"reannounce"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"recheck"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"removeCategories"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"removeTags"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"removeTrackers"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"rename"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"renameFile"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"renameFolder"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"resume"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"setAutoManagement"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"setCategory"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"setDownloadLimit"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"setDownloadPath"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"setForceStart"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"setLocation"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"setSavePath"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"setShareLimits"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"setSuperSeeding"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"setUploadLimit"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"toggleFirstLastPiecePrio"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"toggleSequentialDownload"_qs}, Http::METHOD_POST},
+        {{u"torrents"_qs, u"topPrio"_qs}, Http::METHOD_POST},
+        {{u"transfer"_qs, u"banPeers"_qs}, Http::METHOD_POST},
+        {{u"transfer"_qs, u"setDownloadLimit"_qs}, Http::METHOD_POST},
+        {{u"transfer"_qs, u"setSpeedLimitsMode"_qs}, Http::METHOD_POST},
+        {{u"transfer"_qs, u"setUploadLimit"_qs}, Http::METHOD_POST},
+        {{u"transfer"_qs, u"toggleSpeedLimitsMode"_qs}, Http::METHOD_POST},
+    };
     bool m_isAltUIUsed = false;
-    QString m_rootFolder;
+    Path m_rootFolder;
 
     struct TranslatedFile
     {
@@ -139,11 +215,12 @@ private:
         QString mimeType;
         QDateTime lastModified;
     };
-    QHash<QString, TranslatedFile> m_translatedFiles;
+    QHash<Path, TranslatedFile> m_translatedFiles;
     QString m_currentLocale;
     QTranslator m_translator;
     bool m_translationFileLoaded = false;
 
+    AuthController *m_authController = nullptr;
     bool m_isLocalAuthEnabled;
     bool m_isAuthSubnetWhitelistEnabled;
     QVector<Utils::Net::Subnet> m_authSubnetWhitelist;
@@ -155,6 +232,11 @@ private:
     bool m_isSecureCookieEnabled;
     bool m_isHostHeaderValidationEnabled;
     bool m_isHttpsEnabled;
+
+    // Reverse proxy
+    bool m_isReverseProxySupportEnabled;
+    QVector<Utils::Net::Subnet> m_trustedReverseProxyList;
+    QHostAddress m_clientAddress;
 
     QVector<Http::Header> m_prebuiltHeaders;
 };

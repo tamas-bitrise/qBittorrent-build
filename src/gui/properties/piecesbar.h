@@ -42,9 +42,10 @@ namespace BitTorrent
 
 class PiecesBar : public QWidget
 {
-    using base = QWidget;
     Q_OBJECT
-    Q_DISABLE_COPY(PiecesBar)
+    Q_DISABLE_COPY_MOVE(PiecesBar)
+
+    using base = QWidget;
 
 public:
     explicit PiecesBar(QWidget *parent = nullptr);
@@ -54,15 +55,19 @@ public:
     virtual void clear();
 
     // QObject interface
-    virtual bool event(QEvent*) override;
+    virtual bool event(QEvent *e) override;
 
 protected:
     // QWidget interface
-    void enterEvent(QEvent*) override;
-    void leaveEvent(QEvent*) override;
-    void mouseMoveEvent(QMouseEvent*) override;
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    void enterEvent(QEnterEvent *e) override;
+#else
+    void enterEvent(QEvent *e) override;
+#endif
+    void leaveEvent(QEvent *e) override;
+    void mouseMoveEvent(QMouseEvent *e) override;
 
-    void paintEvent(QPaintEvent*) override;
+    void paintEvent(QPaintEvent *e) override;
     void requestImageUpdate();
 
     QColor backgroundColor() const;
@@ -87,10 +92,10 @@ private:
     virtual bool updateImage(QImage &image) = 0;
     void updatePieceColors();
 
-    const BitTorrent::Torrent *m_torrent;
+    const BitTorrent::Torrent *m_torrent = nullptr;
     QImage m_image;
     // buffered 256 levels gradient from bg_color to piece_color
     QVector<QRgb> m_pieceColors;
-    bool m_hovered;
-    QRect m_highlitedRegion; //!< part of the bar can be highlighted; this rectangle is in the same frame as m_image
+    bool m_hovered = false;
+    QRect m_highlightedRegion; // part of the bar can be highlighted; this rectangle is in the same frame as m_image
 };

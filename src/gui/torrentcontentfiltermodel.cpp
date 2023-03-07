@@ -28,7 +28,6 @@
 
 #include "torrentcontentfiltermodel.h"
 
-#include "base/utils/string.h"
 #include "torrentcontentmodel.h"
 
 TorrentContentFilterModel::TorrentContentFilterModel(QObject *parent)
@@ -94,7 +93,7 @@ bool TorrentContentFilterModel::lessThan(const QModelIndex &left, const QModelIn
             {
                 const QString strL = left.data().toString();
                 const QString strR = right.data().toString();
-                return Utils::String::naturalLessThan<Qt::CaseInsensitive>(strL, strR);
+                return m_naturalLessThan(strL, strR);
             }
             if ((leftType == TorrentContentModelItem::FolderType) && (sortOrder() == Qt::AscendingOrder))
             {
@@ -111,17 +110,13 @@ bool TorrentContentFilterModel::lessThan(const QModelIndex &left, const QModelIn
 void TorrentContentFilterModel::selectAll()
 {
     for (int i = 0; i < rowCount(); ++i)
-        setData(index(i, 0), Qt::Checked, Qt::CheckStateRole);
-
-    emit dataChanged(index(0, 0), index((rowCount() - 1), (columnCount() - 1)));
+        setData(index(i, TorrentContentModelItem::COL_NAME), Qt::Checked, Qt::CheckStateRole);
 }
 
 void TorrentContentFilterModel::selectNone()
 {
     for (int i = 0; i < rowCount(); ++i)
-        setData(index(i, 0), Qt::Unchecked, Qt::CheckStateRole);
-
-    emit dataChanged(index(0, 0), index((rowCount() - 1), (columnCount() - 1)));
+        setData(index(i, TorrentContentModelItem::COL_NAME), Qt::Unchecked, Qt::CheckStateRole);
 }
 
 bool TorrentContentFilterModel::hasFiltered(const QModelIndex &folder) const

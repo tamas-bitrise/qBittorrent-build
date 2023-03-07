@@ -28,21 +28,20 @@
 
 #pragma once
 
-#include <QAbstractListModel>
 #include <QtContainerFwd>
+#include <QAbstractItemModel>
+
+#include "base/bittorrent/torrent.h"
+#include "base/tagset.h"
 
 class QModelIndex;
 
 class TagModelItem;
 
-namespace BitTorrent
-{
-    class Torrent;
-}
-
 class TagFilterModel final : public QAbstractListModel
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(TagFilterModel)
 
 public:
     explicit TagFilterModel(QObject *parent = nullptr);
@@ -64,7 +63,7 @@ private slots:
     void tagRemoved(const QString &tag);
     void torrentTagAdded(BitTorrent::Torrent *const torrent, const QString &tag);
     void torrentTagRemoved(BitTorrent::Torrent *const, const QString &tag);
-    void torrentAdded(BitTorrent::Torrent *const torrent);
+    void torrentsLoaded(const QVector<BitTorrent::Torrent *> &torrents);
     void torrentAboutToBeRemoved(BitTorrent::Torrent *const torrent);
 
 private:
@@ -76,7 +75,7 @@ private:
     bool isValidRow(int row) const;
     int findRow(const QString &tag) const;
     TagModelItem *findItem(const QString &tag);
-    QVector<TagModelItem *> findItems(const QSet<QString> &tags);
+    QVector<TagModelItem *> findItems(const TagSet &tags);
     TagModelItem *allTagsItem();
     TagModelItem *untaggedItem();
 

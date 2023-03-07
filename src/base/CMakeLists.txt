@@ -1,30 +1,38 @@
 add_library(qbt_base STATIC
     # headers
+    3rdparty/expected.hpp
     algorithm.h
+    applicationcomponent.h
     asyncfilestorage.h
     bittorrent/abstractfilestorage.h
     bittorrent/addtorrentparams.h
     bittorrent/bandwidthscheduler.h
+    bittorrent/bencoderesumedatastorage.h
     bittorrent/cachestatus.h
+    bittorrent/categoryoptions.h
     bittorrent/common.h
     bittorrent/customstorage.h
+    bittorrent/dbresumedatastorage.h
     bittorrent/downloadpriority.h
+    bittorrent/extensiondata.h
     bittorrent/filesearcher.h
     bittorrent/filterparserthread.h
     bittorrent/infohash.h
+    bittorrent/loadtorrentparams.h
+    bittorrent/ltqbitarray.h
     bittorrent/ltqhash.h
-    bittorrent/ltunderlyingtype.h
+    bittorrent/lttypecast.h
     bittorrent/magneturi.h
     bittorrent/nativesessionextension.h
     bittorrent/nativetorrentextension.h
     bittorrent/peeraddress.h
     bittorrent/peerinfo.h
     bittorrent/portforwarderimpl.h
-    bittorrent/resumedatasavingmanager.h
+    bittorrent/resumedatastorage.h
     bittorrent/session.h
+    bittorrent/sessionimpl.h
     bittorrent/sessionstatus.h
     bittorrent/speedmonitor.h
-    bittorrent/statistics.h
     bittorrent/torrent.h
     bittorrent/torrentcontentlayout.h
     bittorrent/torrentcreatorthread.h
@@ -34,7 +42,6 @@ add_library(qbt_base STATIC
     bittorrent/trackerentry.h
     digest32.h
     exceptions.h
-    filesystemwatcher.h
     global.h
     http/connection.h
     http/httperror.h
@@ -46,6 +53,8 @@ add_library(qbt_base STATIC
     http/types.h
     iconprovider.h
     indexrange.h
+    interfaces/iapplication.h
+    interfaces/istringable.h
     logger.h
     net/dnsupdater.h
     net/downloadhandlerimpl.h
@@ -56,9 +65,13 @@ add_library(qbt_base STATIC
     net/proxyconfigurationmanager.h
     net/reverseresolution.h
     net/smtp.h
+    orderedset.h
+    path.h
+    pathfwd.h
     preferences.h
     profile.h
     profile_p.h
+    rss/feed_serializer.h
     rss/rss_article.h
     rss/rss_autodownloader.h
     rss/rss_autodownloadrule.h
@@ -67,16 +80,18 @@ add_library(qbt_base STATIC
     rss/rss_item.h
     rss/rss_parser.h
     rss/rss_session.h
-    scanfoldersmodel.h
     search/searchdownloadhandler.h
     search/searchhandler.h
     search/searchpluginmanager.h
     settingsstorage.h
+    tagset.h
     torrentfileguard.h
+    torrentfileswatcher.h
     torrentfilter.h
     types.h
     unicodestrings.h
     utils/bytearray.h
+    utils/compare.h
     utils/foreignapps.h
     utils/fs.h
     utils/gzip.h
@@ -86,28 +101,33 @@ add_library(qbt_base STATIC
     utils/password.h
     utils/random.h
     utils/string.h
+    utils/thread.h
     utils/version.h
     version.h
 
     # sources
+    applicationcomponent.cpp
     asyncfilestorage.cpp
     bittorrent/abstractfilestorage.cpp
     bittorrent/bandwidthscheduler.cpp
+    bittorrent/bencoderesumedatastorage.cpp
+    bittorrent/categoryoptions.cpp
     bittorrent/customstorage.cpp
+    bittorrent/dbresumedatastorage.cpp
     bittorrent/downloadpriority.cpp
     bittorrent/filesearcher.cpp
     bittorrent/filterparserthread.cpp
     bittorrent/infohash.cpp
+    bittorrent/ltqbitarray.cpp
     bittorrent/magneturi.cpp
     bittorrent/nativesessionextension.cpp
     bittorrent/nativetorrentextension.cpp
     bittorrent/peeraddress.cpp
     bittorrent/peerinfo.cpp
     bittorrent/portforwarderimpl.cpp
-    bittorrent/resumedatasavingmanager.cpp
-    bittorrent/session.cpp
+    bittorrent/resumedatastorage.cpp
+    bittorrent/sessionimpl.cpp
     bittorrent/speedmonitor.cpp
-    bittorrent/statistics.cpp
     bittorrent/torrent.cpp
     bittorrent/torrentcreatorthread.cpp
     bittorrent/torrentimpl.cpp
@@ -115,7 +135,6 @@ add_library(qbt_base STATIC
     bittorrent/tracker.cpp
     bittorrent/trackerentry.cpp
     exceptions.cpp
-    filesystemwatcher.cpp
     http/connection.cpp
     http/httperror.cpp
     http/requestparser.cpp
@@ -133,9 +152,11 @@ add_library(qbt_base STATIC
     net/proxyconfigurationmanager.cpp
     net/reverseresolution.cpp
     net/smtp.cpp
+    path.cpp
     preferences.cpp
     profile.cpp
     profile_p.cpp
+    rss/feed_serializer.cpp
     rss/rss_article.cpp
     rss/rss_autodownloader.cpp
     rss/rss_autodownloadrule.cpp
@@ -144,14 +165,16 @@ add_library(qbt_base STATIC
     rss/rss_item.cpp
     rss/rss_parser.cpp
     rss/rss_session.cpp
-    scanfoldersmodel.cpp
     search/searchdownloadhandler.cpp
     search/searchhandler.cpp
     search/searchpluginmanager.cpp
     settingsstorage.cpp
+    tagset.cpp
     torrentfileguard.cpp
+    torrentfileswatcher.cpp
     torrentfilter.cpp
     utils/bytearray.cpp
+    utils/compare.cpp
     utils/foreignapps.cpp
     utils/fs.cpp
     utils/gzip.cpp
@@ -161,6 +184,7 @@ add_library(qbt_base STATIC
     utils/password.cpp
     utils/random.cpp
     utils/string.cpp
+    utils/thread.cpp
 )
 
 target_link_libraries(qbt_base
@@ -169,7 +193,7 @@ target_link_libraries(qbt_base
         ZLIB::ZLIB
     PUBLIC
         LibtorrentRasterbar::torrent-rasterbar
-        Qt5::Core Qt5::Network Qt5::Xml
+        Qt::Core Qt::Network Qt::Sql Qt::Xml
         qbt_common_cfg
 )
 
@@ -196,5 +220,5 @@ if (NOT WEBUI)
 endif()
 
 if (DBUS)
-    target_link_libraries(qbt_base PUBLIC Qt5::DBus)
+    target_link_libraries(qbt_base PUBLIC Qt::DBus)
 endif()

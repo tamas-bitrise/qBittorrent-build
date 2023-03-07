@@ -1,4 +1,4 @@
-AC_INIT([qbittorrent], [v4.3.4.1], [bugs.qbittorrent.org], [], [https://www.qbittorrent.org/])
+AC_INIT([qbittorrent], [v4.5.1], [bugs.qbittorrent.org], [], [https://www.qbittorrent.org/])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 : ${CFLAGS=""}
@@ -8,7 +8,7 @@ AC_PROG_CXX
 AC_PROG_SED
 AC_LANG(C++)
 AC_CANONICAL_HOST
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([foreign])
 
 # use compiler from env variables if available
 QBT_CC="$CC"
@@ -53,17 +53,32 @@ AC_ARG_ENABLE(qt-dbus,
               [enable_qt_dbus=yes])
 
 # Detect OS
-AC_MSG_CHECKING([whether OS is FreeBSD])
-AS_IF([expr "$host_os" : ".*freebsd.*" > /dev/null],
-      [AC_MSG_RESULT([yes])
-      LIBS="-lexecinfo $LIBS"],
-      [AC_MSG_RESULT([no])])
+AC_MSG_CHECKING([whether to enable specific tweaks for current host "$host_os"])
+case "$host_os" in
+    *darwin*)
+        AC_MSG_RESULT([yes])
+        enable_qt_dbus=no
+        ;;
 
-AC_MSG_CHECKING([whether OS is macOS])
-AS_IF([expr "$host_os" : ".*darwin.*" > /dev/null],
-      [AC_MSG_RESULT([yes])
-      enable_qt_dbus=no],
-      [AC_MSG_RESULT([no])])
+    *freebsd*)
+        AC_MSG_RESULT([yes])
+        LIBS="-lexecinfo $LIBS"
+        ;;
+
+    *haiku*)
+        AC_MSG_RESULT([yes])
+        LIBS="-lnetwork $LIBS"
+        ;;
+
+    *openbsd*)
+        AC_MSG_RESULT([yes])
+        LIBS="-lexecinfo $LIBS"
+        ;;
+
+    *)
+        AC_MSG_RESULT([no])
+        ;;
+esac
 
 # Require 0.23 pkg-config
 PKG_PROG_PKG_CONFIG([0.23])
@@ -141,7 +156,7 @@ AS_IF([test "x$QT_QMAKE" = "x"],
       [AC_MSG_ERROR([Could not find qmake])
       ])
 AS_IF([test "x$enable_gui" = "xyes"],
-      [PKG_CHECK_MODULES(Qt5Svg, [Qt5Svg >= 5.12])
+      [PKG_CHECK_MODULES(Qt5Svg, [Qt5Svg >= 5.15.2])
       ])
 AC_MSG_CHECKING([whether QtDBus should be enabled])
 AS_CASE(["x$enable_qt_dbus"],
@@ -159,7 +174,7 @@ AS_CASE(["x$enable_qt_dbus"],
         AC_MSG_ERROR([Unknown option "$enable_qt_dbus". Use either "yes" or "no".])])
 
 
-AX_BOOST_BASE([1.65],
+AX_BOOST_BASE([1.71],
               [AC_MSG_NOTICE([Boost CXXFLAGS: "$BOOST_CPPFLAGS"])
                AC_MSG_NOTICE([Boost LDFLAGS: "$BOOST_LDFLAGS"])],
               [AC_MSG_ERROR([Could not find Boost])])
@@ -172,17 +187,12 @@ m4_define([DETECT_BOOST_VERSION_PROGRAM],
     [AC_LANG_PROGRAM([[#include <boost/version.hpp>]],
                      [[(void) ((void)sizeof(char[1 - 2*!!((BOOST_VERSION) < ($1))]));]])])
 
-AC_COMPILE_IFELSE([DETECT_BOOST_VERSION_PROGRAM(106000)], [],
-    [QBT_ADD_DEFINES="$QBT_ADD_DEFINES BOOST_NO_CXX11_RVALUE_REFERENCES"])
-
-AX_BOOST_SYSTEM()
-AC_MSG_NOTICE([Boost.System LIB: "$BOOST_SYSTEM_LIB"])
-LIBS="$BOOST_SYSTEM_LIB $LIBS"
-
 PKG_CHECK_MODULES(libtorrent,
-                  [libtorrent-rasterbar >= 1.2.12],
-                  [CXXFLAGS="$libtorrent_CFLAGS $CXXFLAGS"
-                  LIBS="$libtorrent_LIBS $LIBS"])
+                  [libtorrent-rasterbar >= 2.0.8],
+                  [CXXFLAGS="$libtorrent_CFLAGS $CXXFLAGS" LIBS="$libtorrent_LIBS $LIBS" QBT_ADD_DEFINES="$QBT_ADD_DEFINES QBT_USES_LIBTORRENT2"],
+                  [PKG_CHECK_MODULES(libtorrent,
+                                     [libtorrent-rasterbar >= 1.2.18 libtorrent-rasterbar < 2],
+                                     [CXXFLAGS="$libtorrent_CFLAGS $CXXFLAGS" LIBS="$libtorrent_LIBS $LIBS"])])
 
 PKG_CHECK_MODULES(openssl,
                   [openssl >= 1.1.1],
@@ -216,7 +226,7 @@ AS_IF([test "x$QBT_CXX17_FOUND" = "xno"],
                          CXXFLAGS="-std=c++17 $TMP_CXXFLAGS"
                          AC_COMPILE_IFELSE([DETECT_CPP17_PROGRAM()],
                                            [AC_MSG_RESULT([no])
-                                            QBT_ADD_CONFIG="$QBT_ADD_CONFIG c++1z"
+                                            QBT_ADD_CONFIG="$QBT_ADD_CONFIG c++17"
                                             AC_MSG_WARN([C++17 mode is now force enabled. The C++ mode should match the mode that other libraries were built with, otherwise you'll likely get linking errors.])],
                                            [AC_MSG_RESULT([yes])
                                             AC_MSG_ERROR([The compiler supports C++17 but the user or a dependency has explicitly enabled a lower mode.])])],

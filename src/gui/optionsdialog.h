@@ -30,9 +30,10 @@
 
 #include <QDialog>
 
+#include "base/pathfwd.h"
 #include "base/settingvalue.h"
+#include "guiapplicationcomponent.h"
 
-class QCloseEvent;
 class QListWidgetItem;
 
 class AdvancedSettings;
@@ -40,10 +41,11 @@ class AdvancedSettings;
 // actions on double-click on torrents
 enum DoubleClickAction
 {
-    TOGGLE_PAUSE,
-    OPEN_DEST,
-    PREVIEW_FILE,
-    NO_ACTION
+    TOGGLE_PAUSE = 0,
+    OPEN_DEST = 1,
+    PREVIEW_FILE = 2,
+    NO_ACTION = 3,
+    SHOW_OPTIONS = 4
 };
 
 namespace Net
@@ -56,10 +58,10 @@ namespace Ui
     class OptionsDialog;
 }
 
-class OptionsDialog final : public QDialog
+class OptionsDialog final : public QDialog, public GUIApplicationComponent
 {
     Q_OBJECT
-    Q_DISABLE_COPY(OptionsDialog)
+    Q_DISABLE_COPY_MOVE(OptionsDialog)
 
     using ThisType = OptionsDialog;
 
@@ -75,15 +77,8 @@ class OptionsDialog final : public QDialog
         TAB_ADVANCED
     };
 
-    enum class ShowError
-    {
-        NotShow,
-        Show
-    };
-
 public:
-    // Constructor / Destructor
-    OptionsDialog(QWidget *parent = nullptr);
+    explicit OptionsDialog(IGUIApplication *app, QWidget *parent = nullptr);
     ~OptionsDialog() override;
 
 public slots:
@@ -92,38 +87,62 @@ public slots:
 private slots:
     void enableProxy(int index);
     void on_buttonBox_accepted();
-    void closeEvent(QCloseEvent *e) override;
     void on_buttonBox_rejected();
     void applySettings();
     void enableApplyButton();
     void toggleComboRatioLimitAct();
     void changePage(QListWidgetItem *, QListWidgetItem *);
     void loadSplitterState();
-    void handleScanFolderViewSelectionChanged();
+    void handleWatchedFolderViewSelectionChanged();
+    void editWatchedFolderOptions(const QModelIndex &index);
     void on_IpFilterRefreshBtn_clicked();
     void handleIPFilterParsed(bool error, int ruleCount);
     void on_banListButton_clicked();
     void on_IPSubnetWhitelistButton_clicked();
     void on_randomButton_clicked();
-    void on_addScanFolderButton_clicked();
-    void on_removeScanFolderButton_clicked();
-    void on_registerDNSBtn_clicked();
+    void on_addWatchedFolderButton_clicked();
+    void on_editWatchedFolderButton_clicked();
+    void on_removeWatchedFolderButton_clicked();
     void setLocale(const QString &localeStr);
-    void webUIHttpsCertChanged(const QString &path, ShowError showError);
-    void webUIHttpsKeyChanged(const QString &path, ShowError showError);
+
+#ifndef DISABLE_WEBUI
+    void webUIHttpsCertChanged(const Path &path);
+    void webUIHttpsKeyChanged(const Path &path);
+    void on_registerDNSBtn_clicked();
+#endif
 
 private:
+    void showEvent(QShowEvent *e) override;
+
     // Methods
-    void saveOptions();
-    void loadOptions();
-    void initializeLanguageCombo();
+    void saveOptions() const;
+
+    void loadBehaviorTabOptions();
+    void saveBehaviorTabOptions() const;
+
+    void loadDownloadsTabOptions();
+    void saveDownloadsTabOptions() const;
+
+    void loadConnectionTabOptions();
+    void saveConnectionTabOptions() const;
+
+    void loadSpeedTabOptions();
+    void saveSpeedTabOptions() const;
+
+    void loadBittorrentTabOptions();
+    void saveBittorrentTabOptions() const;
+
+    void loadRSSTabOptions();
+    void saveRSSTabOptions() const;
+
+#ifndef DISABLE_WEBUI
+    void loadWebUITabOptions();
+    void saveWebUITabOptions() const;
+#endif // DISABLE_WEBUI
+
     // General options
+    void initializeLanguageCombo();
     QString getLocale() const;
-#ifndef Q_OS_MACOS
-    bool systrayIntegration() const;
-    bool minimizeToTray() const;
-    bool closeToTray() const;
-#endif
     bool startMinimized() const;
     bool isSplashScreenDisabled() const;
 #ifdef Q_OS_WIN
@@ -133,17 +152,14 @@ private:
     bool preAllocateAllFiles() const;
     bool useAdditionDialog() const;
     bool addTorrentsInPause() const;
-    QString getTorrentExportDir() const;
-    QString getFinishedTorrentExportDir() const;
-    QString askForExportDir(const QString &currentExportPath);
-    int getActionOnDblClOnTorrentDl() const;
-    int getActionOnDblClOnTorrentFn() const;
+    Path getTorrentExportDir() const;
+    Path getFinishedTorrentExportDir() const;
     // Connection options
     int getPort() const;
     bool isUPnPEnabled() const;
     // Bittorrent options
-    int getMaxConnecs() const;
-    int getMaxConnecsPerTorrent() const;
+    int getMaxConnections() const;
+    int getMaxConnectionsPerTorrent() const;
     int getMaxUploads() const;
     int getMaxUploadsPerTorrent() const;
     bool isDHTEnabled() const;
@@ -161,31 +177,31 @@ private:
     Net::ProxyType getProxyType() const;
     // IP Filter
     bool isIPFilteringEnabled() const;
-    QString getFilter() const;
+    Path getFilter() const;
     // Queueing system
     bool isQueueingSystemEnabled() const;
     int getMaxActiveDownloads() const;
     int getMaxActiveUploads() const;
     int getMaxActiveTorrents() const;
     // WebUI
+#ifndef DISABLE_WEBUI
     bool isWebUiEnabled() const;
     QString webUiUsername() const;
     QString webUiPassword() const;
     bool webUIAuthenticationOk();
     bool isAlternativeWebUIPathValid();
+#endif
 
     bool schedTimesOk();
 
-    Ui::OptionsDialog *m_ui;
+    Ui::OptionsDialog *m_ui = nullptr;
     SettingValue<QSize> m_storeDialogSize;
     SettingValue<QStringList> m_storeHSplitterSize;
+    SettingValue<int> m_storeLastViewedPage;
 
-    QPushButton *m_applyButton;
+    QPushButton *m_applyButton = nullptr;
 
-    AdvancedSettings *m_advancedSettings;
-
-    QList<QString> m_addedScanDirs;
-    QList<QString> m_removedScanDirs;
+    AdvancedSettings *m_advancedSettings = nullptr;
 
     bool m_refreshingIpFilter = false;
 };

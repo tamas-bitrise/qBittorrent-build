@@ -41,7 +41,7 @@ namespace BitTorrent
 class StatusBar : public QStatusBar
 {
     Q_OBJECT
-    Q_DISABLE_COPY(StatusBar)
+    Q_DISABLE_COPY_MOVE(StatusBar)
 
 public:
     StatusBar(QWidget *parent = nullptr);
@@ -64,9 +64,9 @@ private:
     void updateDHTNodesNumber();
     void updateSpeedLabels();
 
-    QPushButton *m_dlSpeedLbl;
-    QPushButton *m_upSpeedLbl;
-    QLabel *m_DHTLbl;
-    QPushButton *m_connecStatusLblIcon;
-    QPushButton *m_altSpeedsBtn;
+    QPushButton *m_dlSpeedLbl = nullptr;
+    QPushButton *m_upSpeedLbl = nullptr;
+    QLabel *m_DHTLbl = nullptr;
+    QPushButton *m_connecStatusLblIcon = nullptr;
+    QPushButton *m_altSpeedsBtn = nullptr;
 };

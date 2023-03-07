@@ -42,19 +42,23 @@ QByteArray Http::toByteArray(Response response)
     response.headers[HEADER_DATE] = httpDate();
 
     QByteArray buf;
-    buf.reserve(10 * 1024);
+    buf.reserve(1024 + response.content.length());
 
     // Status Line
-    buf += QString("HTTP/%1 %2 %3")
-        .arg("1.1",  // TODO: depends on request
-            QString::number(response.status.code),
-            response.status.text)
-        .toLatin1()
+    buf.append("HTTP/1.1 ")  // TODO: depends on request
+        .append(QByteArray::number(response.status.code))
+        .append(' ')
+        .append(response.status.text.toLatin1())
         .append(CRLF);
 
     // Header Fields
     for (auto i = response.headers.constBegin(); i != response.headers.constEnd(); ++i)
-        buf += QString::fromLatin1("%1: %2").arg(i.key(), i.value()).toLatin1().append(CRLF);
+    {
+        buf.append(i.key().toLatin1())
+            .append(": ")
+            .append(i.value().toLatin1())
+            .append(CRLF);
+    }
 
     // the first empty line
     buf += CRLF;
@@ -70,13 +74,13 @@ QString Http::httpDate()
     // [RFC 7231] 7.1.1.1. Date/Time Formats
     // example: "Sun, 06 Nov 1994 08:49:37 GMT"
 
-    return QLocale::c().toString(QDateTime::currentDateTimeUtc(), QLatin1String("ddd, dd MMM yyyy HH:mm:ss"))
-        .append(QLatin1String(" GMT"));
+    return QLocale::c().toString(QDateTime::currentDateTimeUtc(), u"ddd, dd MMM yyyy HH:mm:ss"_qs)
+        .append(u" GMT");
 }
 
 void Http::compressContent(Response &response)
 {
-    if (response.headers.value(HEADER_CONTENT_ENCODING) != QLatin1String("gzip"))
+    if (response.headers.value(HEADER_CONTENT_ENCODING) != u"gzip")
         return;
 
     response.headers.remove(HEADER_CONTENT_ENCODING);
@@ -102,5 +106,5 @@ void Http::compressContent(Response &response)
         return;
 
     response.content = compressedData;
-    response.headers[HEADER_CONTENT_ENCODING] = QLatin1String("gzip");
+    response.headers[HEADER_CONTENT_ENCODING] = u"gzip"_qs;
 }

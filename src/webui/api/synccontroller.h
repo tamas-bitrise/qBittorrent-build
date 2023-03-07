@@ -29,10 +29,9 @@
 #pragma once
 
 #include <QElapsedTimer>
+#include <QVariantMap>
 
 #include "apicontroller.h"
-
-struct ISessionManager;
 
 class QThread;
 
@@ -41,25 +40,27 @@ class FreeDiskSpaceChecker;
 class SyncController : public APIController
 {
     Q_OBJECT
-    Q_DISABLE_COPY(SyncController)
+    Q_DISABLE_COPY_MOVE(SyncController)
 
 public:
     using APIController::APIController;
 
-    explicit SyncController(ISessionManager *sessionManager, QObject *parent = nullptr);
-    ~SyncController() override;
+    explicit SyncController(IApplication *app, QObject *parent = nullptr);
 
 private slots:
     void maindataAction();
     void torrentPeersAction();
-    void freeDiskSpaceSizeUpdated(qint64 freeSpaceSize);
 
 private:
     qint64 getFreeDiskSpace();
-    void invokeChecker() const;
+    void invokeChecker();
 
     qint64 m_freeDiskSpace = 0;
-    FreeDiskSpaceChecker *m_freeDiskSpaceChecker = nullptr;
-    QThread *m_freeDiskSpaceThread = nullptr;
     QElapsedTimer m_freeDiskSpaceElapsedTimer;
+    bool m_isFreeDiskSpaceCheckerRunning = false;
+
+    QVariantMap m_lastMaindataResponse;
+    QVariantMap m_lastAcceptedMaindataResponse;
+    QVariantMap m_lastPeersResponse;
+    QVariantMap m_lastAcceptedPeersResponse;
 };

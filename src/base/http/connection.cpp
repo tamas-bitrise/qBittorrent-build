@@ -45,8 +45,18 @@ Connection::Connection(QTcpSocket *socket, IRequestHandler *requestHandler, QObj
     , m_requestHandler(requestHandler)
 {
     m_socket->setParent(this);
+
+    // reset timer when there are activity
     m_idleTimer.start();
-    connect(m_socket, &QTcpSocket::readyRead, this, &Connection::read);
+    connect(m_socket, &QIODevice::readyRead, this, [this]()
+    {
+        m_idleTimer.start();
+        read();
+    });
+    connect(m_socket, &QIODevice::bytesWritten, this, [this]()
+    {
+        m_idleTimer.start();
+    });
 }
 
 Connection::~Connection()
@@ -56,7 +66,6 @@ Connection::~Connection()
 
 void Connection::read()
 {
-    m_idleTimer.restart();
     m_receivedData.append(m_socket->readAll());
 
     while (!m_receivedData.isEmpty())
@@ -66,15 +75,15 @@ void Connection::read()
         switch (result.status)
         {
         case RequestParser::ParseStatus::Incomplete:
-        {
+            {
                 const long bufferLimit = RequestParser::MAX_CONTENT_SIZE * 1.1;  // some margin for headers
                 if (m_receivedData.size() > bufferLimit)
                 {
-                    Logger::instance()->addMessage(tr("Http request size exceeds limitation, closing socket. Limit: %1, IP: %2")
+                    LogMsg(tr("Http request size exceeds limitation, closing socket. Limit: %1, IP: %2")
                         .arg(bufferLimit).arg(m_socket->peerAddress().toString()), Log::WARNING);
 
-                    Response resp(413, "Payload Too Large");
-                    resp.headers[HEADER_CONNECTION] = "close";
+                    Response resp(413, u"Payload Too Large"_qs);
+                    resp.headers[HEADER_CONNECTION] = u"close"_qs;
 
                     sendResponse(resp);
                     m_socket->close();
@@ -83,12 +92,12 @@ void Connection::read()
             return;
 
         case RequestParser::ParseStatus::BadRequest:
-        {
-                Logger::instance()->addMessage(tr("Bad Http request, closing socket. IP: %1")
+            {
+                LogMsg(tr("Bad Http request, closing socket. IP: %1")
                     .arg(m_socket->peerAddress().toString()), Log::WARNING);
 
-                Response resp(400, "Bad Request");
-                resp.headers[HEADER_CONNECTION] = "close";
+                Response resp(400, u"Bad Request"_qs);
+                resp.headers[HEADER_CONNECTION] = u"close"_qs;
 
                 sendResponse(resp);
                 m_socket->close();
@@ -96,15 +105,15 @@ void Connection::read()
             return;
 
         case RequestParser::ParseStatus::OK:
-        {
+            {
                 const Environment env {m_socket->localAddress(), m_socket->localPort(), m_socket->peerAddress(), m_socket->peerPort()};
 
                 Response resp = m_requestHandler->processRequest(result.request, env);
 
-                if (acceptsGzipEncoding(result.request.headers["accept-encoding"]))
-                    resp.headers[HEADER_CONTENT_ENCODING] = "gzip";
+                if (acceptsGzipEncoding(result.request.headers[u"accept-encoding"_qs]))
+                    resp.headers[HEADER_CONTENT_ENCODING] = u"gzip"_qs;
 
-                resp.headers[HEADER_CONNECTION] = "keep-alive";
+                resp.headers[HEADER_CONNECTION] = u"keep-alive"_qs;
 
                 sendResponse(resp);
                 m_receivedData = m_receivedData.mid(result.frameSize);
@@ -125,7 +134,9 @@ void Connection::sendResponse(const Response &response) const
 
 bool Connection::hasExpired(const qint64 timeout) const
 {
-    return m_idleTimer.hasExpired(timeout);
+    return (m_socket->bytesAvailable() == 0)
+        && (m_socket->bytesToWrite() == 0)
+        && m_idleTimer.hasExpired(timeout);
 }
 
 bool Connection::isClosed() const
@@ -137,9 +148,9 @@ bool Connection::acceptsGzipEncoding(QString codings)
 {
     // [rfc7231] 5.3.4. Accept-Encoding
 
-    const auto isCodingAvailable = [](const QVector<QStringRef> &list, const QString &encoding) -> bool
+    const auto isCodingAvailable = [](const QList<QStringView> &list, const QStringView encoding) -> bool
     {
-        for (const QStringRef &str : list)
+        for (const QStringView &str : list)
         {
             if (!str.startsWith(encoding))
                 continue;
@@ -149,7 +160,7 @@ bool Connection::acceptsGzipEncoding(QString codings)
                 return true;
 
             // [rfc7231] 5.3.1. Quality Values
-            const QStringRef substr = str.mid(encoding.size() + 3);  // ex. skip over "gzip;q="
+            const QStringView substr = str.mid(encoding.size() + 3);  // ex. skip over "gzip;q="
 
             bool ok = false;
             const double qvalue = substr.toDouble(&ok);
@@ -161,15 +172,15 @@ bool Connection::acceptsGzipEncoding(QString codings)
         return false;
     };
 
-    const QVector<QStringRef> list = codings.remove(' ').remove('\t').splitRef(',', QString::SkipEmptyParts);
+    const QList<QStringView> list = QStringView(codings.remove(u' ').remove(u'\t')).split(u',', Qt::SkipEmptyParts);
     if (list.isEmpty())
         return false;
 
-    const bool canGzip = isCodingAvailable(list, QLatin1String("gzip"));
+    const bool canGzip = isCodingAvailable(list, u"gzip"_qs);
     if (canGzip)
         return true;
 
-    const bool canAny = isCodingAvailable(list, QLatin1String("*"));
+    const bool canAny = isCodingAvailable(list, u"*"_qs);
     if (canAny)
         return true;
 

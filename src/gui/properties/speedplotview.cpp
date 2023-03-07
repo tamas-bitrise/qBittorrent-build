@@ -94,7 +94,7 @@ namespace
         // check is there need for digits after decimal separator
         const int precision = (argValue < 10) ? friendlyUnitPrecision(unit) : 0;
         return QLocale::system().toString(argValue, 'f', precision)
-               + QString::fromUtf8(C_NON_BREAKING_SPACE)
+               + C_NON_BREAKING_SPACE
                + unitString(unit, true);
     }
 }
@@ -110,7 +110,7 @@ SpeedPlotView::Averager::Averager(const milliseconds duration, const millisecond
 bool SpeedPlotView::Averager::push(const SampleData &sampleData)
 {
     // Accumulator overflow will be hit in worst case on longest used averaging span,
-    // defined by divider value. Maximum divider is DIVIDER_24HOUR = 144
+    // defined by resolution. Maximum resolution is 144 seconds
     // Using int32 for accumulator we get overflow when transfer speed reaches 2^31/144 ~~ 14.2 MBytes/s.
     // With quint64 this speed limit is 2^64/144 ~~ 114 PBytes/s.
     // This speed is inaccessible to an ordinary user.
@@ -267,7 +267,7 @@ quint64 SpeedPlotView::maxYValue() const
         if (!m_properties[static_cast<GraphID>(id)].enable)
             continue;
 
-        milliseconds duration {0ms};
+        milliseconds duration {0};
         for (int i = static_cast<int>(queue.size()) - 1; i >= 0; --i)
         {
             maxYValue = std::max(maxYValue, queue[i].data[id]);
@@ -360,7 +360,7 @@ void SpeedPlotView::paintEvent(QPaintEvent *)
             continue;
 
         QVector<QPoint> points;
-        milliseconds duration {0ms};
+        milliseconds duration {0};
 
         for (int i = static_cast<int>(queue.size()) - 1; i >= 0; --i)
         {

@@ -31,10 +31,12 @@
 #pragma once
 
 #include <optional>
-#include <stdexcept>
 
 #include <QString>
 #include <QStringList>
+
+#include "base/exceptions.h"
+#include "base/path.h"
 
 class QProcessEnvironment;
 
@@ -54,12 +56,13 @@ struct QBtCommandLineParameters
     bool shouldDaemonize;
 #endif
     int webUiPort;
+    int torrentingPort;
     std::optional<bool> addPaused;
     std::optional<bool> skipDialog;
     QStringList torrents;
-    QString profileDir;
+    Path profileDir;
     QString configurationName;
-    QString savePath;
+    Path savePath;
     QString category;
     QString unknownParameter;
 
@@ -67,14 +70,10 @@ struct QBtCommandLineParameters
     QStringList paramList() const;
 };
 
-class CommandLineParameterError : public std::runtime_error
+class CommandLineParameterError : public RuntimeError
 {
 public:
-    explicit CommandLineParameterError(const QString &messageForUser);
-    const QString &messageForUser() const;
-
-private:
-    const QString m_messageForUser;
+    using RuntimeError::RuntimeError;
 };
 
 QBtCommandLineParameters parseCommandLine(const QStringList &args);

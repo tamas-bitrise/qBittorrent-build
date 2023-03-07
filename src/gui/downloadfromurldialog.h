@@ -40,7 +40,7 @@ namespace Ui
 class DownloadFromURLDialog final : public QDialog
 {
     Q_OBJECT
-    Q_DISABLE_COPY(DownloadFromURLDialog)
+    Q_DISABLE_COPY_MOVE(DownloadFromURLDialog)
 
 public:
     explicit DownloadFromURLDialog(QWidget *parent);
@@ -50,9 +50,11 @@ signals:
     void urlsReadyToBeDownloaded(const QStringList &torrentURLs);
 
 private slots:
-    void downloadButtonClicked();
+    void onSubmit();
 
 private:
-    Ui::DownloadFromURLDialog *m_ui;
+    void keyPressEvent(QKeyEvent *event) override;
+
+    Ui::DownloadFromURLDialog *m_ui = nullptr;
     SettingValue<QSize> m_storeDialogSize;
 };

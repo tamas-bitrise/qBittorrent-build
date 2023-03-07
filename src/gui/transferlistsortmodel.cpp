@@ -34,7 +34,6 @@
 
 #include "base/bittorrent/infohash.h"
 #include "base/bittorrent/torrent.h"
-#include "base/utils/string.h"
 #include "transferlistmodel.h"
 
 namespace
@@ -45,6 +44,29 @@ namespace
         if (left == right)
             return 0;
         return (left < right) ? -1 : 1;
+    }
+
+    int customCompare(const QDateTime &left, const QDateTime &right)
+    {
+        const bool isLeftValid = left.isValid();
+        const bool isRightValid = right.isValid();
+
+        if (isLeftValid == isRightValid)
+            return threeWayCompare(left, right);
+        return isLeftValid ? -1 : 1;
+    }
+
+    int customCompare(const TagSet &left, const TagSet &right, const Utils::Compare::NaturalCompare<Qt::CaseInsensitive> &compare)
+    {
+        for (auto leftIter = left.cbegin(), rightIter = right.cbegin();
+            (leftIter != left.cend()) && (rightIter != right.cend());
+            ++leftIter, ++rightIter)
+        {
+            const int result = compare(*leftIter, *rightIter);
+            if (result != 0)
+                return result;
+        }
+        return threeWayCompare(left.size(), right.size());
     }
 
     template <typename T>
@@ -71,9 +93,23 @@ namespace
 
 TransferListSortModel::TransferListSortModel(QObject *parent)
     : QSortFilterProxyModel {parent}
-    , m_subSortColumn {"TransferList/SubSortColumn", TransferListModel::TR_NAME, adjustSubSortColumn}
+    , m_subSortColumn {u"TransferList/SubSortColumn"_qs, TransferListModel::TR_NAME, adjustSubSortColumn}
+    , m_subSortOrder {u"TransferList/SubSortOrder"_qs, 0}
 {
     setSortRole(TransferListModel::UnderlyingDataRole);
+}
+
+void TransferListSortModel::sort(const int column, const Qt::SortOrder order)
+{
+    if ((m_lastSortColumn != column) && (m_lastSortColumn != -1))
+    {
+        m_subSortColumn = m_lastSortColumn;
+        m_subSortOrder = m_lastSortOrder;
+    }
+    m_lastSortColumn = column;
+    m_lastSortOrder = ((order == Qt::AscendingOrder) ? 0 : 1);
+
+    QSortFilterProxyModel::sort(column, order);
 }
 
 void TransferListSortModel::setStatusFilter(TorrentFilter::Type filter)
@@ -127,11 +163,20 @@ int TransferListSortModel::compare(const QModelIndex &left, const QModelIndex &r
     switch (compareColumn)
     {
     case TransferListModel::TR_CATEGORY:
+    case TransferListModel::TR_DOWNLOAD_PATH:
     case TransferListModel::TR_NAME:
     case TransferListModel::TR_SAVE_PATH:
-    case TransferListModel::TR_TAGS:
     case TransferListModel::TR_TRACKER:
-        return Utils::String::naturalCompare(leftValue.toString(), rightValue.toString(), Qt::CaseInsensitive);
+        return m_naturalCompare(leftValue.toString(), rightValue.toString());
+
+    case TransferListModel::TR_INFOHASH_V1:
+        return threeWayCompare(leftValue.value<SHA1Hash>(), rightValue.value<SHA1Hash>());
+
+    case TransferListModel::TR_INFOHASH_V2:
+        return threeWayCompare(leftValue.value<SHA256Hash>(), rightValue.value<SHA256Hash>());
+
+    case TransferListModel::TR_TAGS:
+        return customCompare(leftValue.value<TagSet>(), rightValue.value<TagSet>(), m_naturalCompare);
 
     case TransferListModel::TR_AMOUNT_DOWNLOADED:
     case TransferListModel::TR_AMOUNT_DOWNLOADED_SESSION:
@@ -158,7 +203,7 @@ int TransferListSortModel::compare(const QModelIndex &left, const QModelIndex &r
     case TransferListModel::TR_ADD_DATE:
     case TransferListModel::TR_SEED_DATE:
     case TransferListModel::TR_SEEN_COMPLETE_DATE:
-        return threeWayCompare(leftValue.toDateTime(), rightValue.toDateTime());
+        return customCompare(leftValue.toDateTime(), rightValue.toDateTime());
 
     case TransferListModel::TR_DLLIMIT:
     case TransferListModel::TR_DLSPEED:
@@ -182,7 +227,7 @@ int TransferListSortModel::compare(const QModelIndex &left, const QModelIndex &r
         }
 
     default:
-        Q_ASSERT_X(false, Q_FUNC_INFO, "Missing comparsion case");
+        Q_ASSERT_X(false, Q_FUNC_INFO, "Missing comparison case");
         break;
     }
 
@@ -193,16 +238,16 @@ bool TransferListSortModel::lessThan(const QModelIndex &left, const QModelIndex 
 {
     Q_ASSERT(left.column() == right.column());
 
-    if (m_lastSortColumn != left.column())
-    {
-        if (m_lastSortColumn != -1)
-            m_subSortColumn = m_lastSortColumn;
-        m_lastSortColumn = left.column();
-    }
-
     const int result = compare(left, right);
     if (result == 0)
-        return compare(left.sibling(left.row(), m_subSortColumn), right.sibling(right.row(), m_subSortColumn)) < 0;
+    {
+        const int subResult = compare(left.sibling(left.row(), m_subSortColumn), right.sibling(right.row(), m_subSortColumn));
+        // Qt inverses lessThan() result when ordered descending.
+        // For sub-sorting we have to do it manually.
+        // When both are ordered descending subResult must be double-inversed, which is the same as no inversion.
+        const bool inverseSubResult = (m_lastSortOrder != m_subSortOrder); // exactly one is descending
+        return (inverseSubResult ? (subResult > 0) : (subResult < 0));
+    }
 
     return result < 0;
 }

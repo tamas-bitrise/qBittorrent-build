@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS language="he" version="2.1">
+<TS version="2.1" language="he">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -42,12 +42,36 @@
         <source>Don't create subfolder</source>
         <translation>אל תיצור תת־תיקייה</translation>
     </message>
+    <message>
+        <source>Manual</source>
+        <translation>ידני</translation>
+    </message>
+    <message>
+        <source>Automatic</source>
+        <translation>אוטומטי</translation>
+    </message>
+    <message>
+        <source>Metadata received</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Files checked</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Stop condition:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="unfinished" />
+    </message>
 </context>
 <context>
     <name>CategoryFilterModel</name>
     <message>
         <source>All</source>
-        <translation>הכל</translation>
+        <translation>הכול</translation>
     </message>
     <message>
         <source>Uncategorized</source>
@@ -77,16 +101,16 @@
         <translation>השהה טורנטים</translation>
     </message>
     <message>
-        <source>Delete torrents</source>
-        <translation>מחק טורנטים</translation>
-    </message>
-    <message>
         <source>New Category</source>
         <translation>קטגוריה חדשה</translation>
     </message>
     <message>
         <source>Edit category...</source>
         <translation>ערוך קטגוריה…</translation>
+    </message>
+    <message>
+        <source>Remove torrents</source>
+        <translation>הסר טורנטים</translation>
     </message>
 </context>
 <context>
@@ -144,10 +168,6 @@
         <translation>לא ניתן לשמור את העדפות התכנית, qBittorrent כנראה בלתי נגיש.</translation>
     </message>
     <message>
-        <source>IRC: #qbittorrent on Freenode</source>
-        <translation>IRC: ערוץ #qbittorrent על Freenode</translation>
-    </message>
-    <message>
         <source>Unknown</source>
         <translation>לא ידוע</translation>
     </message>
@@ -158,10 +178,6 @@
     <message>
         <source>Seeding time limit must be between 0 and 525600 minutes.</source>
         <translation>מגבלת זמן זריעה חייבת להיות בין 0 לבין 525600 דקות.</translation>
-    </message>
-    <message>
-        <source>The port used for incoming connections must be between 1 and 65535.</source>
-        <translation>הפתחה המשמשת לחיבורים נכנסים חייבת להיות בין 1 ל-65535.</translation>
     </message>
     <message>
         <source>The port used for the Web UI must be between 1 and 65535.</source>
@@ -188,10 +204,6 @@
         <translation>היכנס</translation>
     </message>
     <message>
-        <source>Original authors</source>
-        <translation>מחברים מקוריים</translation>
-    </message>
-    <message>
         <source>Apply</source>
         <translation>החל</translation>
     </message>
@@ -211,10 +223,6 @@
     <message>
         <source>Cookie:</source>
         <translation>עוגייה:</translation>
-    </message>
-    <message>
-        <source>Type folder here</source>
-        <translation>הקלד תיקייה כאן</translation>
     </message>
     <message>
         <source>More information</source>
@@ -239,11 +247,6 @@
     <message>
         <source>Rename torrent</source>
         <translation>שנה שם טורנט</translation>
-    </message>
-    <message>
-        <source>Other...</source>
-        <comment>Save Files to: Watch Folder / Default Folder / Other...</comment>
-        <translation>אחר…</translation>
     </message>
     <message>
         <source>Monday</source>
@@ -291,10 +294,6 @@
     <message>
         <source>Upload local torrent</source>
         <translation>העלה טורנט מקומי</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to delete the selected torrents from the transfer list?</source>
-        <translation>האם אתה בטוח שברצונך למחוק את הטורנטים הנבחרים מרשימת ההעברות?</translation>
     </message>
     <message>
         <source>Save</source>
@@ -370,11 +369,23 @@
     </message>
     <message>
         <source>Failed to update name</source>
-        <translation>נכשל בעדכון שם</translation>
+        <translation>כישלון בעדכון שם</translation>
     </message>
     <message>
         <source>OK</source>
         <translation>אשר</translation>
+    </message>
+    <message>
+        <source>The port used for incoming connections must be between 0 and 65535.</source>
+        <translation>הפתחה המשמשת לחיבורים נכנסים חייבת להיות בין 0 לבין 65535.</translation>
+    </message>
+    <message>
+        <source>Original author</source>
+        <translation>מחבר מקורי</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove the selected torrents from the transfer list?</source>
+        <translation>האם אתה בטוח שאתה רוצה להסיר את הטורנטים הנבחרים מרשימת ההעברות?</translation>
     </message>
 </context>
 <context>
@@ -425,7 +436,7 @@
     </message>
     <message>
         <source>Resume All</source>
-        <translation>המשך הכל</translation>
+        <translation>המשך הכול</translation>
     </message>
     <message>
         <source>Statistics</source>
@@ -440,12 +451,8 @@
         <translation>השהה</translation>
     </message>
     <message>
-        <source>Delete</source>
-        <translation>מחק</translation>
-    </message>
-    <message>
         <source>Pause All</source>
-        <translation>השהה הכל</translation>
+        <translation>השהה הכול</translation>
     </message>
     <message>
         <source>Add Torrent File...</source>
@@ -558,7 +565,7 @@
     </message>
     <message>
         <source>Download speed icon</source>
-        <translation>צלמית מהירות הורדה</translation>
+        <translation>איקון מהירות הורדה</translation>
     </message>
     <message>
         <source>Connection status</source>
@@ -570,7 +577,7 @@
     </message>
     <message>
         <source>Upload speed icon</source>
-        <translation>צלמית מהירות העלאה</translation>
+        <translation>איקון מהירות העלאה</translation>
     </message>
     <message>
         <source>Connection status: Disconnected</source>
@@ -583,6 +590,34 @@
     <message>
         <source>RSS</source>
         <translation>RSS</translation>
+    </message>
+    <message>
+        <source>Filters Sidebar</source>
+        <translation>סרגל צד של מסננים</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>בטל</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>הסר</translation>
+    </message>
+    <message>
+        <source>Would you like to resume all torrents?</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Would you like to pause all torrents?</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Execution Log</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Log</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -624,10 +659,6 @@
         <translation>התראת דוא״ל בעת השלמת הורדה</translation>
     </message>
     <message>
-        <source>Run external program on torrent completion</source>
-        <translation>הרץ תכנית חיצונית בעת השלמת טורנט</translation>
-    </message>
-    <message>
         <source>IP Filtering</source>
         <translation>סינון IP</translation>
     </message>
@@ -649,7 +680,7 @@
     </message>
     <message>
         <source>IP address:</source>
-        <translation>:כתובת IP</translation>
+        <translation>כתובת IP:</translation>
     </message>
     <message>
         <source>Server domains:</source>
@@ -693,7 +724,7 @@
     </message>
     <message>
         <source>Automatically add torrents from:</source>
-        <translation>הוסף טורנטים באופן אוטומטי מ:</translation>
+        <translation>הוסף טורנטים באופן אוטומטי מן:</translation>
     </message>
     <message>
         <source>SMTP server:</source>
@@ -730,10 +761,6 @@
     <message>
         <source>Use UPnP / NAT-PMP port forwarding from my router</source>
         <translation>השתמש בקידום פתחות UPnP / NAT-PMP מהנתב שלי</translation>
-    </message>
-    <message>
-        <source>Use different port on each startup</source>
-        <translation>השתמש בפתחה שונה בכל הזנק</translation>
     </message>
     <message>
         <source>Connections Limits</source>
@@ -970,10 +997,6 @@
         <translation>%T: גשש נוכחי</translation>
     </message>
     <message>
-        <source>%I: Info hash</source>
-        <translation>%I: גיבוב מידע</translation>
-    </message>
-    <message>
         <source>Tip: Encapsulate parameter with quotation marks to avoid text being cut off at whitespace (e.g., "%N")</source>
         <translation>עצה: תמצת פרמטר בעזרת סימני ציטוט כדי למנוע ממלל להיחתך בשטח לבן (לדוגמה, "%N")</translation>
     </message>
@@ -1142,10 +1165,6 @@
         <translation>נגד־עלוקה</translation>
     </message>
     <message>
-        <source>Enable OS cache:</source>
-        <translation>אפשר מטמון OS:</translation>
-    </message>
-    <message>
         <source>When ratio reaches</source>
         <translation>כאשר יחס מגיע אל</translation>
     </message>
@@ -1155,7 +1174,7 @@
     </message>
     <message>
         <source>Allow multiple connections from the same IP address:</source>
-        <translation>אפשר חיבורים רבים מאותה כתובת IP:</translation>
+        <translation>התר חיבורים רבים מאותה כתובת IP:</translation>
     </message>
     <message>
         <source>File pool size:</source>
@@ -1200,10 +1219,6 @@
     <message>
         <source>Outgoing ports (Min) [0: Disabled]:</source>
         <translation>פתחות יוצאות (מיזער) [0: מושבת]:</translation>
-    </message>
-    <message>
-        <source>IP Address to report to trackers (requires restart):</source>
-        <translation>כתובת IP לדיווח לגששים (דורש הפעלה מחדש):</translation>
     </message>
     <message>
         <source>Recheck torrents on completion:</source>
@@ -1306,10 +1321,6 @@
         <translation>החרם למשך:</translation>
     </message>
     <message>
-        <source>Use piece extent affinity (requires libtorrent &gt;= 1.2.2):</source>
-        <translation>השתמש במידת קירבה של חתיכות (דורש libtorrent &gt;= 1.2.2):</translation>
-    </message>
-    <message>
         <source>Stop tracker timeout:</source>
         <translation>עצור פסק זמן של גששים:</translation>
     </message>
@@ -1379,7 +1390,7 @@
     </message>
     <message>
         <source>Feeds refresh interval:</source>
-        <translation>מרווח רענון הזנות:</translation>
+        <translation>מרווח ריענון הזנות:</translation>
     </message>
     <message>
         <source>Peer turnover disconnect percentage:</source>
@@ -1388,10 +1399,6 @@
     <message>
         <source>Maximum number of articles per feed:</source>
         <translation>מספר מירבי של מאמרים להזנה:</translation>
-    </message>
-    <message>
-        <source>Max concurrent HTTP announces (requires libtorrent &gt;= 1.2.7):</source>
-        <translation>הכרזות HTTP מרביות במקביל (דורש libtorrent &gt;= 1.2.7):</translation>
     </message>
     <message>
         <source> min</source>
@@ -1434,10 +1441,6 @@
         <translation>פרוטוקול חיבור עמיתים:</translation>
     </message>
     <message>
-        <source>Support internationalized domain name (IDN) (requires libtorrent &gt;= 1.2.12):</source>
-        <translation>תמוך בשם בינלאומי של תחום (IDN) (דורש libtorrent &gt;= 1.2.12):</translation>
-    </message>
-    <message>
         <source>Torrent content layout:</source>
         <translation>סידור תוכן של טורנט:</translation>
     </message>
@@ -1455,6 +1458,218 @@
     </message>
     <message>
         <source>Type of service (ToS) for connections to peers</source>
+        <translation>סוג של שירות (ToS) עבור חיבורים אל עמיתים</translation>
+    </message>
+    <message>
+        <source>Outgoing connections per second:</source>
+        <translation>חיבורים יוצאים לשנייה:</translation>
+    </message>
+    <message>
+        <source>Random</source>
+        <translation>אקראי</translation>
+    </message>
+    <message>
+        <source>%K: Torrent ID</source>
+        <translation>%K: זהות טורנט</translation>
+    </message>
+    <message>
+        <source>Reannounce to all trackers when IP or port changed:</source>
+        <translation>הכרז מחדש אל כל הגששים כאשר IP או פתחה השתנו:</translation>
+    </message>
+    <message>
+        <source>Trusted proxies list:</source>
+        <translation>רשימת ייפויי כוח מהימנים:</translation>
+    </message>
+    <message>
+        <source>Enable reverse proxy support</source>
+        <translation>אפשר תמיכה בייפוי כוח מהופך</translation>
+    </message>
+    <message>
+        <source>%J: Info hash v2</source>
+        <translation>%J: גיבוב מידע גרסה 2</translation>
+    </message>
+    <message>
+        <source>%I: Info hash v1</source>
+        <translation>%I: גיבוב מידע גרסה 1</translation>
+    </message>
+    <message>
+        <source>IP address reported to trackers (requires restart):</source>
+        <translation>כתובת IP דווחה אל גששים (דורש הפעלה מחדש):</translation>
+    </message>
+    <message>
+        <source>Set to 0 to let your system pick an unused port</source>
+        <translation>הגדר אל 0 כדי לתת למערכת שלך לבחור פתחה שאינה בשימוש</translation>
+    </message>
+    <message>
+        <source>Server-side request forgery (SSRF) mitigation:</source>
+        <translation>שיכוך של זיוף בקשות צד־שרת (SSRF):</translation>
+    </message>
+    <message>
+        <source>Disk queue size:</source>
+        <translation>גודל תור בדיסק:</translation>
+    </message>
+    <message>
+        <source>Log performance warnings</source>
+        <translation>כתוב ביומן אזהרות ביצוע</translation>
+    </message>
+    <message>
+        <source>Maximum outstanding requests to a single peer:</source>
+        <translation>בקשות חריגות מרביות אל עמית יחיד:</translation>
+    </message>
+    <message>
+        <source>Max active checking torrents:</source>
+        <translation>טורנטים נבדקים פעילים מרביים:</translation>
+    </message>
+    <message>
+        <source>Memory mapped files</source>
+        <translation>קבצים ממופי זיכרון</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>ברירת מחדל</translation>
+    </message>
+    <message>
+        <source>POSIX-compliant</source>
+        <translation>תואם POSIX</translation>
+    </message>
+    <message>
+        <source>This option is less effective on Linux</source>
+        <translation>אפשרות זו פחות יעילה על Linux</translation>
+    </message>
+    <message>
+        <source>Disk IO type (libtorrent &gt;= 2.0; requires restart):</source>
+        <translation>סוג ק/פ של דיסק (libtorrent &gt;= 2.0; דורש הפעלה מחדש):</translation>
+    </message>
+    <message>
+        <source>Write-through (requires libtorrent &gt;= 2.0.6)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>It controls the internal state update interval which in turn will affect UI updates</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Disk IO read mode:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Disable OS cache</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Disk IO write mode:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Use piece extent affinity:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Max concurrent HTTP announces:</source>
+        <translation>הכרזות HTTP מרביות במקביל:</translation>
+    </message>
+    <message>
+        <source>Enable OS cache</source>
+        <translation>אפשר מטמון OS</translation>
+    </message>
+    <message>
+        <source>Refresh interval:</source>
+        <translation>מרווח ריענון:</translation>
+    </message>
+    <message>
+        <source>Physical memory (RAM) usage limit (applied if libtorrent &gt;= 2.0):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>ms</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Excluded file names</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Support internationalized domain name (IDN):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Run external program on torrent finished</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Whitelist for filtering HTTP Host header values.
+In order to defend against DNS rebinding attack,
+you should put in domain names used by WebUI server.
+
+Use ';' to split multiple entries. Can use wildcard '*'.</source>
+        <translation>רשימה לבנה עבור סינון ערכי כותרת של מארח HTTP.
+על מנת להגן מפני מתקפת קשירה מחדש של DNS,
+אתה צריך להכניס שמות חתום הנמצאים בשימוש ע״י שרת ממשק רשת.
+
+השתמש ב־';' כדי לפצל כניסות רבות. ניתן להשתמש בתו כללי '*'.</translation>
+    </message>
+    <message>
+        <source>Run external program on torrent added</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>HTTPS certificate should not be empty</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Specify reverse proxy IPs (or subnets, e.g. 0.0.0.0/24) in order to use forwarded client address (X-Forwarded-For header). Use ';' to split multiple entries.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>HTTPS key should not be empty</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Run external program</source>
+        <translation>הרץ תוכנית חיצונית</translation>
+    </message>
+    <message>
+        <source>Files checked</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Enable port forwarding for embedded tracker:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>If checked, hostname lookups are done via the proxy.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Use proxy for hostname lookup</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Metadata received</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Torrent stop condition:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Example: 172.17.32.0/24, fdff:ffff:c8::/40</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>SQLite database (experimental)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Resume data storage type (requires restart):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Fastresume files</source>
         <translation type="unfinished" />
     </message>
 </context>
@@ -1529,12 +1744,16 @@
         <translation>העתק IP:פתחה</translation>
     </message>
     <message>
-        <source>Add a new peer...</source>
-        <translation>הוסף עמית חדש…</translation>
-    </message>
-    <message>
         <source>Country/Region</source>
         <translation>מדינה/אזור</translation>
+    </message>
+    <message>
+        <source>Add peers...</source>
+        <translation>הוסף עמיתים…</translation>
+    </message>
+    <message>
+        <source>Peer ID Client</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -1686,10 +1905,6 @@
         <translation>נוצר ב:</translation>
     </message>
     <message>
-        <source>Torrent Hash:</source>
-        <translation>גיבוב טורנט:</translation>
-    </message>
-    <message>
         <source>Save Path:</source>
         <translation>נתיב שמירה:</translation>
     </message>
@@ -1743,7 +1958,23 @@
     </message>
     <message>
         <source>%1 (seeded for %2)</source>
-        <translation type="unfinished" />
+        <translation>%1 (נזרע למשך %2)</translation>
+    </message>
+    <message>
+        <source>Info Hash v2:</source>
+        <translation>גיבוב מידע גרסה 2:</translation>
+    </message>
+    <message>
+        <source>Info Hash v1:</source>
+        <translation>גיבוב מידע גרסה 1:</translation>
+    </message>
+    <message>
+        <source>N/A</source>
+        <translation>לא זמין</translation>
+    </message>
+    <message>
+        <source>Progress:</source>
+        <translation>התקדמות:</translation>
     </message>
 </context>
 <context>
@@ -1763,6 +1994,14 @@
     <message>
         <source>Default save location</source>
         <translation>מיקום שמירה ברירת מחדל</translation>
+    </message>
+    <message>
+        <source>Other...</source>
+        <translation>אחר…</translation>
+    </message>
+    <message>
+        <source>Type folder here</source>
+        <translation>הקלד תיקייה כאן</translation>
     </message>
 </context>
 <context>
@@ -1851,7 +2090,7 @@
     <message>
         <source>All (0)</source>
         <comment>this is for the status filter</comment>
-        <translation>הכל (0)</translation>
+        <translation>הכול (0)</translation>
     </message>
     <message>
         <source>Downloading (0)</source>
@@ -1887,7 +2126,7 @@
     </message>
     <message>
         <source>All (%1)</source>
-        <translation>הכל (%1)</translation>
+        <translation>הכול (%1)</translation>
     </message>
     <message>
         <source>Downloading (%1)</source>
@@ -1944,6 +2183,14 @@
     <message>
         <source>Stalled (%1)</source>
         <translation>ממתין (%1)</translation>
+    </message>
+    <message>
+        <source>Checking (%1)</source>
+        <translation>בודק (%1)</translation>
+    </message>
+    <message>
+        <source>Checking (0)</source>
+        <translation>בודק (0)</translation>
     </message>
 </context>
 <context>
@@ -2117,10 +2364,6 @@
         <translation>הודעה</translation>
     </message>
     <message>
-        <source>Downloaded</source>
-        <translation>ירד</translation>
-    </message>
-    <message>
         <source>Tracker URL:</source>
         <translation>כתובת גשש:</translation>
     </message>
@@ -2155,10 +2398,6 @@
     <message>
         <source>Copy tracker URL</source>
         <translation>העתק כתובת גשש</translation>
-    </message>
-    <message>
-        <source>Add a new tracker...</source>
-        <translation>הוסף גשש חדש…</translation>
     </message>
     <message>
         <source>Edit tracker URL...</source>
@@ -2201,19 +2440,27 @@
         <translation>התקדמות</translation>
     </message>
     <message>
-        <source>Size</source>
-        <translation>גודל</translation>
+        <source>Total Size</source>
+        <translation>גודל כולל</translation>
+    </message>
+    <message>
+        <source>Times Downloaded</source>
+        <translation>פעמים שהורד</translation>
+    </message>
+    <message>
+        <source>Add trackers...</source>
+        <translation>הוסף גששים…</translation>
     </message>
 </context>
 <context>
     <name>TrackersAdditionDialog</name>
     <message>
-        <source>Trackers addition dialog</source>
-        <translation>דו שיח הוספת גששים</translation>
-    </message>
-    <message>
         <source>List of trackers to add (one per line):</source>
         <translation>רשימת גששים להוספה (אחד לשורה):</translation>
+    </message>
+    <message>
+        <source>Add trackers</source>
+        <translation>הוסף גששים</translation>
     </message>
 </context>
 <context>
@@ -2285,7 +2532,11 @@
     </message>
     <message>
         <source>%1 (seeded for %2)</source>
-        <translation type="unfinished" />
+        <translation>%1 (נזרע למשך %2)</translation>
+    </message>
+    <message>
+        <source>[F] Downloading metadata</source>
+        <translation>[א] מוריד מטא־נתונים</translation>
     </message>
 </context>
 <context>
@@ -2335,11 +2586,6 @@
         <source>Pause</source>
         <comment>Pause the torrent</comment>
         <translation>השהה</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <comment>Delete the torrent</comment>
-        <translation>מחק</translation>
     </message>
     <message>
         <source>Limit share ratio...</source>
@@ -2416,10 +2662,6 @@
         <translation>הורד בסדר עוקב</translation>
     </message>
     <message>
-        <source>Force Recheck</source>
-        <translation>אלץ בדיקה חוזרת</translation>
-    </message>
-    <message>
         <source>New Category</source>
         <translation>קטגוריה חדשה</translation>
     </message>
@@ -2464,12 +2706,8 @@
         <translation>קישור מגנט</translation>
     </message>
     <message>
-        <source>Hash</source>
-        <translation>גיבוב</translation>
-    </message>
-    <message>
         <source>Remove All</source>
-        <translation>הסר הכל</translation>
+        <translation>הסר הכול</translation>
     </message>
     <message>
         <source>Name</source>
@@ -2486,6 +2724,26 @@
     <message>
         <source>Add...</source>
         <translation>הוסף…</translation>
+    </message>
+    <message>
+        <source>Info hash v1</source>
+        <translation>גיבוב מידע גרסה 1</translation>
+    </message>
+    <message>
+        <source>Info hash v2</source>
+        <translation>גיבוב מידע גרסה 2</translation>
+    </message>
+    <message>
+        <source>Torrent ID</source>
+        <translation>זהות טורנט</translation>
+    </message>
+    <message>
+        <source>Export .torrent</source>
+        <translation>ייצא טורנט</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>הסר</translation>
     </message>
 </context>
 <context>
@@ -2521,16 +2779,12 @@
 <context>
     <name>confirmDeletionDlg</name>
     <message>
-        <source>Deletion confirmation</source>
-        <translation>אישור מחיקה</translation>
+        <source>Also permanently delete the files</source>
+        <translation>בנוסף מחק את הקבצים לצמיתות</translation>
     </message>
     <message>
-        <source>Also delete the files on the hard disk</source>
-        <translation>מחק את הקבצים גם מהכונן הקשיח</translation>
-    </message>
-    <message>
-        <source>Deletion confirmation - qBittorrent</source>
-        <translation>אישור מחיקה - qBittorrent</translation>
+        <source>Remove torrent(s)</source>
+        <translation>הסר טורנט(ים)</translation>
     </message>
 </context>
 <context>
@@ -2617,7 +2871,7 @@
     </message>
     <message>
         <source>%1y %2d</source>
-        <translation type="unfinished" />
+        <translation>%1y %2d</translation>
     </message>
 </context>
 <context>
@@ -2685,10 +2939,6 @@
         <translation>חפש ב:</translation>
     </message>
     <message>
-        <source>Results (showing</source>
-        <translation>תוצאות (מראה</translation>
-    </message>
-    <message>
         <source>Filter</source>
         <translation>סנן</translation>
     </message>
@@ -2715,6 +2965,26 @@
     <message>
         <source>Increase window width to display additional filters</source>
         <translation>הרחב רוחב חלון כדי להציג מסננים נוספים</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>אל</translation>
+    </message>
+    <message>
+        <source>Results</source>
+        <translation>תוצאות</translation>
+    </message>
+    <message>
+        <source>showing</source>
+        <translation>מראה</translation>
+    </message>
+    <message>
+        <source>Click the "Search plugins..." button at the bottom right of the window to install some.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>There aren't any search plugins installed.</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -2745,7 +3015,7 @@
     </message>
     <message>
         <source>Warning: Be sure to comply with your country's copyright laws when downloading torrents from any of these search engines.</source>
-        <translation>אזהרה: הייה בטוח להיענות לחוקי זכויות היוצרים של מדינתך בעת הורדת טורנטים מכל אחד ממנועי חיפוש אלו.</translation>
+        <translation>אזהרה: הייה בטוח להיענות לחוקי זכויות היוצרים של מדינתך בזמן הורדת טורנטים מכל אחד ממנועי החיפוש האלו.</translation>
     </message>
     <message>
         <source>Check for updates</source>
@@ -2840,10 +3110,6 @@
         <translation>הוסף תגית…</translation>
     </message>
     <message>
-        <source>Delete torrents</source>
-        <translation>מחק טורנטים</translation>
-    </message>
-    <message>
         <source>Tag:</source>
         <translation>תגית:</translation>
     </message>
@@ -2867,12 +3133,16 @@
         <source>Remove tag</source>
         <translation>הסר תגית</translation>
     </message>
+    <message>
+        <source>Remove torrents</source>
+        <translation>הסר טורנטים</translation>
+    </message>
 </context>
 <context>
     <name>TagFilterModel</name>
     <message>
         <source>All</source>
-        <translation>הכל</translation>
+        <translation>הכול</translation>
     </message>
     <message>
         <source>Untagged</source>
@@ -2942,16 +3212,28 @@
         <translation>לאום:</translation>
     </message>
     <message>
-        <source>Author</source>
-        <translation>מחבר</translation>
-    </message>
-    <message>
         <source>Software Used</source>
         <translation>תוכנות בשימוש</translation>
     </message>
     <message>
         <source>The free IP to Country Lite database by DB-IP is used for resolving the countries of peers. The database is licensed under the Creative Commons Attribution 4.0 International License</source>
         <translation>מסד־הנתונים החינמי IP to Country Lite מאת DB-IP משמש עבור פתירת מדינות של עמיתים. מסד־הנתונים ברישיון תחת הרישיון הבינלאומי Creative Commons Attribution 4.0</translation>
+    </message>
+    <message>
+        <source>Authors</source>
+        <translation>מחברים</translation>
+    </message>
+    <message>
+        <source>France</source>
+        <translation>צרפת</translation>
+    </message>
+    <message>
+        <source>qBittorrent Mascot</source>
+        <translation>qBittorrent Mascot</translation>
+    </message>
+    <message>
+        <source>qBittorrent icon</source>
+        <translation>איקון של qBittorrent</translation>
     </message>
 </context>
 <context>
@@ -3027,7 +3309,7 @@
     </message>
     <message>
         <source>Update all</source>
-        <translation>עדכן הכל</translation>
+        <translation>עדכן הכול</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -3354,16 +3636,12 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
 <context>
     <name>TrackerFiltersList</name>
     <message>
-        <source>Delete torrents</source>
-        <translation>מחק טורנטים</translation>
-    </message>
-    <message>
         <source>Resume torrents</source>
         <translation>המשך טורנטים</translation>
     </message>
     <message>
         <source>All (%1)</source>
-        <translation>הכל (%1)</translation>
+        <translation>הכול (%1)</translation>
     </message>
     <message>
         <source>Trackerless (%1)</source>
@@ -3373,12 +3651,155 @@ Supports the formats: S01E01, 1x1, 2017.12.31 and 31.12.2017 (Date formats also 
         <source>Pause torrents</source>
         <translation>השהה טורנטים</translation>
     </message>
+    <message>
+        <source>Remove torrents</source>
+        <translation>הסר טורנטים</translation>
+    </message>
 </context>
 <context>
     <name>FeedListWidget</name>
     <message>
         <source>RSS feeds</source>
         <translation>הזנות RSS</translation>
+    </message>
+    <message>
+        <source>Unread</source>
+        <translation>לא נקרא</translation>
+    </message>
+</context>
+<context>
+    <name>ExecutionLogWidget</name>
+    <message>
+        <source>General</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Blocked</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>All</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>showing</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Select All</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>ID</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Log Type</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Information Messages</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Warning Messages</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Filter logs</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Blocked IPs</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>out of</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Status</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Timestamp</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Clear All</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Message</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Log Levels:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>item</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>IP</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Banned</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Normal Messages</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Critical Messages</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>items</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Results</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Choose a log level...</source>
+        <translation type="unfinished" />
     </message>
 </context>
 </TS>

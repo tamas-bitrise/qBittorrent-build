@@ -33,18 +33,18 @@
 #include <QtGlobal>
 
 #ifdef Q_OS_WIN
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
 #include <Windows.h>
 #include <Ntsecapi.h>
 #else  // Q_OS_WIN
+#include <cerrno>
 #include <cstdio>
+#include <cstring>
 #endif
 
 #include <QString>
 
-#include "misc.h"
+#include "base/global.h"
+#include "base/utils/misc.h"
 
 namespace
 {
@@ -56,7 +56,7 @@ namespace
         using result_type = uint32_t;
 
         RandomLayer()
-            : m_rtlGenRandom {Utils::Misc::loadWinAPI<PRTLGENRANDOM>("Advapi32.dll", "SystemFunction036")}
+            : m_rtlGenRandom {Utils::Misc::loadWinAPI<PRTLGENRANDOM>(u"Advapi32.dll"_qs, "SystemFunction036")}
         {
             if (!m_rtlGenRandom)
                 qFatal("Failed to load RtlGenRandom()");
@@ -97,7 +97,7 @@ namespace
             : m_randDev {fopen("/dev/urandom", "rb")}
         {
             if (!m_randDev)
-                qFatal("Failed to open /dev/urandom");
+                qFatal("Failed to open /dev/urandom. Reason: %s. Error code: %d.\n", std::strerror(errno), errno);
         }
 
         ~RandomLayer()
@@ -119,13 +119,13 @@ namespace
         {
             result_type buf = 0;
             if (fread(&buf, sizeof(buf), 1, m_randDev) != 1)
-                qFatal("Read /dev/urandom error");
+                qFatal("Read /dev/urandom error. Reason: %s. Error code: %d.\n", std::strerror(errno), errno);
 
             return buf;
         }
 
     private:
-        FILE *m_randDev;
+        FILE *m_randDev = nullptr;
     };
 #endif
 }

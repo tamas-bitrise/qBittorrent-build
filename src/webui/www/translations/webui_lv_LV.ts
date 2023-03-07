@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS language="lv_LV" version="2.1">
+<TS version="2.1" language="lv_LV">
 <context>
     <name>AboutDlg</name>
     <message>
@@ -28,11 +28,11 @@
     </message>
     <message>
         <source>Content layout:</source>
-        <translation type="unfinished" />
+        <translation>Satura izkārtojums:</translation>
     </message>
     <message>
         <source>Original</source>
-        <translation type="unfinished" />
+        <translation>Oriģinālais</translation>
     </message>
     <message>
         <source>Create subfolder</source>
@@ -41,6 +41,30 @@
     <message>
         <source>Don't create subfolder</source>
         <translation>Neizveidot apakšmapi</translation>
+    </message>
+    <message>
+        <source>Manual</source>
+        <translation>Manuāli</translation>
+    </message>
+    <message>
+        <source>Automatic</source>
+        <translation>Automātiski</translation>
+    </message>
+    <message>
+        <source>Metadata received</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Files checked</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Stop condition:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -77,16 +101,16 @@
         <translation>Apturēt torrentus</translation>
     </message>
     <message>
-        <source>Delete torrents</source>
-        <translation>Dzēst torrentus</translation>
-    </message>
-    <message>
         <source>New Category</source>
         <translation>Jauna kategorija</translation>
     </message>
     <message>
         <source>Edit category...</source>
         <translation>Labot kategoriju</translation>
+    </message>
+    <message>
+        <source>Remove torrents</source>
+        <translation>Dzēst torrentus</translation>
     </message>
 </context>
 <context>
@@ -144,10 +168,6 @@
         <translation>Neizdevās saglabāt programmas iestatījumus, qBittorrent droši vien nav sasniedzams.</translation>
     </message>
     <message>
-        <source>IRC: #qbittorrent on Freenode</source>
-        <translation>IRC: #qbittorrent uz Freenode servera</translation>
-    </message>
-    <message>
         <source>Unknown</source>
         <translation>Nezināms</translation>
     </message>
@@ -158,10 +178,6 @@
     <message>
         <source>Seeding time limit must be between 0 and 525600 minutes.</source>
         <translation>Augšupielādes ilguma limitam jābūt starp 0 un 525600 minūtēm.</translation>
-    </message>
-    <message>
-        <source>The port used for incoming connections must be between 1 and 65535.</source>
-        <translation>Ienākošo savienojumu portam ir jābūt starp 1 un 65535.</translation>
     </message>
     <message>
         <source>The port used for the Web UI must be between 1 and 65535.</source>
@@ -188,10 +204,6 @@
         <translation>Pierakstīties</translation>
     </message>
     <message>
-        <source>Original authors</source>
-        <translation>Programmas radītāji</translation>
-    </message>
-    <message>
         <source>Apply</source>
         <translation>Apstiprināt</translation>
     </message>
@@ -211,10 +223,6 @@
     <message>
         <source>Cookie:</source>
         <translation>Sīkdatne:</translation>
-    </message>
-    <message>
-        <source>Type folder here</source>
-        <translation>Ievadiet mapi šeit</translation>
     </message>
     <message>
         <source>More information</source>
@@ -239,11 +247,6 @@
     <message>
         <source>Rename torrent</source>
         <translation>Pārdēvēt torrentu</translation>
-    </message>
-    <message>
-        <source>Other...</source>
-        <comment>Save Files to: Watch Folder / Default Folder / Other...</comment>
-        <translation>Citā...</translation>
     </message>
     <message>
         <source>Monday</source>
@@ -293,10 +296,6 @@
         <translation>Augšupielādēt torrentu</translation>
     </message>
     <message>
-        <source>Are you sure you want to delete the selected torrents from the transfer list?</source>
-        <translation>Vai esat pārliecināts, ka vēlaties izdzēst atlasītos torrentus no Torrentu saraksta?</translation>
-    </message>
-    <message>
         <source>Save</source>
         <translation>Saglabāt</translation>
     </message>
@@ -318,7 +317,7 @@
     </message>
     <message>
         <source>Upload rate threshold must be greater than 0.</source>
-        <translation type="unfinished" />
+        <translation>Augšupielādes ātruma slieksnim ir jābūt lielākam par 0</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -338,7 +337,7 @@
     </message>
     <message>
         <source>Download rate threshold must be greater than 0.</source>
-        <translation type="unfinished" />
+        <translation>Lejupielādes ātruma slieksnim ir jābūt lielākam par 0</translation>
     </message>
     <message>
         <source>qBittorrent has been shutdown</source>
@@ -375,6 +374,18 @@
     <message>
         <source>OK</source>
         <translation>Labi</translation>
+    </message>
+    <message>
+        <source>The port used for incoming connections must be between 0 and 65535.</source>
+        <translation>Ienākošo savienojumu portam ir jābūt starp 0 un 65535.</translation>
+    </message>
+    <message>
+        <source>Original author</source>
+        <translation>Programmas radītājs</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove the selected torrents from the transfer list?</source>
+        <translation>Vai esat pārliecināts, ka vēlaties izdzēst atlasītos torrentus no Torrentu saraksta?</translation>
     </message>
 </context>
 <context>
@@ -438,10 +449,6 @@
     <message>
         <source>Pause</source>
         <translation>Apturēt</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Dzēst</translation>
     </message>
     <message>
         <source>Pause All</source>
@@ -584,6 +591,34 @@
         <source>RSS</source>
         <translation>RSS</translation>
     </message>
+    <message>
+        <source>Filters Sidebar</source>
+        <translation>Filtru sāna josla</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Atcelt</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Dzēst</translation>
+    </message>
+    <message>
+        <source>Would you like to resume all torrents?</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Would you like to pause all torrents?</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Execution Log</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Log</source>
+        <translation type="unfinished" />
+    </message>
 </context>
 <context>
     <name>OptionsDialog</name>
@@ -622,10 +657,6 @@
     <message>
         <source>Email notification upon download completion</source>
         <translation>E-pasta paziņojums par lejupielādes pabeigšanu</translation>
-    </message>
-    <message>
-        <source>Run external program on torrent completion</source>
-        <translation>Pēc torrenta lejupielādes pabeigšanas, palaist programmu</translation>
     </message>
     <message>
         <source>IP Filtering</source>
@@ -730,10 +761,6 @@
     <message>
         <source>Use UPnP / NAT-PMP port forwarding from my router</source>
         <translation>Lietot mana rūtera UPnP / NAT-PMP portu pāradresāciju</translation>
-    </message>
-    <message>
-        <source>Use different port on each startup</source>
-        <translation>Automātiski izvēlēties un nomainīt portu pie qBittorrent ieslēgšanas</translation>
     </message>
     <message>
         <source>Connections Limits</source>
@@ -970,10 +997,6 @@
         <translation>%T: Pašreizējais trakeris</translation>
     </message>
     <message>
-        <source>%I: Info hash</source>
-        <translation>%I: Jaucējkods</translation>
-    </message>
-    <message>
         <source>Tip: Encapsulate parameter with quotation marks to avoid text being cut off at whitespace (e.g., "%N")</source>
         <translation>Padoms: Lai izvairītos no teksta sadalīšanās, ja lietojat atstarpes, ievietojiet parametru pēdiņās (piemēram, "%N")</translation>
     </message>
@@ -1111,11 +1134,11 @@
     </message>
     <message>
         <source>μTP-TCP mixed mode algorithm:</source>
-        <translation type="unfinished" />
+        <translation>μTP-TCP jaukta režīma algoritms:</translation>
     </message>
     <message>
         <source>Upload rate based</source>
-        <translation type="unfinished" />
+        <translation>Pamatojoties uz Augšupielādes ātrumu</translation>
     </message>
     <message>
         <source>%G: Tags (separated by comma)</source>
@@ -1123,7 +1146,7 @@
     </message>
     <message>
         <source>Socket backlog size:</source>
-        <translation type="unfinished" />
+        <translation>Soketa rindas izmērs:</translation>
     </message>
     <message>
         <source>Enable super seeding for torrent</source>
@@ -1135,15 +1158,11 @@
     </message>
     <message>
         <source>Outstanding memory when checking torrents:</source>
-        <translation type="unfinished" />
+        <translation>Atmiņa straumju pārbaudēm:</translation>
     </message>
     <message>
         <source>Anti-leech</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <source>Enable OS cache:</source>
-        <translation>Izmantot OS kešatmiņu</translation>
+        <translation>Anti-leech</translation>
     </message>
     <message>
         <source>When ratio reaches</source>
@@ -1159,7 +1178,7 @@
     </message>
     <message>
         <source>File pool size:</source>
-        <translation type="unfinished" />
+        <translation>Failu kopas lielums:</translation>
     </message>
     <message>
         <source>Any interface</source>
@@ -1191,7 +1210,7 @@
     </message>
     <message>
         <source>Send buffer watermark factor:</source>
-        <translation type="unfinished" />
+        <translation>Bufera sliekšņa koeficents:</translation>
     </message>
     <message>
         <source>libtorrent Section</source>
@@ -1200,10 +1219,6 @@
     <message>
         <source>Outgoing ports (Min) [0: Disabled]:</source>
         <translation>Izejošie porti (Min) [0: Atslēgts]:</translation>
-    </message>
-    <message>
-        <source>IP Address to report to trackers (requires restart):</source>
-        <translation>IP adrese, kuru paziņot trakeriem (nepieciešams restarts):</translation>
     </message>
     <message>
         <source>Recheck torrents on completion:</source>
@@ -1215,7 +1230,7 @@
     </message>
     <message>
         <source>Send upload piece suggestions:</source>
-        <translation type="unfinished" />
+        <translation>Nosūtīt ieteikumus augšupielādes daļiņām:</translation>
     </message>
     <message>
         <source>Enable embedded tracker:</source>
@@ -1231,7 +1246,7 @@
     </message>
     <message>
         <source>Asynchronous I/O threads:</source>
-        <translation type="unfinished" />
+        <translation>Asinhronās I/O plūsmas:</translation>
     </message>
     <message>
         <source>s</source>
@@ -1239,15 +1254,15 @@
     </message>
     <message>
         <source>Send buffer watermark:</source>
-        <translation type="unfinished" />
+        <translation>Nosūtīt bufera slieksni:</translation>
     </message>
     <message>
         <source>Peer proportional (throttles TCP)</source>
-        <translation type="unfinished" />
+        <translation>Vienmērīgi koplietotājiem (regulē TCP)</translation>
     </message>
     <message>
         <source>Fixed slots</source>
-        <translation type="unfinished" />
+        <translation>Fiksētas laika nišas</translation>
     </message>
     <message>
         <source>Advanced</source>
@@ -1259,7 +1274,7 @@
     </message>
     <message>
         <source>Upload choking algorithm:</source>
-        <translation type="unfinished" />
+        <translation>Augšupielādes regulēšanas algoritms:</translation>
     </message>
     <message>
         <source>Seeding Limits</source>
@@ -1271,11 +1286,11 @@
     </message>
     <message>
         <source>Round-robin</source>
-        <translation type="unfinished" />
+        <translation>Vienmērīgi sadalīt</translation>
     </message>
     <message>
         <source>Upload slots behavior:</source>
-        <translation type="unfinished" />
+        <translation>Augšupielādes nišu darbība:</translation>
     </message>
     <message>
         <source>MiB</source>
@@ -1283,7 +1298,7 @@
     </message>
     <message>
         <source>Send buffer low watermark:</source>
-        <translation type="unfinished" />
+        <translation>Zems bufera slieksnis:</translation>
     </message>
     <message>
         <source>Save resume data interval:</source>
@@ -1306,12 +1321,8 @@
         <translation>liegt piekļuvi uz:</translation>
     </message>
     <message>
-        <source>Use piece extent affinity (requires libtorrent &gt;= 1.2.2):</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>Stop tracker timeout:</source>
-        <translation type="unfinished" />
+        <translation>Atcelt trakeru noildzi:</translation>
     </message>
     <message>
         <source>Ban client after consecutive failures:</source>
@@ -1323,15 +1334,15 @@
     </message>
     <message>
         <source>UPnP lease duration [0: Permanent lease]:</source>
-        <translation type="unfinished" />
+        <translation>UPnP nomas periods [0: Pastāvīgs]:</translation>
     </message>
     <message>
         <source>Header: value pairs, one per line</source>
-        <translation type="unfinished" />
+        <translation>Galvene: Katrā rindā pa vienam vērtību pārim</translation>
     </message>
     <message>
         <source>Add custom HTTP headers</source>
-        <translation type="unfinished" />
+        <translation>Pievienot pielāgotas HTTP galvenes</translation>
     </message>
     <message>
         <source>Filters:</source>
@@ -1343,15 +1354,15 @@
     </message>
     <message>
         <source>Hashing threads (requires libtorrent &gt;= 2.0):</source>
-        <translation type="unfinished" />
+        <translation>Plūsmu jaukšana (nepieciešams libtorrent &gt;= 2.0):</translation>
     </message>
     <message>
         <source>Coalesce reads &amp; writes (requires libtorrent &lt; 2.0):</source>
-        <translation type="unfinished" />
+        <translation>Apvienot lasīšanas un rakstīšanas darbības (nepieciešams libtorrent &lt; 2.0):</translation>
     </message>
     <message>
         <source>Peer turnover threshold percentage:</source>
-        <translation type="unfinished" />
+        <translation>Koplietotāju atvienošanas slieksņa procents:</translation>
     </message>
     <message>
         <source>RSS Torrent Auto Downloader</source>
@@ -1383,15 +1394,11 @@
     </message>
     <message>
         <source>Peer turnover disconnect percentage:</source>
-        <translation type="unfinished" />
+        <translation>Koplietotāju atvienošanas procents:</translation>
     </message>
     <message>
         <source>Maximum number of articles per feed:</source>
         <translation>Atļautais ziņu skaits katram kanālam:</translation>
-    </message>
-    <message>
-        <source>Max concurrent HTTP announces (requires libtorrent &gt;= 1.2.7):</source>
-        <translation>Atļautais kopējais HTTP trakeru skaits (requires libtorrent &gt;= 1.2.7):</translation>
     </message>
     <message>
         <source> min</source>
@@ -1399,7 +1406,7 @@
     </message>
     <message>
         <source>Peer turnover disconnect interval:</source>
-        <translation type="unfinished" />
+        <translation>Koplietotaju atvienošanas intervāls:</translation>
     </message>
     <message>
         <source>Optional IP address to bind to:</source>
@@ -1434,27 +1441,235 @@
         <translation>Koplietotāju savienojumu protokols</translation>
     </message>
     <message>
-        <source>Support internationalized domain name (IDN) (requires libtorrent &gt;= 1.2.12):</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
         <source>Torrent content layout:</source>
-        <translation type="unfinished" />
+        <translation>Torrenta satura izkārtojums:</translation>
     </message>
     <message>
         <source>Create subfolder</source>
-        <translation type="unfinished" />
+        <translation>Izveidot apakšmapi</translation>
     </message>
     <message>
         <source>Original</source>
-        <translation type="unfinished" />
+        <translation>Oriģinālais</translation>
     </message>
     <message>
         <source>Don't create subfolder</source>
-        <translation type="unfinished" />
+        <translation>Neizveidot apakšmapi</translation>
     </message>
     <message>
         <source>Type of service (ToS) for connections to peers</source>
+        <translation>Pakalpojumu veids (ToS) savienojumiem ar koplietotājiem</translation>
+    </message>
+    <message>
+        <source>Outgoing connections per second:</source>
+        <translation>Izejošo savienojumu skaits sekundē</translation>
+    </message>
+    <message>
+        <source>Random</source>
+        <translation>Nejaušs</translation>
+    </message>
+    <message>
+        <source>%K: Torrent ID</source>
+        <translation>%K: Torrenta ID</translation>
+    </message>
+    <message>
+        <source>Reannounce to all trackers when IP or port changed:</source>
+        <translation>Atjaunināt datus ar trakeriem, ja tiek mainīti IP vai porti</translation>
+    </message>
+    <message>
+        <source>Trusted proxies list:</source>
+        <translation>Uzticamo starpniekserveru saraksts:</translation>
+    </message>
+    <message>
+        <source>Enable reverse proxy support</source>
+        <translation>Atļaut reversos starptniekserverus</translation>
+    </message>
+    <message>
+        <source>%J: Info hash v2</source>
+        <translation>%J: Jaucējkods v2</translation>
+    </message>
+    <message>
+        <source>%I: Info hash v1</source>
+        <translation>%I: Jaucējkods v1</translation>
+    </message>
+    <message>
+        <source>IP address reported to trackers (requires restart):</source>
+        <translation>IP adrese, kuru paziņot trakeriem (nepieciešams restarts):</translation>
+    </message>
+    <message>
+        <source>Set to 0 to let your system pick an unused port</source>
+        <translation>Izvēlies 0, ja vēlies, lai sistēma izvēlas neizmantotu portu</translation>
+    </message>
+    <message>
+        <source>Server-side request forgery (SSRF) mitigation:</source>
+        <translation>Servera puses pieprasījumu viltošanas (SSRF) aizsardzība:</translation>
+    </message>
+    <message>
+        <source>Disk queue size:</source>
+        <translation>Diska rindas izmērs:</translation>
+    </message>
+    <message>
+        <source>Log performance warnings</source>
+        <translation>Reģistrēt darbības brīdinājumus</translation>
+    </message>
+    <message>
+        <source>Maximum outstanding requests to a single peer:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Max active checking torrents:</source>
+        <translation>Atļautais aktīvo pārbaužu skaits:</translation>
+    </message>
+    <message>
+        <source>Memory mapped files</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Noklusētais</translation>
+    </message>
+    <message>
+        <source>POSIX-compliant</source>
+        <translation>POSIX-saderīgs</translation>
+    </message>
+    <message>
+        <source>This option is less effective on Linux</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Disk IO type (libtorrent &gt;= 2.0; requires restart):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Write-through (requires libtorrent &gt;= 2.0.6)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>It controls the internal state update interval which in turn will affect UI updates</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Disk IO read mode:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Disable OS cache</source>
+        <translation>Atslēgt OS kešatmiņu</translation>
+    </message>
+    <message>
+        <source>Disk IO write mode:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Use piece extent affinity:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Max concurrent HTTP announces:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Enable OS cache</source>
+        <translation>Izmantot OS kešatmiņu</translation>
+    </message>
+    <message>
+        <source>Refresh interval:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Physical memory (RAM) usage limit (applied if libtorrent &gt;= 2.0):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>ms</source>
+        <translation>ms</translation>
+    </message>
+    <message>
+        <source>Excluded file names</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Support internationalized domain name (IDN):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Run external program on torrent finished</source>
+        <translation>Pēc torrenta lejupielādes beigšanas palaist programmu</translation>
+    </message>
+    <message>
+        <source>Whitelist for filtering HTTP Host header values.
+In order to defend against DNS rebinding attack,
+you should put in domain names used by WebUI server.
+
+Use ';' to split multiple entries. Can use wildcard '*'.</source>
+        <translation>HTTP hostu galvenes filtra baltais saraksts.
+Lai aizsargātu pret DNS atkārtotas atsaukšanas uzbrukumiem,
+šeit jāievada domēnu vārdi, kurus izmanto WebUI serveris.
+
+Izmantojiet ';' lai atdalītu vairākus vārdus. Varat izmantot vietturi '*'.</translation>
+    </message>
+    <message>
+        <source>Run external program on torrent added</source>
+        <translation>Pēc torrenta pievienošanas palaist programmu</translation>
+    </message>
+    <message>
+        <source>HTTPS certificate should not be empty</source>
+        <translation>HTTPS sertifikāts nedrīkst būt tukšs</translation>
+    </message>
+    <message>
+        <source>Specify reverse proxy IPs (or subnets, e.g. 0.0.0.0/24) in order to use forwarded client address (X-Forwarded-For header). Use ';' to split multiple entries.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>HTTPS key should not be empty</source>
+        <translation>HTTPS atslēga nedrīkst būt tukša</translation>
+    </message>
+    <message>
+        <source>Run external program</source>
+        <translation>Palaist programmu</translation>
+    </message>
+    <message>
+        <source>Files checked</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Enable port forwarding for embedded tracker:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>If checked, hostname lookups are done via the proxy.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Use proxy for hostname lookup</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Metadata received</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Torrent stop condition:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Example: 172.17.32.0/24, fdff:ffff:c8::/40</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>SQLite database (experimental)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Resume data storage type (requires restart):</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Fastresume files</source>
         <translation type="unfinished" />
     </message>
 </context>
@@ -1529,12 +1744,16 @@
         <translation>Kopēt IP un portu</translation>
     </message>
     <message>
-        <source>Add a new peer...</source>
-        <translation>Pievienot jaunu koplietotāju...</translation>
-    </message>
-    <message>
         <source>Country/Region</source>
         <translation>Valsts/Apgabals</translation>
+    </message>
+    <message>
+        <source>Add peers...</source>
+        <translation>Pievienot koplietotājus...</translation>
+    </message>
+    <message>
+        <source>Peer ID Client</source>
+        <translation type="unfinished" />
     </message>
 </context>
 <context>
@@ -1686,10 +1905,6 @@
         <translation>Izveidots:</translation>
     </message>
     <message>
-        <source>Torrent Hash:</source>
-        <translation>Torrenta jaucējkods:</translation>
-    </message>
-    <message>
         <source>Save Path:</source>
         <translation>Saglabāšanas vieta:</translation>
     </message>
@@ -1743,7 +1958,23 @@
     </message>
     <message>
         <source>%1 (seeded for %2)</source>
-        <translation type="unfinished" />
+        <translation>%1 (augšupielādē jau %2)</translation>
+    </message>
+    <message>
+        <source>Info Hash v2:</source>
+        <translation>Jaucējkods v2:</translation>
+    </message>
+    <message>
+        <source>Info Hash v1:</source>
+        <translation>Jaucējkods v1:</translation>
+    </message>
+    <message>
+        <source>N/A</source>
+        <translation>Nav zināms</translation>
+    </message>
+    <message>
+        <source>Progress:</source>
+        <translation>Progress:</translation>
     </message>
 </context>
 <context>
@@ -1763,6 +1994,14 @@
     <message>
         <source>Default save location</source>
         <translation>Noklusējuma saglabāšanas vieta</translation>
+    </message>
+    <message>
+        <source>Other...</source>
+        <translation>Citā...</translation>
+    </message>
+    <message>
+        <source>Type folder here</source>
+        <translation>Ievadiet mapi šeit</translation>
     </message>
 </context>
 <context>
@@ -1788,7 +2027,7 @@
     </message>
     <message>
         <source>Read cache hits:</source>
-        <translation type="unfinished" />
+        <translation>Veiksmīga piekļuve buferim:</translation>
     </message>
     <message>
         <source>Average time in queue:</source>
@@ -1824,7 +2063,7 @@
     </message>
     <message>
         <source>Queued I/O jobs:</source>
-        <translation type="unfinished" />
+        <translation>I/O darbības rindā:</translation>
     </message>
     <message>
         <source>Write cache overload:</source>
@@ -1836,7 +2075,7 @@
     </message>
     <message>
         <source>Total queued size:</source>
-        <translation type="unfinished" />
+        <translation>Kopējais rindas izmērs:</translation>
     </message>
 </context>
 <context>
@@ -1944,6 +2183,14 @@
     <message>
         <source>Stalled (%1)</source>
         <translation>Apstājušies (%1)</translation>
+    </message>
+    <message>
+        <source>Checking (%1)</source>
+        <translation>Pārbauda (%1)</translation>
+    </message>
+    <message>
+        <source>Checking (0)</source>
+        <translation>Pārbauda (0)</translation>
     </message>
 </context>
 <context>
@@ -2117,10 +2364,6 @@
         <translation>Ziņojums</translation>
     </message>
     <message>
-        <source>Downloaded</source>
-        <translation>Lejupielādēti</translation>
-    </message>
-    <message>
         <source>Tracker URL:</source>
         <translation>Trakera adrese:</translation>
     </message>
@@ -2155,10 +2398,6 @@
     <message>
         <source>Copy tracker URL</source>
         <translation>Kopēt trakera adresi</translation>
-    </message>
-    <message>
-        <source>Add a new tracker...</source>
-        <translation>Pievienot jaunu trakeri...</translation>
     </message>
     <message>
         <source>Edit tracker URL...</source>
@@ -2201,19 +2440,27 @@
         <translation>Progress</translation>
     </message>
     <message>
-        <source>Size</source>
-        <translation>Izmērs</translation>
+        <source>Total Size</source>
+        <translation>Kopējais izmērs</translation>
+    </message>
+    <message>
+        <source>Times Downloaded</source>
+        <translation>Lejupielādes skaits</translation>
+    </message>
+    <message>
+        <source>Add trackers...</source>
+        <translation>Pievienot trakerus...</translation>
     </message>
 </context>
 <context>
     <name>TrackersAdditionDialog</name>
     <message>
-        <source>Trackers addition dialog</source>
-        <translation>Trakeru pievienošanas logs</translation>
-    </message>
-    <message>
         <source>List of trackers to add (one per line):</source>
         <translation>Saraksts ar trakeriem, kurus pievienot (katrā rindā pa vienam):</translation>
+    </message>
+    <message>
+        <source>Add trackers</source>
+        <translation>Pievienot trakerus</translation>
     </message>
 </context>
 <context>
@@ -2285,7 +2532,11 @@
     </message>
     <message>
         <source>%1 (seeded for %2)</source>
-        <translation type="unfinished" />
+        <translation>%1 (augšupielādē jau %2)</translation>
+    </message>
+    <message>
+        <source>[F] Downloading metadata</source>
+        <translation>[P] Lejupielādē metadatus</translation>
     </message>
 </context>
 <context>
@@ -2335,11 +2586,6 @@
         <source>Pause</source>
         <comment>Pause the torrent</comment>
         <translation>Apturēt</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <comment>Delete the torrent</comment>
-        <translation>Dzēst</translation>
     </message>
     <message>
         <source>Limit share ratio...</source>
@@ -2416,10 +2662,6 @@
         <translation>Lejupielādēt secīgā kārtībā</translation>
     </message>
     <message>
-        <source>Force Recheck</source>
-        <translation>Piespiedu pārbaude</translation>
-    </message>
-    <message>
         <source>New Category</source>
         <translation>Jauna kategorija</translation>
     </message>
@@ -2464,10 +2706,6 @@
         <translation>Magnētsaite</translation>
     </message>
     <message>
-        <source>Hash</source>
-        <translation>Jaucējkods:</translation>
-    </message>
-    <message>
         <source>Remove All</source>
         <translation>Noņemt visas</translation>
     </message>
@@ -2487,6 +2725,26 @@
         <source>Add...</source>
         <translation>Pievienot birku...</translation>
     </message>
+    <message>
+        <source>Info hash v1</source>
+        <translation>Jaucējkods v1</translation>
+    </message>
+    <message>
+        <source>Info hash v2</source>
+        <translation>Jaucējkods v2</translation>
+    </message>
+    <message>
+        <source>Torrent ID</source>
+        <translation>Torrenta ID</translation>
+    </message>
+    <message>
+        <source>Export .torrent</source>
+        <translation>Eksportēt .torentu</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Dzēst</translation>
+    </message>
 </context>
 <context>
     <name>UpDownRatioDialog</name>
@@ -2504,7 +2762,7 @@
     </message>
     <message>
         <source>Set share limit to</source>
-        <translation>Reitinga robeža</translation>
+        <translation>Ierobežot</translation>
     </message>
     <message>
         <source>ratio</source>
@@ -2521,16 +2779,12 @@
 <context>
     <name>confirmDeletionDlg</name>
     <message>
-        <source>Deletion confirmation</source>
-        <translation>Dzēšanas apstiprināšana</translation>
+        <source>Also permanently delete the files</source>
+        <translation>Tāpat neatgriezeniski izdzēst failus</translation>
     </message>
     <message>
-        <source>Also delete the files on the hard disk</source>
-        <translation>Izdzēst failus arī uz cietā diska</translation>
-    </message>
-    <message>
-        <source>Deletion confirmation - qBittorrent</source>
-        <translation>Dzēšanas apstiprināšana - qBittorrent</translation>
+        <source>Remove torrent(s)</source>
+        <translation>Dzēst torrentu(s)</translation>
     </message>
 </context>
 <context>
@@ -2617,7 +2871,7 @@
     </message>
     <message>
         <source>%1y %2d</source>
-        <translation type="unfinished" />
+        <translation>%1g %2d</translation>
     </message>
 </context>
 <context>
@@ -2685,10 +2939,6 @@
         <translation>Meklēt:</translation>
     </message>
     <message>
-        <source>Results (showing</source>
-        <translation>Rezultāti (parādīti</translation>
-    </message>
-    <message>
         <source>Filter</source>
         <translation>Meklēt rezultātos</translation>
     </message>
@@ -2715,6 +2965,26 @@
     <message>
         <source>Increase window width to display additional filters</source>
         <translation>Paplašināt loga platumu, lai redzētu vairāk filtrus</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>līdz</translation>
+    </message>
+    <message>
+        <source>Results</source>
+        <translation>Rezultāti</translation>
+    </message>
+    <message>
+        <source>showing</source>
+        <translation>parādīti</translation>
+    </message>
+    <message>
+        <source>Click the "Search plugins..." button at the bottom right of the window to install some.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>There aren't any search plugins installed.</source>
+        <translation>Nav instalēts neviens meklēšanas spraudnis.</translation>
     </message>
 </context>
 <context>
@@ -2840,10 +3110,6 @@
         <translation>Pievienot atzīmi...</translation>
     </message>
     <message>
-        <source>Delete torrents</source>
-        <translation>Dzēst torrentus</translation>
-    </message>
-    <message>
         <source>Tag:</source>
         <translation>Atzīme:</translation>
     </message>
@@ -2866,6 +3132,10 @@
     <message>
         <source>Remove tag</source>
         <translation>Dzēst atzīmi</translation>
+    </message>
+    <message>
+        <source>Remove torrents</source>
+        <translation>Dzēst torrentus</translation>
     </message>
 </context>
 <context>
@@ -2942,16 +3212,28 @@
         <translation>Nacionalitāte:</translation>
     </message>
     <message>
-        <source>Author</source>
-        <translation>Autori</translation>
-    </message>
-    <message>
         <source>Software Used</source>
         <translation>Programmatūra</translation>
     </message>
     <message>
         <source>The free IP to Country Lite database by DB-IP is used for resolving the countries of peers. The database is licensed under the Creative Commons Attribution 4.0 International License</source>
         <translation>Bezmaksas "Valsts pēc IP" kompaktā datubāze (IP to Country Lite) no DB-IP tiek izmantota, lai pēc IP adresēm noteiktu un parādītu jums koplietotāju valstis. Datubāze ir licencēta zem Attiecinājums 4.0 Starptautisks (CC BY 4.0)</translation>
+    </message>
+    <message>
+        <source>Authors</source>
+        <translation>Autori</translation>
+    </message>
+    <message>
+        <source>France</source>
+        <translation>Francija</translation>
+    </message>
+    <message>
+        <source>qBittorrent Mascot</source>
+        <translation>qBittorrent talismans</translation>
+    </message>
+    <message>
+        <source>qBittorrent icon</source>
+        <translation>qBittorrent ikona</translation>
     </message>
 </context>
 <context>
@@ -3122,7 +3404,7 @@
     </message>
     <message>
         <source> will match all articles.</source>
-        <translation type="unfinished" />
+        <translation>meklēs visos ierakstos.</translation>
     </message>
     <message>
         <source>Episode filter rules: </source>
@@ -3182,7 +3464,7 @@
     </message>
     <message>
         <source>An expression with an empty %1 clause (e.g. %2)</source>
-        <translation type="unfinished" />
+        <translation>Izteiksme ar tukšu klauzulu %1 (piemēram %2)</translation>
     </message>
     <message>
         <source>Example: </source>
@@ -3306,7 +3588,7 @@
     </message>
     <message>
         <source> will exclude all articles.</source>
-        <translation type="unfinished" />
+        <translation>izlaidīs visus ierakstus.</translation>
     </message>
     <message>
         <source>Delete rule</source>
@@ -3336,7 +3618,7 @@ Atbalsta formātus: S01E01, 1x1, 2017.12.31 un 31.12.2017 (Datumu formātos kā 
     </message>
     <message>
         <source>Torrent content layout:</source>
-        <translation type="unfinished" />
+        <translation>Torrenta satura izkārtojums:</translation>
     </message>
     <message>
         <source>Create subfolder</source>
@@ -3344,7 +3626,7 @@ Atbalsta formātus: S01E01, 1x1, 2017.12.31 un 31.12.2017 (Datumu formātos kā 
     </message>
     <message>
         <source>Original</source>
-        <translation type="unfinished" />
+        <translation>Oriģinālais</translation>
     </message>
     <message>
         <source>Don't create subfolder</source>
@@ -3353,10 +3635,6 @@ Atbalsta formātus: S01E01, 1x1, 2017.12.31 un 31.12.2017 (Datumu formātos kā 
 </context>
 <context>
     <name>TrackerFiltersList</name>
-    <message>
-        <source>Delete torrents</source>
-        <translation>Dzēst torrentus</translation>
-    </message>
     <message>
         <source>Resume torrents</source>
         <translation>Atsākt torrentus</translation>
@@ -3373,12 +3651,155 @@ Atbalsta formātus: S01E01, 1x1, 2017.12.31 un 31.12.2017 (Datumu formātos kā 
         <source>Pause torrents</source>
         <translation>Apturēt torrentus</translation>
     </message>
+    <message>
+        <source>Remove torrents</source>
+        <translation>Dzēst torrentus</translation>
+    </message>
 </context>
 <context>
     <name>FeedListWidget</name>
     <message>
         <source>RSS feeds</source>
         <translation>RSS kanāli</translation>
+    </message>
+    <message>
+        <source>Unread</source>
+        <translation>Neskatīti</translation>
+    </message>
+</context>
+<context>
+    <name>ExecutionLogWidget</name>
+    <message>
+        <source>General</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Blocked</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>All</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>showing</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Select All</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>ID</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Log Type</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Information Messages</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Warning Messages</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Filter logs</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Blocked IPs</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>out of</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Status</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Timestamp</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Clear All</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Message</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Log Levels:</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>item</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>IP</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Banned</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Normal Messages</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Critical Messages</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>items</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Results</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Info</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Choose a log level...</source>
+        <translation type="unfinished" />
     </message>
 </context>
 </TS>

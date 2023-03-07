@@ -29,11 +29,10 @@
 
 #pragma once
 
-#include <libtorrent/version.hpp>
-
 #include <QDialog>
 
 #include "base/bittorrent/torrentcreatorthread.h"
+#include "base/path.h"
 #include "base/settingvalue.h"
 
 namespace Ui
@@ -44,11 +43,12 @@ namespace Ui
 class TorrentCreatorDialog final : public QDialog
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(TorrentCreatorDialog)
 
 public:
-    TorrentCreatorDialog(QWidget *parent = nullptr, const QString &defaultPath = {});
+    TorrentCreatorDialog(QWidget *parent = nullptr, const Path &defaultPath = {});
     ~TorrentCreatorDialog() override;
-    void updateInputPath(const QString &path);
+    void updateInputPath(const Path &path);
 
 private slots:
     void updateProgressBar(int progress);
@@ -57,7 +57,7 @@ private slots:
     void onAddFileButtonClicked();
     void onAddFolderButtonClicked();
     void handleCreationFailure(const QString &msg);
-    void handleCreationSuccess(const QString &path, const QString &branchPath);
+    void handleCreationSuccess(const Path &path, const Path &branchPath);
 
 private:
     void dropEvent(QDropEvent *event) override;
@@ -68,14 +68,14 @@ private:
     void setInteractionEnabled(bool enabled) const;
 
     int getPieceSize() const;
-#if (LIBTORRENT_VERSION_NUM >= 20000)
+#ifdef QBT_USES_LIBTORRENT2
     BitTorrent::TorrentFormat getTorrentFormat() const;
 #else
     int getPaddedFileSizeLimit() const;
 #endif
 
-    Ui::TorrentCreatorDialog *m_ui;
-    BitTorrent::TorrentCreatorThread *m_creatorThread;
+    Ui::TorrentCreatorDialog *m_ui = nullptr;
+    BitTorrent::TorrentCreatorThread *m_creatorThread = nullptr;
 
     // settings
     SettingValue<QSize> m_storeDialogSize;
@@ -83,16 +83,16 @@ private:
     SettingValue<bool> m_storePrivateTorrent;
     SettingValue<bool> m_storeStartSeeding;
     SettingValue<bool> m_storeIgnoreRatio;
-#if (LIBTORRENT_VERSION_NUM >= 20000)
+#ifdef QBT_USES_LIBTORRENT2
     SettingValue<int> m_storeTorrentFormat;
 #else
     SettingValue<bool> m_storeOptimizeAlignment;
     SettingValue<int> m_paddedFileSizeLimit;
 #endif
-    SettingValue<QString> m_storeLastAddPath;
+    SettingValue<Path> m_storeLastAddPath;
     SettingValue<QString> m_storeTrackerList;
     SettingValue<QString> m_storeWebSeedList;
     SettingValue<QString> m_storeComments;
-    SettingValue<QString> m_storeLastSavePath;
+    SettingValue<Path> m_storeLastSavePath;
     SettingValue<QString> m_storeSource;
 };

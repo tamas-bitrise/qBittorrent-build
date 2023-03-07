@@ -33,7 +33,7 @@
 class CategoryFilterWidget final : public QTreeView
 {
     Q_OBJECT
-    Q_DISABLE_COPY(CategoryFilterWidget)
+    Q_DISABLE_COPY_MOVE(CategoryFilterWidget)
 
 public:
     explicit CategoryFilterWidget(QWidget *parent = nullptr);
@@ -48,7 +48,7 @@ signals:
 
 private slots:
     void onCurrentRowChanged(const QModelIndex &current, const QModelIndex &previous);
-    void showMenu(const QPoint &);
+    void showMenu();
     void callUpdateGeometry();
     void addCategory();
     void addSubcategory();

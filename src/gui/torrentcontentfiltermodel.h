@@ -30,6 +30,7 @@
 
 #include <QSortFilterProxyModel>
 
+#include "base/utils/compare.h"
 #include "torrentcontentmodelitem.h"
 
 class TorrentContentModel;
@@ -37,6 +38,7 @@ class TorrentContentModel;
 class TorrentContentFilterModel final : public QSortFilterProxyModel
 {
     Q_OBJECT
+    Q_DISABLE_COPY_MOVE(TorrentContentFilterModel)
 
 public:
     TorrentContentFilterModel(QObject *parent = nullptr);
@@ -60,5 +62,6 @@ protected:
 private:
     bool hasFiltered(const QModelIndex &folder) const;
 
-    TorrentContentModel *m_model;
+    TorrentContentModel *m_model = nullptr;
+    Utils::Compare::NaturalLessThan<Qt::CaseInsensitive> m_naturalLessThan;
 };

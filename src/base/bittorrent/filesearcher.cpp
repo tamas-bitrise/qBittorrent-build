@@ -27,43 +27,47 @@
  */
 
 #include "filesearcher.h"
-
-#include <QDir>
-
 #include "base/bittorrent/common.h"
 #include "base/bittorrent/infohash.h"
 
-void FileSearcher::search(const BitTorrent::TorrentID &id, const QStringList &originalFileNames
-                          , const QString &completeSavePath, const QString &incompleteSavePath)
+void FileSearcher::search(const BitTorrent::TorrentID &id, const PathList &originalFileNames
+                          , const Path &savePath, const Path &downloadPath, const bool forceAppendExt)
 {
-    const auto findInDir = [](const QString &dirPath, QStringList &fileNames) -> bool
+    const auto findInDir = [](const Path &dirPath, PathList &fileNames, const bool forceAppendExt) -> bool
     {
-        const QDir dir {dirPath};
         bool found = false;
-        for (QString &fileName : fileNames)
+        for (Path &fileName : fileNames)
         {
-            if (dir.exists(fileName))
+            if ((dirPath / fileName).exists())
             {
                 found = true;
             }
-            else if (dir.exists(fileName + QB_EXT))
+            else
             {
-                found = true;
-                fileName += QB_EXT;
+                const Path incompleteFilename = fileName + QB_EXT;
+                if ((dirPath / incompleteFilename).exists())
+                {
+                    found = true;
+                    fileName = incompleteFilename;
+                }
+                else if (forceAppendExt)
+                {
+                    fileName = incompleteFilename;
+                }
             }
         }
 
         return found;
     };
 
-    QString savePath = completeSavePath;
-    QStringList adjustedFileNames = originalFileNames;
-    const bool found = findInDir(savePath, adjustedFileNames);
-    if (!found && !incompleteSavePath.isEmpty())
+    Path usedPath = savePath;
+    PathList adjustedFileNames = originalFileNames;
+    const bool found = findInDir(usedPath, adjustedFileNames, (forceAppendExt && downloadPath.isEmpty()));
+    if (!found && !downloadPath.isEmpty())
     {
-        savePath = incompleteSavePath;
-        findInDir(savePath, adjustedFileNames);
+        usedPath = downloadPath;
+        findInDir(usedPath, adjustedFileNames, forceAppendExt);
     }
 
-    emit searchFinished(id, savePath, adjustedFileNames);
+    emit searchFinished(id, usedPath, adjustedFileNames);
 }

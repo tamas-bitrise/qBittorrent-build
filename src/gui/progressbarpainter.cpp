@@ -37,10 +37,12 @@
 #include <QProxyStyle>
 #endif
 
+#include "base/global.h"
+
 ProgressBarPainter::ProgressBarPainter()
 {
 #if (defined(Q_OS_WIN) || defined(Q_OS_MACOS))
-    auto *fusionStyle = new QProxyStyle {"fusion"};
+    auto *fusionStyle = new QProxyStyle {u"fusion"_qs};
     fusionStyle->setParent(&m_dummyProgressBar);
     m_dummyProgressBar.setStyle(fusionStyle);
 #endif
@@ -66,7 +68,7 @@ void ProgressBarPainter::paint(QPainter *painter, const QStyleOptionViewItem &op
 
     painter->save();
     const QStyle *style = m_dummyProgressBar.style();
-    style->drawPrimitive(QStyle::PE_PanelItemViewItem, &option, painter);
+    style->drawPrimitive(QStyle::PE_PanelItemViewItem, &option, painter, option.widget);
     style->drawControl(QStyle::CE_ProgressBar, &styleOption, painter, &m_dummyProgressBar);
     painter->restore();
 }

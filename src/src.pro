@@ -7,7 +7,7 @@ win32: include(../winconf.pri)
 macx: include(../macxconf.pri)
 unix:!macx: include(../unixconf.pri)
 
-QT += network xml
+QT += network sql xml
 
 macx|*-clang*: QMAKE_CXXFLAGS_WARN_ON += -Wno-range-loop-analysis
 
@@ -23,11 +23,10 @@ nogui {
         DEFINES += QBT_STATIC_QT
         QTPLUGIN += qico
     }
-    win32 {
+    win32: lessThan(QT_MAJOR_VERSION, 6) {
         QT += winextras
     }
     macx {
-        QT += macextras
         LIBS += -lobjc
     }
 }
@@ -38,9 +37,14 @@ nowebui {
 
 stacktrace {
     DEFINES += STACKTRACE
-    win32 {
-        DEFINES += STACKTRACE_WIN_PROJECT_PATH=$$PWD
-        DEFINES += STACKTRACE_WIN_MAKEFILE_PATH=$$OUT_PWD
+
+    macx {
+        DEFINES += BOOST_STACKTRACE_GNU_SOURCE_NOT_REQUIRED
+        QMAKE_LFLAGS += -rdynamic
+    }
+    unix {
+        LIBS += -ldl
+        QMAKE_LFLAGS += -rdynamic
     }
 }
 
@@ -57,11 +61,14 @@ CONFIG(release, debug|release) {
 include(../version.pri)
 
 # Qt defines
-DEFINES += QT_DEPRECATED_WARNINGS
-DEFINES += QT_NO_CAST_TO_ASCII
-DEFINES += QT_NO_CAST_FROM_BYTEARRAY
-DEFINES += QT_USE_QSTRINGBUILDER
-DEFINES += QT_STRICT_ITERATORS
+DEFINES += \
+    QT_DISABLE_DEPRECATED_BEFORE=0x050f02 \
+    QT_NO_CAST_FROM_ASCII \
+    QT_NO_CAST_TO_ASCII \
+    QT_NO_CAST_FROM_BYTEARRAY \
+    QT_NO_NARROWING_CONVERSIONS_IN_CONNECT \
+    QT_USE_QSTRINGBUILDER \
+    QT_STRICT_ITERATORS
 
 INCLUDEPATH += $$PWD
 

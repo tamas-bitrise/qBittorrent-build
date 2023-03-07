@@ -34,13 +34,15 @@
 #include <libtorrent/portmap.hpp>
 
 #include <QHash>
+#include <QSet>
 
 #include "base/net/portforwarder.h"
+#include "base/settingvalue.h"
 
 class PortForwarderImpl final : public Net::PortForwarder
 {
     Q_OBJECT
-    Q_DISABLE_COPY(PortForwarderImpl)
+    Q_DISABLE_COPY_MOVE(PortForwarderImpl)
 
 public:
     explicit PortForwarderImpl(lt::session *provider, QObject *parent = nullptr);
@@ -49,14 +51,17 @@ public:
     bool isEnabled() const override;
     void setEnabled(bool enabled) override;
 
-    void addPort(quint16 port) override;
-    void deletePort(quint16 port) override;
+    void setPorts(const QString &profile, QSet<quint16> ports) override;
+    void removePorts(const QString &profile) override;
 
 private:
     void start();
     void stop();
 
-    bool m_active;
-    lt::session *m_provider;
-    QHash<quint16, std::vector<lt::port_mapping_t>> m_mappedPorts;
+    CachedSettingValue<bool> m_storeActive;
+    lt::session *const m_provider = nullptr;
+
+    using PortMapping = QHash<quint16, std::vector<lt::port_mapping_t>>;  // <port, handles>
+    QHash<QString, PortMapping> m_portProfiles;
+    QSet<quint16> m_forwardedPorts;
 };

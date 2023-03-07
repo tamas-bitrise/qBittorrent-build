@@ -28,8 +28,15 @@
 
 #include "io.h"
 
+#include <libtorrent/bencode.hpp>
+#include <libtorrent/entry.hpp>
+
 #include <QByteArray>
 #include <QFileDevice>
+#include <QSaveFile>
+#include <QString>
+
+#include "base/path.h"
 
 Utils::IO::FileDeviceOutputIterator::FileDeviceOutputIterator(QFileDevice &device, const int bufferSize)
     : m_device {&device}
@@ -59,4 +66,25 @@ Utils::IO::FileDeviceOutputIterator &Utils::IO::FileDeviceOutputIterator::operat
         m_buffer->clear();
     }
     return *this;
+}
+
+nonstd::expected<void, QString> Utils::IO::saveToFile(const Path &path, const QByteArray &data)
+{
+    QSaveFile file {path.data()};
+    if (!file.open(QIODevice::WriteOnly) || (file.write(data) != data.size()) || !file.flush() || !file.commit())
+        return nonstd::make_unexpected(file.errorString());
+    return {};
+}
+
+nonstd::expected<void, QString> Utils::IO::saveToFile(const Path &path, const lt::entry &data)
+{
+    QSaveFile file {path.data()};
+    if (!file.open(QIODevice::WriteOnly))
+        return nonstd::make_unexpected(file.errorString());
+
+    const int bencodedDataSize = lt::bencode(Utils::IO::FileDeviceOutputIterator {file}, data);
+    if ((file.size() != bencodedDataSize) || !file.flush() || !file.commit())
+        return nonstd::make_unexpected(file.errorString());
+
+    return {};
 }
