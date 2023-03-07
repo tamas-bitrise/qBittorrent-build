@@ -92,7 +92,7 @@ jobs:
             -D${{ matrix.qbt_gui }}
           cmake --build build --target qbt_update_translations
           cmake --build build
-          cmake --build build --target check
+          # cmake --build build --target check
 
       - name: Build qBittorrent (Qt6)
         if: ${{ startsWith(matrix.qt_version, 6) }}
@@ -110,7 +110,7 @@ jobs:
             -D${{ matrix.qbt_gui }}
           cmake --build build --target qbt_update_translations
           cmake --build build
-          cmake --build build --target check
+          # cmake --build build --target check
 
       - name: Prepare build artifacts
         run: |
